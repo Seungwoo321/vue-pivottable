@@ -1,3 +1,8 @@
+
+* {
+    box-sizing: border-box
+}
+
 .pvtUi {
     color: #2a3f5f;
     font-family: Verdana;
@@ -195,6 +200,7 @@ table.pvtTable tbody tr td {
 }
 
 .pvtButton {
+    display: inline-block;
     color: #506784;
     border-radius: 5px;
     padding: 3px 6px;
@@ -202,7 +208,7 @@ table.pvtTable tbody tr td {
     border: 1px solid;
     border-color: #c8d4e3;
     font-size: 14px;
-    margin: 3px;
+    margin: 3px 3px 6px 0px;
     transition: 0.34s all cubic-bezier(0.19, 1, 0.22, 1);
     text-decoration: none !important;
 }
@@ -231,8 +237,9 @@ table.pvtTable tbody tr td {
 
 .pvtFilterBox {
     z-index: 100;
-    width: 300px;
     border: 1px solid #506784;
+    max-width: 600px;
+    min-width: 210px;
     background-color: #fff;
     position: absolute;
     padding: 6px;
@@ -249,6 +256,8 @@ table.pvtTable tbody tr td {
     width: 100%;
     color: #2a3f5f;
     margin-bottom: 5px;
+    padding: 6px;
+    /* border-radius: 4px; */
 }
 
 .pvtFilterBox {
@@ -274,12 +283,14 @@ table.pvtTable tbody tr td {
 
 .pvtCheckContainer p.selected {
     background: #ebf0f8;
+    min-width: 100%;
+    width: max-content;
 }
 
 .pvtOnly {
     display: none;
     width: 35px;
-    float: left;
+    float: right;
     font-size: 12px;
     padding-left: 5px;
     cursor: pointer;
@@ -288,7 +299,7 @@ table.pvtTable tbody tr td {
 .pvtOnlySpacer {
     display: block;
     width: 35px;
-    float: left;
+    float: right;
 }
 
 .pvtCheckContainer p:hover .pvtOnly {

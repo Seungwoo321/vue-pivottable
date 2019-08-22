@@ -12,31 +12,25 @@
               <td class="pvtAxisContainer pvtUnused pvtHorizList">
                   <li data-id="reservedinstancesid">
                     <span class="pvtAttr">
-                      reservedinstancesid
+                      Payer Gender
                       <span class="pvTringle">▾</span>
                     </span>
                   </li>
-                  <li data-id="operatingsystem">
+                  <li data-id="Payer Smoker">
                     <span class="pvtAttr">
-                      operatingsystem
+                      Payer Smoker
                       <span class="pvTringle">▾</span>
                     </span>
                   </li>
-                  <li data-id="instancetype">
+                  <li data-id="Day of Week">
                     <span class="pvtAttr">
-                      instancetype
+                      Day of Week
                       <span class="pvTringle">▾</span>
                     </span>
                   </li>
-                  <li data-id="region">
+                  <li data-id="Meal">
                     <span class="pvtAttr">
-                      region
-                      <span class="pvTringle">▾</span>
-                    </span>
-                  </li>
-                  <li data-id="groupname">
-                    <span class="pvtAttr">
-                      groupname
+                      Meal
                       <span class="pvTringle">▾</span>
                     </span>
                   </li>
@@ -59,55 +53,38 @@
                 </select>
               </td>
               <td class="pvtAxisContainer pvtHorizList pvtCols">
-                <li data-id="projectname">
+                <li data-id="Party Size">
                   <span class="pvtAttr ">
-                    projectname
+                    Party Size
                     <span class="pvtTriangle"> ▾</span>
                   </span>
                   <!-- Filter Box -->
                   <div class="pvtFilterBox" style="touch-action: none; display: block; cursor: initial; z-index: 1117; transform: translate(0px, 0px);">
-                    <!-- <a class="pvtCloseX">×</a> -->
-                    <!-- <div class="pvtSearchContainer"> -->
+                    <div class="pvtSearchContainer">
+                      <input type="text" placeholder="Filter values" class="pvtSearch" value="">
+                      <a class="pvtCloseX">×</a>
                       <a role="button" class="pvtButton">Select All</a>
                       <a role="button" class="pvtButton">Deselect All</a>
-                      <input type="text" placeholder="Filter values" class="pvtSearch" value="">
-                    <!-- </div> -->
+                    </div>
                     <div class="pvtCheckContainer">
                       <p>
                         <input type="checkbox" value="Thursday">Thursday
+                        <a href="javascript:;" class="pvtOnly">only</a>
+                        <a class="pvtOnlySpacer">&nbsp;</a>
                       </p>
                       <p class="selected">
                         <input type="checkbox" value="Friday" checked="checked">Friday
+                        <a href="javascript:;" class="pvtOnly">only</a>
+                        <a class="pvtOnlySpacer">&nbsp;</a>
                       </p>
                       <p>
                         <input type="checkbox" value="Saturday">Saturday
-                      </p>
-                      <!-- <p class="selected">
-                        <a class="pvtOnly">only</a>
-                        <a class="pvtOnlySpacer">&nbsp;</a>Thursday
-                      </p>
-                      <p class="selected">
-                        <a class="pvtOnly">only</a>
-                        <a class="pvtOnlySpacer">&nbsp;</a>Friday
-                      </p>
-                      <p class="selected">
-                        <a class="pvtOnly">only</a>
-                        <a class="pvtOnlySpacer">&nbsp;</a>Saturday
-                      </p>
-                      <p class="selected">
-                        <a class="pvtOnly">only</a>
+                        <a href="javascript:;" class="pvtOnly">only</a>
                         <a class="pvtOnlySpacer">&nbsp;</a>
-                        Sunday
-                      </p> -->
+                      </p>
                     </div>
                   </div>
                   <!-- Filter Box End -->
-                </li>
-                <li data-id="quantity">
-                  <span class="pvtAttr ">
-                    quantity
-                    <span class="pvtTriangle"> ▾</span>
-                  </span>
                 </li>
               </td>
             </tr>
@@ -123,10 +100,10 @@
               <td class="pvtOutput">
                 <vue-pivottable
                     :data="pivotData"
-                    :rows="['dt', 'region', 'productcode', 'projectname']"
-                    :cols="['projectname', 'quantity']"
-                    aggregatorName="Sum"
-                    :vals="['value']"
+                    :rows="['Payer Gender']"
+                    :cols="['Party Size']"
+                    aggregatorName="Sum over Sum"
+                    :vals="['Tip', 'Total Bill']"
                     rendererName="Heatmap"
                 />
               </td>
@@ -138,13 +115,13 @@
 </template>
 
 <script>
-
+// 'Total Bill', 'Tip', 'Payer Gender', 'Payer Smoker', 'Day of Week', 'Meal', 'Party Size'
+import tips from './tips'
 export default {
   name: 'app',
   data () {
     return {
-      pivotData: []
-
+      pivotData: tips
     }
   }
 }
