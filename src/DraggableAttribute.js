@@ -196,6 +196,7 @@ export default {
     }
   },
   render (h) {
+    console.log(this.open)
     const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
     return h('li', {
       attrs: {
@@ -213,9 +214,10 @@ export default {
           on: {
             click: this.toggleFilterBox.bind(this)
           }
-        }, '  ▾')
-      ],
-      this.open ? this.getFilterBox(h) : null)
+        }, '  ▾'),
+        this.open ? this.getFilterBox(h) : undefined
+      ]
+      )
     ])
   }
 }

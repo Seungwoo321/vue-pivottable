@@ -107,9 +107,10 @@ export default {
       delete this.updateValueFilter[attribute]
     },
     moveFilterBoxToTop (attribute) {
-      console.log(attribute)
       this.maxZIndex += 1
       this.zIndices[attribute] = this.maxZIndex + 1
+      console.log(this.maxZIndex)
+      console.log(this.zIndices[attribute])
     },
     materializeInput (nextData) {
       if (this.currentData === nextData) {
