@@ -1,6 +1,10 @@
 
 export default {
   name: 'draggable-attribute',
+  // prop: {
+  //   event: 'input',
+  //   value: 'valueFilter'
+  // },
   props: {
     name: {
       type: String,
@@ -18,6 +22,7 @@ export default {
       type: Object,
       required: true
     },
+    // v-model
     valueFilter: {
       type: Object,
       default: function () {
@@ -38,8 +43,26 @@ export default {
   data () {
     return {
       open: false,
-      filterText: ''
+      filterText: '',
+      attribute: '',
+      values: []
     }
+    //   }
+    //   computed: {
+    //     valueFilter: {
+    //       get: function () {
+    //         return this
+    //       },
+    //       set: function () {
+    //         return this
+    //       }
+    //     },
+    // setValuesInFilter () {
+    //   this.valueFilter[this.attribute] = this.values.reducer((r, v) => {
+    //     r[v] = true
+    //     return r
+    //   })
+    // }
   },
   methods: {
     toggleValue (value) {
@@ -57,103 +80,113 @@ export default {
     },
     selectOnly (e, value) {
       e.stopPropagation()
+      this.value = value
       this.setValuesInFilter(this.name, Object.keys(this.attrValues).filter(y => y !== value))
     },
+    // setValuesInFilter (attribute, values) {
+    //   this.attribute = attribute
+    //   this.values = values
+    //   this.valueFilter[attribute] = values.reducer((r, v) => {
+    //     r[v] = true
+    //     return r
+    //   })
+    // },
     getFilterBox (h) {
       const showMenu = Object.keys(this.attrValues).length < this.menuLimit
       const values = Object.keys(this.attrValues)
       const shown = values.filter(this.matchesFilter.bind(this)).sort(this.sorter)
       return h('div', {
-        staticClass: ['pvtDragHandle']
+        staticClass: ['pvtFilterBox'],
+        style: {
+          display: 'block',
+          cursor: 'initial',
+          zIndex: this.zIndex
+        },
+        on: {
+          click: () => this.moveFilterBoxToTop(this.name)
+        }
       },
       [
         h('div', {
-          staticClass: ['pvtFilterBox'],
-          style: {
-            display: 'block',
-            cursor: 'initial',
-            zIndex: this.zIndex
-          },
-          on: {
-            click: () => this.moveFilterBoxToTop(this.name)
-          }
+          staticClass: 'pvtSearchContainer'
         },
         [
-          h('a', {
-            staticClass: ['pvtCloseX'],
+          showMenu || h('p', 'too many values to show'),
+          showMenu && h('input', {
+            staticClass: ['pvtSearch'],
+            attrs: {
+              type: 'text',
+              placeholder: 'Filter Values'
+            },
+            domProps: {
+              value: this.filterText
+            },
             on: {
-              click: () => { this.open = false }
+              input: e => {
+                this.filterText = e.target.value
+                this.$emit('input', e.target.value)
+              }
             }
           }),
-          h('span', {
-            staticClass: ['pvtDragHandle']
-          }, '☰'),
-          h('h4', this.name),
-          showMenu || h('p', 'too many values to show'),
-          showMenu && h('p',
+          h('a', {
+            staticClass: ['pvtFilterTextClear'],
+            on: {
+              click: () => { this.filterText = '' }
+            }
+          }),
+          h('a', {
+            staticClass: ['pvtButton'],
+            attrs: {
+              role: 'button'
+            },
+            on: {
+              click: () => this.removeValuesFromFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
+            }
+          }, `Select ${values.length === shown.length ? 'All' : shown.length}`),
+          h('a', {
+            staticClass: ['pvtButton'],
+            attrs: {
+              role: 'button'
+            },
+            on: {
+              click: () => this.addValuesToFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
+            }
+          }, `Deselect ${values.length === shown.length ? 'All' : shown.length}`)
+        ]),
+        showMenu && h('div', {
+          staticClass: ['pvtCheckContainer']
+        },
+        [
+          ...shown.map(x => {
+            return h('p', {
+              class: {
+                selected: !(x in this.valueFilter)
+              },
+              attrs: {
+                key: x
+              },
+              on: {
+                click: () => this.toggleValue(x)
+              }
+            },
             [
               h('input', {
-                staticClass: ['pvtSearch'],
                 attrs: {
-                  type: 'text',
-                  placeholder: 'Filter Values',
-                  value: this.filterText
-                },
-                on: {
-                  change: e => { this.filterText = e.target.value }
+                  type: 'checkbox',
+                  checked: !(x in this.valueFilter)
                 }
-              }),
-              h('br'),
+              }, x === '' ? h('em', 'null') : x),
               h('a', {
-                staticClass: ['pvtButton'],
-                attrs: {
-                  role: 'button'
-                },
+                staticClass: ['pvtOnly'],
                 on: {
-                  click: () => this.removeValuesFromFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
+                  click: e => this.selectOnly(e, x)
                 }
-              }, `Select ${values.length === shown.length ? 'All' : shown.length}`),
-              '',
+              }, 'only'),
               h('a', {
-                staticClass: ['pvtButton'],
-                attrs: {
-                  role: 'button'
-                },
-                on: {
-                  click: () => this.addValuesToFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
-                }
-              }, `Deselect ${values.length === shown.length ? 'All' : shown.length}`)
-            ]
-          ),
-          showMenu && h('div', {
-            staticClass: ['pvtCheckContainer']
-          }, [
-            ...shown.map(x => {
-              return h('p', {
-                class: {
-                  selected: !(x in this.valueFilter)
-                },
-                attrs: {
-                  key: x
-                },
-                on: {
-                  click: () => this.toggleValue(x)
-                }
-              },
-              [
-                h('a', {
-                  staticClass: ['pvtOnly'],
-                  on: {
-                    click: e => this.selectOnly(e, x)
-                  }
-                }, 'only'),
-                h('a', {
-                  staticClass: ['pvtOnlySpacer']
-                }, '&nbsp;'),
-                x === '' ? h('em', 'null') : x
-              ])
-            })
-          ])
+                staticClass: ['pvtOnlySpacer']
+              }, '&nbsp;')
+            ])
+          })
         ])
       ])
     },
@@ -163,7 +196,7 @@ export default {
     }
   },
   render (h) {
-    const filtered = Object.keys(this.props.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
+    const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
     return h('li', {
       attrs: {
         'data-id': this.name
@@ -181,7 +214,8 @@ export default {
             click: this.toggleFilterBox.bind(this)
           }
         }, '  ▾')
-      ])
-    ], this.open ? this.getFilterBox() : null)
+      ],
+      this.open ? this.getFilterBox(h) : null)
+    ])
   }
 }

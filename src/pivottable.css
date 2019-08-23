@@ -181,7 +181,7 @@ table.pvtTable tbody tr td {
     display: none !important;
 }
 
-.pvtCloseX {
+.pvtFilterTextClear {
     position: absolute;
     right: 5px;
     top: 5px;
@@ -190,14 +190,14 @@ table.pvtTable tbody tr td {
     text-decoration: none !important;
 }
 
-.pvtDragHandle {
+/* .pvtDragHandle {
     position: absolute;
     left: 5px;
     top: 5px;
     font-size: 18px;
     cursor: move;
     color: #a2b1c6;
-}
+} */
 
 .pvtButton {
     display: inline-block;
