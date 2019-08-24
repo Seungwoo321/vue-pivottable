@@ -1,37 +1,24 @@
 
 export default {
   name: 'draggable-attribute',
-  // prop: {
-  //   event: 'input',
-  //   value: 'valueFilter'
+  // model: {
+  //   prop: 'valueFilter',
+  //   event: 'update:valueFilter'
   // },
   props: {
     name: {
       type: String,
       required: true
     },
-    addValuesToFilter: {
-      type: Function,
-      required: true
-    },
-    removeValuesFromFilter: {
-      type: Function,
-      required: true
-    },
     attrValues: {
       type: Object,
       required: true
     },
-    // v-model
     valueFilter: {
       type: Object,
       default: function () {
         return {}
       }
-    },
-    moveFilterBoxToTop: {
-      type: Function,
-      required: true
     },
     sorter: {
       type: Function,
@@ -45,28 +32,46 @@ export default {
       open: false,
       filterText: '',
       attribute: '',
-      values: []
+      values: [],
+      updateFilter: {}
     }
-    //   }
-    //   computed: {
-    //     valueFilter: {
-    //       get: function () {
-    //         return this
-    //       },
-    //       set: function () {
-    //         return this
-    //       }
-    //     },
-    // setValuesInFilter () {
-    //   this.valueFilter[this.attribute] = this.values.reducer((r, v) => {
-    //     r[v] = true
-    //     return r
-    //   })
-    // }
+  },
+  created () {
+    this.updateFilter = this.valueFilter
   },
   methods: {
+    setValuesInFilter (attribute, values) {
+      this.updateFilter = values.reduce((r, v) => {
+        r[v] = true
+        return r
+      }, {})
+      this.$emit('update:valueFilter', { attribute, valueFilter: this.updateFilter })
+    },
+    addValuesToFilter (attribute, values) {
+      this.updateFilter = values.reduce((r, v) => {
+        r[v] = true
+        return r
+      }, {
+        ...this.updateFilter
+      })
+      this.$emit('update:valueFilter', { attribute, valueFilter: this.updateFilter })
+    },
+    removeValuesFromFilter (attribute, values) {
+      this.updateFilter = values.reduce((r, v) => {
+        if (r[v]) {
+          delete r[v]
+        }
+        return r
+      }, {
+        ...this.updateFilter
+      })
+      this.$emit('update:valueFilter', { attribute, valueFilter: this.updateFilter })
+    },
+    moveFilterBoxToTop (attribute) {
+      this.$emit('moveToTop:filterBox', { attribute })
+    },
     toggleValue (value) {
-      if (value in this.valueFilter) {
+      if (value in this.updateFilter) {
         this.removeValuesFromFilter(this.name, [value])
       } else {
         this.addValuesToFilter(this.name, [value])
@@ -83,14 +88,6 @@ export default {
       this.value = value
       this.setValuesInFilter(this.name, Object.keys(this.attrValues).filter(y => y !== value))
     },
-    // setValuesInFilter (attribute, values) {
-    //   this.attribute = attribute
-    //   this.values = values
-    //   this.valueFilter[attribute] = values.reducer((r, v) => {
-    //     r[v] = true
-    //     return r
-    //   })
-    // },
     getFilterBox (h) {
       const showMenu = Object.keys(this.attrValues).length < this.menuLimit
       const values = Object.keys(this.attrValues)
@@ -103,7 +100,7 @@ export default {
           zIndex: this.zIndex
         },
         on: {
-          click: () => this.moveFilterBoxToTop(this.name)
+          click: () => this.moveFilterBoxToTop.bind(this.name)
         }
       },
       [
@@ -160,7 +157,7 @@ export default {
           ...shown.map(x => {
             return h('p', {
               class: {
-                selected: !(x in this.valueFilter)
+                selected: !(x in this.updateFilter)
               },
               attrs: {
                 key: x
@@ -173,9 +170,10 @@ export default {
               h('input', {
                 attrs: {
                   type: 'checkbox',
-                  checked: !(x in this.valueFilter)
+                  checked: !(x in this.updateFilter)
                 }
-              }, x === '' ? h('em', 'null') : x),
+              }),
+              x,
               h('a', {
                 staticClass: ['pvtOnly'],
                 on: {
@@ -184,7 +182,7 @@ export default {
               }, 'only'),
               h('a', {
                 staticClass: ['pvtOnlySpacer']
-              }, '&nbsp;')
+              })
             ])
           })
         ])
@@ -196,8 +194,7 @@ export default {
     }
   },
   render (h) {
-    console.log(this.open)
-    const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
+    const filtered = Object.keys(this.updateFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
     return h('li', {
       attrs: {
         'data-id': this.name
