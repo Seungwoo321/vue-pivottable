@@ -1,4 +1,9 @@
 module.exports = {
+  configureWebpack: {
+    output: {
+      libraryExport: 'default'
+    }
+  },
   indexPath: '/demo/',
   pages: {
     index: {
@@ -8,11 +13,4 @@ module.exports = {
       title: 'Index Page'
     }
   }
-  // publicIgnore: ['public']
-  // chainwebpack: config => {
-  //     config.plugin('copy').tap(([options]) => {
-  //         options[0].ignore.push('public')
-  //         return [options]
-  //     })
-  // }
 }
