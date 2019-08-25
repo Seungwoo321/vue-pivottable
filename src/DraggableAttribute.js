@@ -1,11 +1,11 @@
 
 export default {
   name: 'draggable-attribute',
-  // model: {
-  //   prop: 'valueFilter',
-  //   event: 'update:valueFilter'
-  // },
   props: {
+    draggable: {
+      type: Boolean,
+      default: false
+    },
     name: {
       type: String,
       required: true
@@ -195,7 +195,7 @@ export default {
   },
   render (h) {
     const filtered = Object.keys(this.updateFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
-    return h('li', {
+    return this.draggable ? h('li', {
       attrs: {
         'data-id': this.name
       }
@@ -215,6 +215,12 @@ export default {
         this.open ? this.getFilterBox(h) : undefined
       ]
       )
-    ])
+    ]) : h('li',
+      [
+        h('span', {
+          staticClass: ['pvtAttr disabled']
+        }, this.name)
+      ]
+    )
   }
 }

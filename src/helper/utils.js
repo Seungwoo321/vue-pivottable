@@ -752,32 +752,6 @@ PivotData.defaultProps = {
   derivedAttributes: {}
 }
 
-PivotData.propTypes = {
-  data: {
-    type: [Array, Object, Function],
-    required: true
-  },
-  aggregatorName: String,
-  cols: Array,
-  rows: Array,
-  vals: Array,
-  valueFilter: Object,
-  sorters: [Function, Object],
-  derivedAttributes: Function,
-  rowOrder: {
-    type: String,
-    validator: function (value) {
-      return ['key_a_to_z', 'value_a_to_z', 'value_z_to_a'].indexOf(value) !== -1
-    }
-  },
-  colOrder: {
-    type: String,
-    validator: function (value) {
-      return ['key_a_to_z', 'value_a_to_z', 'value_z_to_a'].indexOf(value) !== -1
-    }
-  }
-}
-
 export {
   aggregatorTemplates,
   aggregators,

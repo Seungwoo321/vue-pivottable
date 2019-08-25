@@ -151,7 +151,7 @@ function makeRenderer (opts = {}) {
       }, [
         h('thead',
           [
-            ...colAttrs.map((c, j) => {
+            colAttrs.map((c, j) => {
               return h('tr', {
                 attrs: {
                   key: `colAttrs${j}`
@@ -169,7 +169,7 @@ function makeRenderer (opts = {}) {
                   staticClass: ['pvtAxisLabel']
                 }, c),
 
-                ...colKeys.map((colKey, i) => {
+                colKeys.map((colKey, i) => {
                   const x = this.spanSize(colKeys, i, j)
                   if (x === -1) {
                     return null
@@ -183,8 +183,7 @@ function makeRenderer (opts = {}) {
                     }
                   }, colKey[j])
                 }),
-
-                j === 0 ? h('th', {
+                j === 0 && this.rowTotal ? h('th', {
                   staticClass: ['pvtTotalLabel'],
                   attrs: {
                     rowSpan: colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
@@ -195,7 +194,7 @@ function makeRenderer (opts = {}) {
 
             rowAttrs.length !== 0 ? h('tr',
               [
-                ...rowAttrs.map((r, i) => {
+                rowAttrs.map((r, i) => {
                   return h('th', {
                     staticClass: ['pvtAxisLabel'],
                     attrs: {
@@ -204,9 +203,9 @@ function makeRenderer (opts = {}) {
                   }, r)
                 }),
 
-                h('th', {
-                  staticClass: ['pvtTotalLabel']
-                }, colAttrs.length === 0 ? 'Totals' : null)
+                this.rowTotal
+                  ? h('th', { staticClass: ['pvtTotalLabel'] }, colAttrs.length === 0 ? 'Totals' : null)
+                  : (colAttrs.length === 0 ? undefined : h('th', { staticClass: ['pvtTotalLabel'] }, null))
               ]
             ) : undefined
 
@@ -215,7 +214,7 @@ function makeRenderer (opts = {}) {
 
         h('tbody',
           [
-            ...rowKeys.map((rowKey, i) => {
+            rowKeys.map((rowKey, i) => {
               const totalAggregator = pivotData.getAggregator(rowKey, [])
               return h('tr', {
                 attrs: {
@@ -223,7 +222,7 @@ function makeRenderer (opts = {}) {
                 }
               },
               [
-                ...rowKey.map((txt, j) => {
+                rowKey.map((txt, j) => {
                   const x = this.spanSize(rowKeys, i, j)
                   if (x === -1) {
                     return null
@@ -238,7 +237,7 @@ function makeRenderer (opts = {}) {
                   }, txt)
                 }),
 
-                ...colKeys.map((colKey, j) => {
+                colKeys.map((colKey, j) => {
                   const aggregator = pivotData.getAggregator(rowKey, colKey)
                   return h('td', {
                     staticClass: ['pvVal'],
@@ -252,26 +251,26 @@ function makeRenderer (opts = {}) {
                   }, aggregator.format(aggregator.value()))
                 }),
 
-                h('td', {
+                this.rowTotal ? h('td', {
                   staticClass: ['pvtTotal'],
                   style: colTotalColors(totalAggregator.value()),
                   on: getClickHandler ? {
                     click: getClickHandler(totalAggregator.value(), rowKey, [null])
                   } : {}
-                }, totalAggregator.format(totalAggregator.value()))
+                }, totalAggregator.format(totalAggregator.value())) : undefined
               ])
             }),
 
             h('tr',
               [
-                h('th', {
+                this.colTotal ? h('th', {
                   staticClass: ['pvtTotalLabel'],
                   attrs: {
                     colSpan: rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)
                   }
-                }, 'Totals'),
+                }, 'Totals') : undefined,
 
-                ...colKeys.map((colKey, i) => {
+                this.colTotal ? colKeys.map((colKey, i) => {
                   const totalAggregator = pivotData.getAggregator([], colKey)
                   return h('td', {
                     staticClass: ['pvtTotal'],
@@ -283,14 +282,14 @@ function makeRenderer (opts = {}) {
                       click: getClickHandler(totalAggregator.value(), [null], colKey)
                     } : {}
                   }, totalAggregator.format(totalAggregator.value()))
-                }),
+                }) : undefined,
 
-                h('td', {
+                this.colTotal && this.rowTotal ? h('td', {
                   staticClass: ['pvtGrandTotal'],
                   on: getClickHandler ? {
                     click: getClickHandler(grandTotalAggregator.value(), [null], [null])
                   } : {}
-                }, grandTotalAggregator.format(grandTotalAggregator.value()))
+                }, grandTotalAggregator.format(grandTotalAggregator.value())) : undefined
               ]
             )
           ])
@@ -352,5 +351,5 @@ export default {
   'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
   'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
   'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
-  'Exportable TSV': TSVExportRenderer
+  'Expor Table TSV': TSVExportRenderer
 }
