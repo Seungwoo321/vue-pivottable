@@ -15,6 +15,14 @@ export default {
       type: String,
       default: 'Table'
     },
+    rowTotal: {
+      type: Boolean,
+      default: true
+    },
+    colTotal: {
+      type: Boolean,
+      default: true
+    },
     rows: {
       type: Array,
       default: function () {

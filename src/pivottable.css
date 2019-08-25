@@ -80,6 +80,15 @@ table.pvtTable tbody tr td {
     min-width: 20px;
     min-height: 20px;
 }
+.pvtVals.pvtText {
+    vertical-align: middle;
+    font-size: 15px;
+    font-weight: bold;
+    color: #000000;
+    user-select: none;
+    padding-left: 16px;
+    text-align: start;
+}
 
 .pvtRenderers {
     border: 1px solid #a2b1c6;
@@ -160,7 +169,10 @@ table.pvtTable tbody tr td {
     -khtml-user-select: none;
     -ms-user-select: none;
 }
-
+.pvtAxisContainer li span.pvtAttr.disabled {
+    color: #c5c5c5;
+    cursor: not-allowed;
+}
 .pvtTriangle {
     cursor: pointer;
     color: #506784;
