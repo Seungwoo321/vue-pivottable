@@ -27,11 +27,11 @@ _vue template_
     <h3>Pivottable Demo</h3>
     <vue-pivottable-ui
         :data="pivotData"
-        :aggregatorName='Sum'
-        :rendererName='Table Heatmap'
-        :rows="['Payer Gender']"
-        :cols="['Party Size']"
-        :vals="['Total Bill']"
+        aggregatorName='Sum'
+        rendererName='Table Heatmap'
+        rows="['Payer Gender']"
+        cols="['Party Size']"
+        vals="['Total Bill']"
     >
     </vue-pivottable-ui>
   </div>
