@@ -1,25 +1,12 @@
 import './pivottable.css'
-import Pivottable from './Pivottable'
-import PivottableUi from './PivottableUi'
-const components = {
-  Pivottable,
-  PivottableUi
+import VuePivottable from './Pivottable'
+import VuePivottableUi from './PivottableUi'
+
+VuePivottable.install = function (Vue) {
+  Vue.component(VuePivottable.name, VuePivottable)
+  Vue.component(VuePivottableUi.name, VuePivottableUi)
 }
 
-function install (Vue) {
-  Object.keys(components).forEach((key) => {
-    const component = components[key]
-    Vue.component(component.name, component)
-  })
-}
+if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
 
-export {
-  install,
-  components
-}
-if (typeof window !== 'undefined' && window.Vue) install(window.Vue)
-
-export default {
-  install,
-  ...components
-}
+export default VuePivottable
