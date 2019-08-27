@@ -115,6 +115,9 @@ export default {
       }
     }
   },
+  beforeUpdated (nextProps) {
+    this.materializeInput(nextProps.data)
+  },
   created () {
     this.materializeInput(this.data)
     this.propsData.vals = this.vals.slice()
@@ -123,8 +126,15 @@ export default {
     this.unusedOrder = this.unusedAttrs
     Object.keys(this.attrValues).map(this.assignValueFitler)
   },
-  beforeUpdated (nextProps) {
-    this.materializeInput(nextProps.data)
+  watch: {
+    data () {
+      this.materializeInput(this.data)
+      this.propsData.vals = this.vals.slice()
+      this.propsData.rows = this.rows
+      this.propsData.cols = this.cols
+      this.unusedOrder = this.unusedAttrs
+      Object.keys(this.attrValues).map(this.assignValueFitler)
+    }
   },
   methods: {
     assignValueFitler (field) {
@@ -173,9 +183,7 @@ export default {
         recordsProcessed++
       })
       this.materializedInput = materializedInput
-      this.attrValues = {
-        ...attrValues
-      }
+      this.attrValues = attrValues
     },
     makeDnDCell (items, onChange, classes, h) {
       return h(draggable, {
@@ -203,14 +211,14 @@ export default {
               name: x,
               key: x,
               attrValues: this.attrValues[x],
-              valueFilter: this.propsData.valueFilter[x],
               sorter: getSort(this.sorters, x),
               menuLimit: this.menuLimit,
-              zIndex: this.zIndices[x] || this.maxZIndex
+              zIndex: this.zIndices[x] || this.maxZIndex,
+              valueFilter: this.propsData.valueFilter[x]
             },
             on: {
-              'update:valueFilter': this.updateValueFilter,
-              'moveToTop:filterBox': this.moveFilterBoxToTop
+              'update': this.updateValueFilter,
+              'moveToTop': this.moveFilterBoxToTop
             }
           })
         })
@@ -285,7 +293,7 @@ export default {
                 props: {
                   values: Object.keys(this.attrValues).filter(e =>
                     !this.hiddenAttributes.includes(e) &&
-                  !this.hiddenFromAggregators.includes(e))
+                      !this.hiddenFromAggregators.includes(e))
                 },
                 domProps: {
                   value: vals[i]
@@ -310,6 +318,7 @@ export default {
     }
   },
   render (h) {
+    if (this.data.length < 1) return
     const rendererName = this.propsData.rendererName || this.rendererName
     const aggregatorName = this.propsData.aggregatorName || this.aggregatorName
     const vals = this.propsData.vals

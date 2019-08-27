@@ -33,45 +33,42 @@ export default {
       filterText: '',
       attribute: '',
       values: [],
-      updateFilter: {}
+      filter: {}
     }
-  },
-  created () {
-    this.updateFilter = this.valueFilter
   },
   methods: {
     setValuesInFilter (attribute, values) {
-      this.updateFilter = values.reduce((r, v) => {
+      const valueFilter = values.reduce((r, v) => {
         r[v] = true
         return r
       }, {})
-      this.$emit('update:valueFilter', { attribute, valueFilter: this.updateFilter })
+      this.$emit('update', { attribute, valueFilter })
     },
     addValuesToFilter (attribute, values) {
-      this.updateFilter = values.reduce((r, v) => {
+      const valueFilter = values.reduce((r, v) => {
         r[v] = true
         return r
       }, {
-        ...this.updateFilter
+        ...this.valueFilter
       })
-      this.$emit('update:valueFilter', { attribute, valueFilter: this.updateFilter })
+      this.$emit('update', { attribute, valueFilter })
     },
     removeValuesFromFilter (attribute, values) {
-      this.updateFilter = values.reduce((r, v) => {
+      const valueFilter = values.reduce((r, v) => {
         if (r[v]) {
           delete r[v]
         }
         return r
       }, {
-        ...this.updateFilter
+        ...this.valueFilter
       })
-      this.$emit('update:valueFilter', { attribute, valueFilter: this.updateFilter })
+      this.$emit('update', { attribute, valueFilter })
     },
     moveFilterBoxToTop (attribute) {
-      this.$emit('moveToTop:filterBox', { attribute })
+      this.$emit('moveToTop', { attribute })
     },
     toggleValue (value) {
-      if (value in this.updateFilter) {
+      if (value in this.valueFilter) {
         this.removeValuesFromFilter(this.name, [value])
       } else {
         this.addValuesToFilter(this.name, [value])
@@ -100,7 +97,7 @@ export default {
           zIndex: this.zIndex
         },
         on: {
-          click: () => this.moveFilterBoxToTop.bind(this.name)
+          click: () => this.moveFilterBoxToTop(this.name)
         }
       },
       [
@@ -155,22 +152,26 @@ export default {
         },
         [
           ...shown.map(x => {
+            const checked = !(x in this.valueFilter)
             return h('p', {
               class: {
-                selected: !(x in this.updateFilter)
+                selected: checked
               },
               attrs: {
                 key: x
               },
               on: {
-                click: () => this.toggleValue(x)
+                'click': () => this.toggleValue(x)
               }
             },
             [
               h('input', {
                 attrs: {
                   type: 'checkbox',
-                  checked: !(x in this.updateFilter)
+                  checked
+                },
+                on: {
+                  'change.prevent': () => this.toggleValue(x)
                 }
               }),
               x,
@@ -194,7 +195,7 @@ export default {
     }
   },
   render (h) {
-    const filtered = Object.keys(this.updateFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
+    const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
     return this.draggable ? h('li', {
       attrs: {
         'data-id': this.name
