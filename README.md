@@ -11,6 +11,8 @@
 npm i vue-pivottable
 ```
 
+
+
 ## Usage
 ```js
 import Vue from 'vue'
@@ -37,6 +39,9 @@ _vue template_
   </div>
 </template>
 ```
+
+
+[Live Demo](https://jsfiddle.net/front123/2dz83txb/)
 
 ## Inspired
 [plotly/react-pivottable](https://github.com/plotly/react-pivottable) - React-based pivot table librar
