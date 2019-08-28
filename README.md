@@ -41,7 +41,7 @@ _vue template_
 ```
 
 
-[Live Demo](https://jsfiddle.net/front123/2dz83txb/)
+[Live Demo](https://jsfiddle.net/front123/repqmz3f/)
 
 ## Inspired
 [plotly/react-pivottable](https://github.com/plotly/react-pivottable) - React-based pivot table librar
