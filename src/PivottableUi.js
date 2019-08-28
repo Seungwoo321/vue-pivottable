@@ -28,6 +28,12 @@ export default {
         return []
       }
     },
+    sortonlyFromDragDrop: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
     disabledFromDragDrop: {
       type: Array,
       default: function () {
@@ -328,6 +334,9 @@ export default {
       this.unusedAttrs,
       e => {
         const item = e.item.getAttribute('data-id')
+        if (this.sortonlyFromDragDrop.includes(item) && e.newDraggableIndex !== e.oldDraggableIndex) {
+          return
+        }
         if (e.from.classList.contains('pvtUnused')) {
           this.unusedOrder.splice(e.oldIndex, 1)
         }
@@ -344,6 +353,10 @@ export default {
       this.colAttrs,
       e => {
         const item = e.item.getAttribute('data-id')
+        if (this.sortonlyFromDragDrop.includes(item) && e.newDraggableIndex !== e.oldDraggableIndex) {
+          return
+        }
+        // console.log(e.newDraggableIndex, e.oldDraggableIndex)
         if (e.from.classList.contains('pvtCols')) {
           this.propsData.cols.splice(e.oldIndex, 1)
         }
@@ -358,6 +371,9 @@ export default {
       this.rowAttrs,
       e => {
         const item = e.item.getAttribute('data-id')
+        if (this.sortonlyFromDragDrop.includes(item) && e.newDraggableIndex !== e.oldDraggableIndex) {
+          return
+        }
         if (e.from.classList.contains('pvtRows')) {
           this.propsData.rows.splice(e.oldIndex, 1)
         }
