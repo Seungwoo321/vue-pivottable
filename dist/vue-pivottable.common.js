@@ -7898,52 +7898,6 @@ module.exports = function (TO_STRING) {
 
 /***/ }),
 
-/***/ "7333":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// 19.1.2.1 Object.assign(target, source, ...)
-var DESCRIPTORS = __webpack_require__("9e1e");
-var getKeys = __webpack_require__("0d58");
-var gOPS = __webpack_require__("2621");
-var pIE = __webpack_require__("52a7");
-var toObject = __webpack_require__("4bf8");
-var IObject = __webpack_require__("626a");
-var $assign = Object.assign;
-
-// should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__("79e5")(function () {
-  var A = {};
-  var B = {};
-  // eslint-disable-next-line no-undef
-  var S = Symbol();
-  var K = 'abcdefghijklmnopqrst';
-  A[S] = 7;
-  K.split('').forEach(function (k) { B[k] = k; });
-  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
-  var T = toObject(target);
-  var aLen = arguments.length;
-  var index = 1;
-  var getSymbols = gOPS.f;
-  var isEnum = pIE.f;
-  while (aLen > index) {
-    var S = IObject(arguments[index++]);
-    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
-    var length = keys.length;
-    var j = 0;
-    var key;
-    while (length > j) {
-      key = keys[j++];
-      if (!DESCRIPTORS || isEnum.call(S, key)) T[key] = S[key];
-    }
-  } return T;
-} : $assign;
-
-
-/***/ }),
-
 /***/ "7726":
 /***/ (function(module, exports) {
 
@@ -9301,17 +9255,6 @@ module.exports = __webpack_require__("584a").Array.isArray;
 
 /***/ }),
 
-/***/ "f751":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.3.1 Object.assign(target, source)
-var $export = __webpack_require__("5ca1");
-
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__("7333") });
-
-
-/***/ }),
-
 /***/ "f772":
 /***/ (function(module, exports) {
 
@@ -9370,9 +9313,6 @@ var pivottable = __webpack_require__("0c8e");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
-var es6_array_iterator = __webpack_require__("cadf");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.keys.js
 var es6_object_keys = __webpack_require__("456d");
@@ -9514,9 +9454,6 @@ var es6_regexp_match = __webpack_require__("4917");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
 var es6_number_constructor = __webpack_require__("c5f6");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.assign.js
-var es6_object_assign = __webpack_require__("f751");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.replace.js
 var es6_regexp_replace = __webpack_require__("a481");
 
@@ -9524,8 +9461,6 @@ var es6_regexp_replace = __webpack_require__("a481");
 var es6_regexp_split = __webpack_require__("28a5");
 
 // CONCATENATED MODULE: ./src/helper/utils.js
-
-
 
 
 
@@ -10531,7 +10466,6 @@ utils_PivotData.defaultProps = {
 
 
 
-
 function redColorScaleGenerator(values) {
   var min = Math.min.apply(Math, values);
   var max = Math.max.apply(Math, values);
@@ -10890,7 +10824,6 @@ var TSVExportRenderer = {
 
 
 
-
 /* harmony default export */ var Pivottable = ({
   name: 'vue-pivottable',
   mixins: [defaultProps],
@@ -10928,6 +10861,9 @@ function _defineProperty(obj, key, value) {
 
   return obj;
 }
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
+var es6_array_iterator = __webpack_require__("cadf");
+
 // CONCATENATED MODULE: ./src/DraggableAttribute.js
 
 
@@ -10948,9 +10884,17 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 /* harmony default export */ var DraggableAttribute = ({
   name: 'draggable-attribute',
   props: {
-    draggable: {
+    open: {
       type: Boolean,
       default: false
+    },
+    sortable: {
+      type: Boolean,
+      default: true
+    },
+    draggable: {
+      type: Boolean,
+      default: true
     },
     name: {
       type: String,
@@ -10975,12 +10919,20 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
   },
   data: function data() {
     return {
-      open: false,
+      // open: false,
       filterText: '',
       attribute: '',
       values: [],
       filter: {}
     };
+  },
+  computed: {
+    disabled: function disabled() {
+      return !this.sortable && !this.draggable;
+    },
+    sortonly: function sortonly() {
+      return this.sortable && !this.draggable;
+    }
   },
   methods: {
     setValuesInFilter: function setValuesInFilter(attribute, values) {
@@ -10988,7 +10940,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
         r[v] = true;
         return r;
       }, {});
-      this.$emit('update', {
+      this.$emit('update:filter', {
         attribute: attribute,
         valueFilter: valueFilter
       });
@@ -10998,7 +10950,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
         r[v] = true;
         return r;
       }, _objectSpread({}, this.valueFilter));
-      this.$emit('update', {
+      this.$emit('update:filter', {
         attribute: attribute,
         valueFilter: valueFilter
       });
@@ -11011,13 +10963,13 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
         return r;
       }, _objectSpread({}, this.valueFilter));
-      this.$emit('update', {
+      this.$emit('update:filter', {
         attribute: attribute,
         valueFilter: valueFilter
       });
     },
     moveFilterBoxToTop: function moveFilterBoxToTop(attribute) {
-      this.$emit('moveToTop', {
+      this.$emit('moveToTop:filterbox', {
         attribute: attribute
       });
     },
@@ -11119,13 +11071,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
           }
         }, [h('input', {
           attrs: {
-            type: 'checkbox',
-            checked: checked
+            type: 'checkbox'
           },
-          on: {
-            'change.prevent': function changePrevent() {
-              return _this.toggleValue(x);
-            }
+          domProps: {
+            checked: checked
           }
         }), x, h('a', {
           staticClass: ['pvtOnly'],
@@ -11140,30 +11089,37 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
       })))]);
     },
     toggleFilterBox: function toggleFilterBox() {
-      this.open = !this.open;
+      this.openFilterBox(this.name, !this.open);
       this.moveFilterBoxToTop(this.name);
+    },
+    openFilterBox: function openFilterBox(attribute, open) {
+      this.$emit('open:filterbox', {
+        attribute: attribute,
+        open: open
+      });
     }
   },
   render: function render(h) {
     var filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : '';
-    return this.draggable ? h('li', {
+    return h('li', {
       attrs: {
-        'data-id': this.name
+        'data-id': !this.disabled ? this.name : undefined
       }
     }, [h('span', {
-      staticClass: ['pvtAttr ' + filtered]
-    }, [this.name, h('span', {
+      staticClass: ['pvtAttr ' + filtered],
+      class: {
+        sortonly: this.sortonly,
+        disabled: this.disabled
+      }
+    }, [this.name, !this.disabled ? h('span', {
       staticClass: ['pvtTriangle'],
       on: {
         click: this.toggleFilterBox.bind(this)
       }
-    }, '  ▾'), this.open ? this.getFilterBox(h) : undefined])]) : h('li', [h('span', {
-      staticClass: ['pvtAttr disabled']
-    }, this.name)]);
+    }, '  ▾') : undefined, this.open ? this.getFilterBox(h) : undefined])]);
   }
 });
 // CONCATENATED MODULE: ./src/Dropdown.js
-
 
 /* harmony default export */ var Dropdown = ({
   props: ['values', 'changeValue'],
@@ -11240,6 +11196,12 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
         return [];
       }
     },
+    sortonlyFromDragDrop: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
     disabledFromDragDrop: {
       type: Array,
       default: function _default() {
@@ -11297,7 +11259,7 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
         rows: [],
         valueFilter: {}
       },
-      updateFilter: {},
+      openStatus: {},
       attrValues: {},
       unusedOrder: [],
       zIndices: {},
@@ -11332,7 +11294,8 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     this.propsData.rows = this.rows;
     this.propsData.cols = this.cols;
     this.unusedOrder = this.unusedAttrs;
-    Object.keys(this.attrValues).map(this.assignValueFitler);
+    Object.keys(this.attrValues).map(this.assignValue);
+    Object.keys(this.openStatus).map(this.assignValue);
   },
   watch: {
     data: function data() {
@@ -11341,11 +11304,12 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
       this.propsData.rows = this.rows;
       this.propsData.cols = this.cols;
       this.unusedOrder = this.unusedAttrs;
-      Object.keys(this.attrValues).map(this.assignValueFitler);
+      Object.keys(this.attrValues).map(this.assignValue);
+      Object.keys(this.openStatus).map(this.assignValue);
     }
   },
   methods: {
-    assignValueFitler: function assignValueFitler(field) {
+    assignValue: function assignValue(field) {
       this.propsData.valueFilter = PivottableUi_objectSpread({}, this.propsData.valueFilter, _defineProperty({}, field, {}));
     },
     propUpdater: function propUpdater(key) {
@@ -11364,6 +11328,11 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
       var attribute = _ref2.attribute;
       this.maxZIndex += 1;
       this.zIndices[attribute] = this.maxZIndex + 1;
+    },
+    openFilterBox: function openFilterBox(_ref3) {
+      var attribute = _ref3.attribute,
+          open = _ref3.open;
+      this.openStatus[attribute] = open;
     },
     materializeInput: function materializeInput(nextData) {
       if (this.propsData.data === nextData) {
@@ -11426,18 +11395,21 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
       }, [items.map(function (x) {
         return h(DraggableAttribute, {
           props: {
-            draggable: !_this5.disabledFromDragDrop.includes(x),
+            sortable: _this5.sortonlyFromDragDrop.includes(x) || !_this5.disabledFromDragDrop.includes(x),
+            draggable: !_this5.sortonlyFromDragDrop.includes(x) && !_this5.disabledFromDragDrop.includes(x),
             name: x,
             key: x,
             attrValues: _this5.attrValues[x],
             sorter: getSort(_this5.sorters, x),
             menuLimit: _this5.menuLimit,
             zIndex: _this5.zIndices[x] || _this5.maxZIndex,
-            valueFilter: _this5.propsData.valueFilter[x]
+            valueFilter: _this5.propsData.valueFilter[x],
+            open: _this5.openStatus[x]
           },
           on: {
-            'update': _this5.updateValueFilter,
-            'moveToTop': _this5.moveFilterBoxToTop
+            'update:filter': _this5.updateValueFilter,
+            'moveToTop:filterbox': _this5.moveFilterBoxToTop,
+            'open:filterbox': _this5.openFilterBox
           }
         });
       })]);
@@ -11445,7 +11417,9 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     rendererCell: function rendererCell(rendererName, h) {
       var _this6 = this;
 
-      return h('td', {
+      return this.$slots.rendererCell ? h('td', {
+        staticClass: ['pvtRenderers pvtVals pvtText']
+      }, this.$slots.rendererCell) : h('td', {
         staticClass: ['pvtRenderers']
       }, [h(Dropdown, {
         props: {
@@ -11543,6 +11517,10 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     var unusedAttrsCell = this.makeDnDCell(this.unusedAttrs, function (e) {
       var item = e.item.getAttribute('data-id');
 
+      if (_this8.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtUnused') || !e.to.classList.contains('pvtUnused'))) {
+        return;
+      }
+
       if (e.from.classList.contains('pvtUnused')) {
         _this8.unusedOrder.splice(e.oldIndex, 1);
       }
@@ -11554,6 +11532,10 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     var colAttrsCell = this.makeDnDCell(this.colAttrs, function (e) {
       var item = e.item.getAttribute('data-id');
 
+      if (_this8.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtCols') || !e.to.classList.contains('pvtCols'))) {
+        return;
+      }
+
       if (e.from.classList.contains('pvtCols')) {
         _this8.propsData.cols.splice(e.oldIndex, 1);
       }
@@ -11564,6 +11546,10 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     }, 'pvtAxisContainer pvtHorizList pvtCols', h);
     var rowAttrsCell = this.makeDnDCell(this.rowAttrs, function (e) {
       var item = e.item.getAttribute('data-id');
+
+      if (_this8.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtRows') || !e.to.classList.contains('pvtRows'))) {
+        return;
+      }
 
       if (e.from.classList.contains('pvtRows')) {
         _this8.propsData.rows.splice(e.oldIndex, 1);
