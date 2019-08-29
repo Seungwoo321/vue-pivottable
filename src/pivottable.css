@@ -39,7 +39,7 @@ table.pvtTable tbody tr th:first-child {
     border-left: none;
 }
 table.pvtTable thead tr th:last-child,
-table.pvtTable tbody tr th:last-child {
+table.pvtTable tbody tr td:last-child {
     border-right: none;
 }
 table.pvtTable tbody tr:last-child > th,
