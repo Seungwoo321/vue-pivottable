@@ -4,6 +4,7 @@
 }
 
 .pvtUi {
+    width: 100%;
     color: #2a3f5f;
     font-family: Verdana;
     border-collapse: collapse;
@@ -17,18 +18,35 @@
 }
 
 .pvtUi td.pvtOutput {
+    padding: 0;
     vertical-align: top;
     border: 1px solid #a2b1c6;
 }
 
 table.pvtTable {
+    width: 100%;
     font-size: 8pt;
     text-align: left;
     border-collapse: collapse;
-    margin-top: 3px;
-    margin-left: 3px;
     font-family: Verdana;
 }
+table.pvtTable thead tr:first-child > th, 
+table.pvtTable thead tr:first-child > td {
+    border-top: none;
+}
+table.pvtTable thead tr th:first-child,
+table.pvtTable tbody tr th:first-child {
+    border-left: none;
+}
+table.pvtTable thead tr th:last-child,
+table.pvtTable tbody tr th:last-child {
+    border-right: none;
+}
+table.pvtTable tbody tr:last-child > th,
+table.pvtTable tbody tr:last-child > td { 
+    border-bottom: none;
+}
+
 table.pvtTable thead tr th,
 table.pvtTable tbody tr th {
     background-color: #ebf0f8;
@@ -92,7 +110,6 @@ table.pvtTable tbody tr td {
 
 .pvtRenderers {
     border: 1px solid #a2b1c6;
-    padding: 0;
     user-select: none;
 }
 

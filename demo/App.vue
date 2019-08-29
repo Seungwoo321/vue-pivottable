@@ -12,9 +12,9 @@
             :disabledFromDragDrop="disabledFromDragDrop"
             :sortonlyFromDragDrop="sortonlyFromDragDrop"
             :hiddenFromDragDrop="hiddenFromDragDrop">
-            <template slot="rendererCell">
+            <!-- <template slot="rendererCell">
                 {{ rendererName }}
-            </template>
+            </template> -->
             <template slot="aggregatorCell">
                 {{ vals.toString() }}
             </template>
