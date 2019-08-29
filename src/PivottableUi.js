@@ -164,6 +164,8 @@ export default {
       this.zIndices[attribute] = this.maxZIndex + 1
     },
     openFilterBox ({ attribute, open }) {
+      console.log(attribute, open)
+      // this.openDropdown = !this.openDropdown
       this.openStatus[attribute] = open
     },
     materializeInput (nextData) {
@@ -228,6 +230,8 @@ export default {
               zIndex: this.zIndices[x] || this.maxZIndex,
               valueFilter: this.propsData.valueFilter[x],
               open: this.openStatus[x]
+            },
+            domProps: {
             },
             on: {
               'update:filter': this.updateValueFilter,
@@ -412,58 +416,31 @@ export default {
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
     const outputCell = this.outputCell(props, h)
 
-    if (horizUnused) {
-      return h('table', {
-        staticClass: ['pvtUi']
-      },
-      [
-        h('tbody',
-          [
-            h('tr',
-              [
-                rendererCell,
-                unusedAttrsCell
-              ]
-            ),
-            h('tr',
-              [
-                aggregatorCell,
-                colAttrsCell
-              ]
-            ),
-            h('tr',
-              [
-                rowAttrsCell,
-                outputCell
-              ]
-            )
-          ])
-      ])
-    }
     return h('table', {
       staticClass: ['pvtUi']
     },
     [
-      h('tbody', {
-        on: {
-          click: () => { this.openDropdown = false }
-        }
-      },
-      [
-        h('tr',
-          [
-            rendererCell,
-            aggregatorCell,
-            colAttrsCell
-          ]),
-        h('tr',
-          [
-            unusedAttrsCell,
-            rowAttrsCell,
-            outputCell
-          ]
-        )
-      ])
+      h('tbody',
+        [
+          h('tr',
+            [
+              rendererCell,
+              unusedAttrsCell
+            ]
+          ),
+          h('tr',
+            [
+              aggregatorCell,
+              colAttrsCell
+            ]
+          ),
+          h('tr',
+            [
+              rowAttrsCell,
+              outputCell
+            ]
+          )
+        ])
     ])
   }
 }
