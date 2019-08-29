@@ -11123,7 +11123,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
     }, [this.name, !this.disabled ? h('span', {
       staticClass: ['pvtTriangle'],
       on: {
-        click: this.toggleFilterBox.bind(this)
+        'click': this.toggleFilterBox.bind(this)
       }
     }, '  ▾') : undefined, this.open ? this.getFilterBox(h) : undefined])]);
   }
@@ -11341,6 +11341,8 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     openFilterBox: function openFilterBox(_ref3) {
       var attribute = _ref3.attribute,
           open = _ref3.open;
+      console.log(attribute, open); // this.openDropdown = !this.openDropdown
+
       this.openStatus[attribute] = open;
     },
     materializeInput: function materializeInput(nextData) {
@@ -11415,6 +11417,7 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
             valueFilter: _this5.propsData.valueFilter[x],
             open: _this5.openStatus[x]
           },
+          domProps: {},
           on: {
             'update:filter': _this5.updateValueFilter,
             'moveToTop:filterbox': _this5.moveFilterBoxToTop,
@@ -11584,22 +11587,9 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     var rendererCell = this.rendererCell(rendererName, h);
     var aggregatorCell = this.aggregatorCell(aggregatorName, vals, h);
     var outputCell = this.outputCell(props, h);
-
-    if (horizUnused) {
-      return h('table', {
-        staticClass: ['pvtUi']
-      }, [h('tbody', [h('tr', [rendererCell, unusedAttrsCell]), h('tr', [aggregatorCell, colAttrsCell]), h('tr', [rowAttrsCell, outputCell])])]);
-    }
-
     return h('table', {
       staticClass: ['pvtUi']
-    }, [h('tbody', {
-      on: {
-        click: function click() {
-          _this8.openDropdown = false;
-        }
-      }
-    }, [h('tr', [rendererCell, aggregatorCell, colAttrsCell]), h('tr', [unusedAttrsCell, rowAttrsCell, outputCell])])]);
+    }, [h('tbody', [h('tr', [rendererCell, unusedAttrsCell]), h('tr', [aggregatorCell, colAttrsCell]), h('tr', [rowAttrsCell, outputCell])])]);
   }
 });
 // CONCATENATED MODULE: ./src/index.js
