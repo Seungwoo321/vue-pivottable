@@ -2,9 +2,17 @@
 export default {
   name: 'draggable-attribute',
   props: {
-    draggable: {
+    open: {
       type: Boolean,
       default: false
+    },
+    sortable: {
+      type: Boolean,
+      default: true
+    },
+    draggable: {
+      type: Boolean,
+      default: true
     },
     name: {
       type: String,
@@ -29,11 +37,19 @@ export default {
   },
   data () {
     return {
-      open: false,
+      // open: false,
       filterText: '',
       attribute: '',
       values: [],
       filter: {}
+    }
+  },
+  computed: {
+    disabled () {
+      return !this.sortable && !this.draggable
+    },
+    sortonly () {
+      return this.sortable && !this.draggable
     }
   },
   methods: {
@@ -42,7 +58,7 @@ export default {
         r[v] = true
         return r
       }, {})
-      this.$emit('update', { attribute, valueFilter })
+      this.$emit('update:filter', { attribute, valueFilter })
     },
     addValuesToFilter (attribute, values) {
       const valueFilter = values.reduce((r, v) => {
@@ -51,7 +67,7 @@ export default {
       }, {
         ...this.valueFilter
       })
-      this.$emit('update', { attribute, valueFilter })
+      this.$emit('update:filter', { attribute, valueFilter })
     },
     removeValuesFromFilter (attribute, values) {
       const valueFilter = values.reduce((r, v) => {
@@ -62,10 +78,10 @@ export default {
       }, {
         ...this.valueFilter
       })
-      this.$emit('update', { attribute, valueFilter })
+      this.$emit('update:filter', { attribute, valueFilter })
     },
     moveFilterBoxToTop (attribute) {
-      this.$emit('moveToTop', { attribute })
+      this.$emit('moveToTop:filterbox', { attribute })
     },
     toggleValue (value) {
       if (value in this.valueFilter) {
@@ -167,11 +183,10 @@ export default {
             [
               h('input', {
                 attrs: {
-                  type: 'checkbox',
-                  checked
+                  type: 'checkbox'
                 },
-                on: {
-                  'change.prevent': () => this.toggleValue(x)
+                domProps: {
+                  checked: checked
                 }
               }),
               x,
@@ -190,38 +205,39 @@ export default {
       ])
     },
     toggleFilterBox () {
-      this.open = !this.open
+      this.openFilterBox(this.name, !this.open)
       this.moveFilterBoxToTop(this.name)
+    },
+    openFilterBox (attribute, open) {
+      this.$emit('open:filterbox', { attribute, open })
     }
   },
   render (h) {
     const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
-    return this.draggable ? h('li', {
+    return h('li', {
       attrs: {
-        'data-id': this.name
+        'data-id': !this.disabled ? this.name : undefined
       }
     },
     [
       h('span', {
-        staticClass: ['pvtAttr ' + filtered]
+        staticClass: ['pvtAttr ' + filtered],
+        class: {
+          sortonly: this.sortonly,
+          disabled: this.disabled
+        }
       },
       [
         this.name,
-        h('span', {
+        !this.disabled ? h('span', {
           staticClass: ['pvtTriangle'],
           on: {
             click: this.toggleFilterBox.bind(this)
           }
-        }, '  ▾'),
+        }, '  ▾') : undefined,
         this.open ? this.getFilterBox(h) : undefined
       ]
       )
-    ]) : h('li',
-      [
-        h('span', {
-          staticClass: ['pvtAttr disabled']
-        }, this.name)
-      ]
-    )
+    ])
   }
 }

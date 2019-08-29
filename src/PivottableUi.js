@@ -95,7 +95,7 @@ export default {
         rows: [],
         valueFilter: {}
       },
-      updateFilter: {},
+      openStatus: {},
       attrValues: {},
       unusedOrder: [],
       zIndices: {},
@@ -130,7 +130,8 @@ export default {
     this.propsData.rows = this.rows
     this.propsData.cols = this.cols
     this.unusedOrder = this.unusedAttrs
-    Object.keys(this.attrValues).map(this.assignValueFitler)
+    Object.keys(this.attrValues).map(this.assignValue)
+    Object.keys(this.openStatus).map(this.assignValue)
   },
   watch: {
     data () {
@@ -139,11 +140,12 @@ export default {
       this.propsData.rows = this.rows
       this.propsData.cols = this.cols
       this.unusedOrder = this.unusedAttrs
-      Object.keys(this.attrValues).map(this.assignValueFitler)
+      Object.keys(this.attrValues).map(this.assignValue)
+      Object.keys(this.openStatus).map(this.assignValue)
     }
   },
   methods: {
-    assignValueFitler (field) {
+    assignValue (field) {
       this.propsData.valueFilter = {
         ...this.propsData.valueFilter,
         [field]: {}
@@ -160,6 +162,9 @@ export default {
     moveFilterBoxToTop ({ attribute }) {
       this.maxZIndex += 1
       this.zIndices[attribute] = this.maxZIndex + 1
+    },
+    openFilterBox ({ attribute, open }) {
+      this.openStatus[attribute] = open
     },
     materializeInput (nextData) {
       if (this.propsData.data === nextData) {
@@ -213,40 +218,47 @@ export default {
         items.map(x => {
           return h(DraggableAttribute, {
             props: {
-              draggable: !this.disabledFromDragDrop.includes(x),
+              sortable: this.sortonlyFromDragDrop.includes(x) || !this.disabledFromDragDrop.includes(x),
+              draggable: !this.sortonlyFromDragDrop.includes(x) && !this.disabledFromDragDrop.includes(x),
               name: x,
               key: x,
               attrValues: this.attrValues[x],
               sorter: getSort(this.sorters, x),
               menuLimit: this.menuLimit,
               zIndex: this.zIndices[x] || this.maxZIndex,
-              valueFilter: this.propsData.valueFilter[x]
+              valueFilter: this.propsData.valueFilter[x],
+              open: this.openStatus[x]
             },
             on: {
-              'update': this.updateValueFilter,
-              'moveToTop': this.moveFilterBoxToTop
+              'update:filter': this.updateValueFilter,
+              'moveToTop:filterbox': this.moveFilterBoxToTop,
+              'open:filterbox': this.openFilterBox
             }
           })
         })
       ])
     },
     rendererCell (rendererName, h) {
-      return h('td', {
-        staticClass: ['pvtRenderers']
-      },
-      [
-        h(Dropdown, {
-          props: {
-            values: Object.keys(this.renderers)
-          },
-          domProps: {
-            value: rendererName
-          },
-          on: {
-            input: (value) => { this.propUpdater('rendererName')(value) }
-          }
-        })
-      ])
+      return this.$slots.rendererCell
+        ? h('td', {
+          staticClass: ['pvtRenderers pvtVals pvtText']
+        }, this.$slots.rendererCell)
+        : h('td', {
+          staticClass: ['pvtRenderers']
+        },
+        [
+          h(Dropdown, {
+            props: {
+              values: Object.keys(this.renderers)
+            },
+            domProps: {
+              value: rendererName
+            },
+            on: {
+              input: (value) => { this.propUpdater('rendererName')(value) }
+            }
+          })
+        ])
     },
     aggregatorCell (aggregatorName, vals, h) {
       return this.$slots.aggregatorCell
@@ -334,7 +346,7 @@ export default {
       this.unusedAttrs,
       e => {
         const item = e.item.getAttribute('data-id')
-        if (this.sortonlyFromDragDrop.includes(item) && e.newDraggableIndex !== e.oldDraggableIndex) {
+        if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtUnused') || !e.to.classList.contains('pvtUnused'))) {
           return
         }
         if (e.from.classList.contains('pvtUnused')) {
@@ -353,10 +365,9 @@ export default {
       this.colAttrs,
       e => {
         const item = e.item.getAttribute('data-id')
-        if (this.sortonlyFromDragDrop.includes(item) && e.newDraggableIndex !== e.oldDraggableIndex) {
+        if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtCols') || !e.to.classList.contains('pvtCols'))) {
           return
         }
-        // console.log(e.newDraggableIndex, e.oldDraggableIndex)
         if (e.from.classList.contains('pvtCols')) {
           this.propsData.cols.splice(e.oldIndex, 1)
         }
@@ -371,7 +382,7 @@ export default {
       this.rowAttrs,
       e => {
         const item = e.item.getAttribute('data-id')
-        if (this.sortonlyFromDragDrop.includes(item) && e.newDraggableIndex !== e.oldDraggableIndex) {
+        if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtRows') || !e.to.classList.contains('pvtRows'))) {
           return
         }
         if (e.from.classList.contains('pvtRows')) {

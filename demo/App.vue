@@ -12,8 +12,11 @@
             :disabledFromDragDrop="disabledFromDragDrop"
             :sortonlyFromDragDrop="sortonlyFromDragDrop"
             :hiddenFromDragDrop="hiddenFromDragDrop">
+            <template slot="rendererCell">
+                {{ rendererName }}
+            </template>
             <template slot="aggregatorCell">
-                {{ aggregatorName }}: {{ vals.toString() }}
+                {{ vals.toString() }}
             </template>
         </vue-pivottable-ui>
         <!-- <vue-pivottable-ui
