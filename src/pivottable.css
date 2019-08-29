@@ -174,7 +174,7 @@ table.pvtTable tbody tr td {
 .pvtAxisContainer li span.pvtAttr {
     -webkit-text-size-adjust: 100%;
     background: #f3f6fa;
-    border: 1px dashed #c8d4e3;
+    border: 2px dashed #c8d4e3;
     padding: 4px 7px;
     white-space: nowrap;
     -webkit-border-radius: 5px;

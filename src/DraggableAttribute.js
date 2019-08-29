@@ -232,7 +232,7 @@ export default {
         !this.disabled ? h('span', {
           staticClass: ['pvtTriangle'],
           on: {
-            click: this.toggleFilterBox.bind(this)
+            'click': this.toggleFilterBox.bind(this)
           }
         }, '  ▾') : undefined,
         this.open ? this.getFilterBox(h) : undefined
