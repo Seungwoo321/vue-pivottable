@@ -354,7 +354,7 @@ export default {
           this.unusedOrder.splice(e.newIndex, 0, item)
         }
       },
-      `pvtAxisContainer pvtUnused pvtVertList`,
+      `pvtAxisContainer pvtUnused pvtHorizList`,
       h
     )
     const colAttrsCell = this.makeDnDCell(

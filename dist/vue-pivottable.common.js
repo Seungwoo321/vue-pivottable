@@ -11523,7 +11523,7 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
       if (e.to.classList.contains('pvtUnused')) {
         _this8.unusedOrder.splice(e.newIndex, 0, item);
       }
-    }, "pvtAxisContainer pvtUnused pvtVertList", h);
+    }, "pvtAxisContainer pvtUnused pvtHorizList", h);
     var colAttrsCell = this.makeDnDCell(this.colAttrs, function (e) {
       var item = e.item.getAttribute('data-id');
 
