@@ -40,10 +40,6 @@ export default {
         return []
       }
     },
-    unusedOrientationCutoff: {
-      type: Number,
-      default: 85
-    },
     menuLimit: {
       type: Number,
       default: 500
@@ -344,8 +340,6 @@ export default {
     const rendererName = this.propsData.rendererName || this.rendererName
     const aggregatorName = this.propsData.aggregatorName || this.aggregatorName
     const vals = this.propsData.vals
-    const unusedLength = this.unusedAttrs.reduce((r, e) => r + e.length, 0)
-    const horizUnused = unusedLength < this.unusedOrientationCutoff
     const unusedAttrsCell = this.makeDnDCell(
       this.unusedAttrs,
       e => {
@@ -360,9 +354,7 @@ export default {
           this.unusedOrder.splice(e.newIndex, 0, item)
         }
       },
-      `pvtAxisContainer pvtUnused ${
-        horizUnused ? 'pvtHorizList' : 'pvtVertList'
-      }`,
+      `pvtAxisContainer pvtUnused pvtVertList`,
       h
     )
     const colAttrsCell = this.makeDnDCell(
