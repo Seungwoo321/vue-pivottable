@@ -11217,10 +11217,6 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
         return [];
       }
     },
-    unusedOrientationCutoff: {
-      type: Number,
-      default: 85
-    },
     menuLimit: {
       type: Number,
       default: 500
@@ -11522,10 +11518,6 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     var rendererName = this.propsData.rendererName || this.rendererName;
     var aggregatorName = this.propsData.aggregatorName || this.aggregatorName;
     var vals = this.propsData.vals;
-    var unusedLength = this.unusedAttrs.reduce(function (r, e) {
-      return r + e.length;
-    }, 0);
-    var horizUnused = unusedLength < this.unusedOrientationCutoff;
     var unusedAttrsCell = this.makeDnDCell(this.unusedAttrs, function (e) {
       var item = e.item.getAttribute('data-id');
 
@@ -11540,7 +11532,7 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
       if (e.to.classList.contains('pvtUnused')) {
         _this8.unusedOrder.splice(e.newIndex, 0, item);
       }
-    }, "pvtAxisContainer pvtUnused ".concat(horizUnused ? 'pvtHorizList' : 'pvtVertList'), h);
+    }, "pvtAxisContainer pvtUnused pvtVertList", h);
     var colAttrsCell = this.makeDnDCell(this.colAttrs, function (e) {
       var item = e.item.getAttribute('data-id');
 
