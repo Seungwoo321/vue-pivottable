@@ -160,8 +160,6 @@ export default {
       this.zIndices[attribute] = this.maxZIndex + 1
     },
     openFilterBox ({ attribute, open }) {
-      console.log(attribute, open)
-      // this.openDropdown = !this.openDropdown
       this.openStatus[attribute] = open
     },
     materializeInput (nextData) {

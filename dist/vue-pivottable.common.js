@@ -11328,8 +11328,6 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     openFilterBox: function openFilterBox(_ref3) {
       var attribute = _ref3.attribute,
           open = _ref3.open;
-      console.log(attribute, open); // this.openDropdown = !this.openDropdown
-
       this.openStatus[attribute] = open;
     },
     materializeInput: function materializeInput(nextData) {
