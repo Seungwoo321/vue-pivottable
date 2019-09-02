@@ -1,13 +1,13 @@
 import VuePivottable from './Pivottable'
 import VuePivottableUi from './PivottableUi'
-
+import './pivottable.css'
 const components = {
   VuePivottable,
   VuePivottableUi
 }
 
 if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
-console.log(VuePivottable)
+
 export {
   VuePivottable,
   VuePivottableUi
