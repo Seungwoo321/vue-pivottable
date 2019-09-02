@@ -11580,8 +11580,8 @@ var components = {
   VuePivottable: Pivottable,
   VuePivottableUi: PivottableUi
 };
-
 if (typeof window !== 'undefined' && window.Vue) window.Vue.use(Pivottable);
+
 /* harmony default export */ var src = (function (Vue) {
   for (var key in components) {
     Vue.component(components[key].name, components[key]);

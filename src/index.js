@@ -6,12 +6,12 @@ const components = {
   VuePivottableUi
 }
 
+if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
+
 export {
   VuePivottable,
   VuePivottableUi
 }
-
-if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
 
 export default (Vue) => {
   for (const key in components) {
