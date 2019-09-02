@@ -19,7 +19,7 @@ main.js
 ```js
 import Vue from 'vue'
 import VuePivottable from 'vue-pivottable'
-import 'vue-pivottable/pivottable.css'
+import 'vue-pivottable/dist/vue-pivottable.css'
 Vue.use(VuePivottable)
 ```
 _vue template_
@@ -32,9 +32,9 @@ _vue template_
         :data="pivotData"
         aggregatorName='Sum'
         rendererName='Table Heatmap'
-        rows="['Payer Gender']"
-        cols="['Party Size']"
-        vals="['Total Bill']"
+        :rows="['Payer Gender']"
+        :cols="['Party Size']"
+        :vals="['Total Bill']"
     >
     </vue-pivottable>
   </div>
@@ -50,9 +50,9 @@ or
         :data="pivotData"
         aggregatorName='Sum'
         rendererName='Table Heatmap'
-        rows="['Payer Gender']"
-        cols="['Party Size']"
-        vals="['Total Bill']"
+        :rows="['Payer Gender']"
+        :cols="['Party Size']"
+        :vals="['Total Bill']"
     >
     </vue-pivottable-ui>
   </div>
@@ -69,9 +69,9 @@ app.vue
         :data="pivotData"
         aggregatorName='Sum'
         rendererName='Table Heatmap'
-        rows="['Payer Gender']"
-        cols="['Party Size']"
-        vals="['Total Bill']"
+        :rows="['Payer Gender']"
+        :cols="['Party Size']"
+        :vals="['Total Bill']"
     >
     </vue-pivottable>
     <h3>Pivottable Ui Demo</h3>
@@ -79,9 +79,9 @@ app.vue
         :data="pivotData"
         aggregatorName='Sum'
         rendererName='Table Heatmap'
-        rows="['Payer Gender']"
-        cols="['Party Size']"
-        vals="['Total Bill']"
+        :rows="['Payer Gender']"
+        :cols="['Party Size']"
+        :vals="['Total Bill']"
     >
     </vue-pivottable-ui>
   </div>
@@ -89,7 +89,7 @@ app.vue
 
 <script>
 import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
-import 'vue-pivottable/pivottable.css'
+import 'vue-pivottable/dist/vue-pivottable.css'
 export default {
     components: {
         VuePivottable,
