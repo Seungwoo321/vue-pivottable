@@ -66,6 +66,7 @@
 <script>
 import tips from './tips'
 import { VuePivottable, VuePivottableUi } from '@/'
+console.log(VuePivottableUi)
 export default {
   components: {
     VuePivottableUi,
