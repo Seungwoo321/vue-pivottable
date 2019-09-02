@@ -14,10 +14,7 @@
           :rendererName="rendererName"
           :rows="rows"
           :cols="cols"
-          :vals="vals"
-          :disabledFromDragDrop="disabledFromDragDrop"
-          :sortonlyFromDragDrop="sortonlyFromDragDrop"
-          :hiddenFromDragDrop="hiddenFromDragDrop">
+          :vals="vals">
         </vue-pivottable>
       </div>
       <pre>
@@ -28,10 +25,7 @@
               :rendererName="rendererName"
               :rows="rows"
               :cols="cols"
-              :vals="vals"
-              :disabledFromDragDrop="disabledFromDragDrop"
-              :sortonlyFromDragDrop="sortonlyFromDragDrop"
-              :hiddenFromDragDrop="hiddenFromDragDrop"&gt;
+              :vals="vals"&gt;
           &lt;/vue-pivottable&gt;
         </code>
       </pre>
@@ -84,7 +78,7 @@ export default {
       aggregatorName: 'Sum',
       rendererName: 'Table Heatmap',
       rows: ['Payer Gender', 'Party Size'],
-      cols: ['Meal'],
+      cols: ['Meal', 'Payer Smoker', 'Day of Week'],
       vals: ['Total Bill'],
       disabledFromDragDrop: ['Payer Gender'],
       hiddenFromDragDrop: ['Total Bill'],
