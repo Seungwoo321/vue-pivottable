@@ -8,7 +8,7 @@
     color: #2a3f5f;
     font-family: Verdana;
     border-collapse: collapse;
-}
+} 
 .pvtUi select {
     user-select: none;
     -webkit-user-select: none;
@@ -18,33 +18,16 @@
 }
 
 .pvtUi td.pvtOutput {
-    padding: 0;
+    padding: 6px;
     vertical-align: top;
     border: 1px solid #a2b1c6;
 }
 
 table.pvtTable {
-    width: 100%;
     font-size: 8pt;
     text-align: left;
     border-collapse: collapse;
     font-family: Verdana;
-}
-table.pvtTable thead tr:first-child > th, 
-table.pvtTable thead tr:first-child > td {
-    border-top: none;
-}
-table.pvtTable thead tr th:first-child,
-table.pvtTable tbody tr th:first-child {
-    border-left: none;
-}
-table.pvtTable thead tr th:last-child,
-table.pvtTable tbody tr td:last-child {
-    border-right: none;
-}
-table.pvtTable tbody tr:last-child > th,
-table.pvtTable tbody tr:last-child > td { 
-    border-bottom: none;
 }
 
 table.pvtTable thead tr th,
@@ -64,7 +47,7 @@ table.pvtTable .pvtTotalLabel {
 
 table.pvtTable tbody tr td {
     color: #2a3f5f;
-    padding: 5px;
+    padding: 3px;
     background-color: #fff;
     border: 1px solid #c8d4e3;
     vertical-align: top;
@@ -145,7 +128,6 @@ table.pvtTable tbody tr td {
 }
 
 .pvtVals {
-    text-align: center;
     white-space: nowrap;
     vertical-align: top;
     padding-bottom: 12px;
