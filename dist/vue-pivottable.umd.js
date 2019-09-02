@@ -245,13 +245,6 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "0c8e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "0d58":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9317,9 +9310,6 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.function.name.js
 var es6_function_name = __webpack_require__("7f7f");
 
-// EXTERNAL MODULE: ./src/pivottable.css
-var pivottable = __webpack_require__("0c8e");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
 var web_dom_iterable = __webpack_require__("ac6a");
 
@@ -11586,16 +11576,20 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
 
 
 
-
-
-Pivottable.install = function (Vue) {
-  Vue.component(Pivottable.name, Pivottable);
-  Vue.component(PivottableUi.name, PivottableUi);
+var components = {
+  VuePivottable: Pivottable,
+  VuePivottableUi: PivottableUi
 };
 
 if (typeof window !== 'undefined' && window.Vue) window.Vue.use(Pivottable);
-/* harmony default export */ var src = (Pivottable);
+/* harmony default export */ var src = (function (Vue) {
+  for (var key in components) {
+    Vue.component(components[key].name, components[key]);
+  }
+});
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
+/* concated harmony reexport VuePivottable */__webpack_require__.d(__webpack_exports__, "VuePivottable", function() { return Pivottable; });
+/* concated harmony reexport VuePivottableUi */__webpack_require__.d(__webpack_exports__, "VuePivottableUi", function() { return PivottableUi; });
 
 
 /* harmony default export */ var entry_lib = __webpack_exports__["default"] = (src);
