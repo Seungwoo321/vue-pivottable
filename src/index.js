@@ -7,7 +7,7 @@ const components = {
 }
 
 if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
-
+console.log(VuePivottable)
 export {
   VuePivottable,
   VuePivottableUi
