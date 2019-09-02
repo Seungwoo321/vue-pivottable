@@ -245,6 +245,13 @@ module.exports = function () {
 
 /***/ }),
 
+/***/ "0c8e":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "0d58":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11572,7 +11579,11 @@ function PivottableUi_objectSpread(target) { for (var i = 1; i < arguments.lengt
     }, [h('tbody', [h('tr', [rendererCell, unusedAttrsCell]), h('tr', [aggregatorCell, colAttrsCell]), h('tr', [rowAttrsCell, outputCell])])]);
   }
 });
+// EXTERNAL MODULE: ./src/pivottable.css
+var pivottable = __webpack_require__("0c8e");
+
 // CONCATENATED MODULE: ./src/index.js
+
 
 
 
