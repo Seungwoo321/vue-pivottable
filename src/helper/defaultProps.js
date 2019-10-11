@@ -1,5 +1,9 @@
 export default {
   props: {
+    lang: {
+      type: String,
+      default: 'en'
+    },
     data: {
       type: [Array, Object, Function],
       required: true

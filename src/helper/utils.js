@@ -161,15 +161,15 @@ const usFmtPct = numberFormat({
 })
 
 const aggregatorTemplates = {
-  count (formatter = usFmtInt) {
+  count(formatter = usFmtInt) {
     return () =>
       function () {
         return {
           count: 0,
-          push () {
+          push() {
             this.count++
           },
-          value () {
+          value() {
             return this.count
           },
           format: formatter
@@ -177,17 +177,17 @@ const aggregatorTemplates = {
       }
   },
 
-  uniques (fn, formatter = usFmtInt) {
+  uniques(fn, formatter = usFmtInt) {
     return function ([attr]) {
       return function () {
         return {
           uniq: [],
-          push (record) {
+          push(record) {
             if (!Array.from(this.uniq).includes(record[attr])) {
               this.uniq.push(record[attr])
             }
           },
-          value () {
+          value() {
             return fn(this.uniq)
           },
           format: formatter,
@@ -197,17 +197,17 @@ const aggregatorTemplates = {
     }
   },
 
-  sum (formatter = usFmt) {
+  sum(formatter = usFmt) {
     return function ([attr]) {
       return function () {
         return {
           sum: 0,
-          push (record) {
+          push(record) {
             if (!isNaN(parseFloat(record[attr]))) {
               this.sum += parseFloat(record[attr])
             }
           },
-          value () {
+          value() {
             return this.sum
           },
           format: formatter,
@@ -217,7 +217,7 @@ const aggregatorTemplates = {
     }
   },
 
-  extremes (mode, formatter = usFmt) {
+  extremes(mode, formatter = usFmt) {
     return function ([attr]) {
       return function (data) {
         return {
@@ -226,7 +226,7 @@ const aggregatorTemplates = {
             typeof data !== 'undefined' ? data.sorters : null,
             attr
           ),
-          push (record) {
+          push(record) {
             let x = record[attr]
             if (['min', 'max'].includes(mode)) {
               x = parseFloat(x)
@@ -245,10 +245,10 @@ const aggregatorTemplates = {
               this.val = x
             }
           },
-          value () {
+          value() {
             return this.val
           },
-          format (x) {
+          format(x) {
             if (isNaN(x)) {
               return x
             }
@@ -260,18 +260,18 @@ const aggregatorTemplates = {
     }
   },
 
-  quantile (q, formatter = usFmt) {
+  quantile(q, formatter = usFmt) {
     return function ([attr]) {
       return function () {
         return {
           vals: [],
-          push (record) {
+          push(record) {
             const x = parseFloat(record[attr])
             if (!isNaN(x)) {
               this.vals.push(x)
             }
           },
-          value () {
+          value() {
             if (this.vals.length === 0) {
               return null
             }
@@ -286,14 +286,14 @@ const aggregatorTemplates = {
     }
   },
 
-  runningStat (mode = 'mean', ddof = 1, formatter = usFmt) {
+  runningStat(mode = 'mean', ddof = 1, formatter = usFmt) {
     return function ([attr]) {
       return function () {
         return {
           n: 0.0,
           m: 0.0,
           s: 0.0,
-          push (record) {
+          push(record) {
             const x = parseFloat(record[attr])
             if (isNaN(x)) {
               return
@@ -306,7 +306,7 @@ const aggregatorTemplates = {
             this.s = this.s + (x - this.m) * (x - mNew)
             this.m = mNew
           },
-          value () {
+          value() {
             if (mode === 'mean') {
               if (this.n === 0) {
                 return 0 / 0
@@ -332,13 +332,13 @@ const aggregatorTemplates = {
     }
   },
 
-  sumOverSum (formatter = usFmt) {
+  sumOverSum(formatter = usFmt) {
     return function ([num, denom]) {
       return function () {
         return {
           sumNum: 0,
           sumDenom: 0,
-          push (record) {
+          push(record) {
             if (!isNaN(parseFloat(record[num]))) {
               this.sumNum += parseFloat(record[num])
             }
@@ -346,7 +346,7 @@ const aggregatorTemplates = {
               this.sumDenom += parseFloat(record[denom])
             }
           },
-          value () {
+          value() {
             return this.sumNum / this.sumDenom
           },
           format: formatter,
@@ -356,17 +356,17 @@ const aggregatorTemplates = {
     }
   },
 
-  fractionOf (wrapped, type = 'total', formatter = usFmtPct) {
+  fractionOf(wrapped, type = 'total', formatter = usFmtPct) {
     return (...x) =>
       function (data, rowKey, colKey) {
         return {
           selector: { total: [[], []], row: [rowKey, []], col: [[], colKey] }[type],
           inner: wrapped(...Array.from(x || []))(data, rowKey, colKey),
-          push (record) {
+          push(record) {
             this.inner.push(record)
           },
           format: formatter,
-          value () {
+          value() {
             return (
               this.inner.value() / data.getAggregator(...Array.from(this.selector || [])).inner.value()
             )
@@ -377,6 +377,7 @@ const aggregatorTemplates = {
   }
 }
 
+// f is formatter
 aggregatorTemplates.countUnique = f =>
   aggregatorTemplates.uniques(x => x.length, f)
 aggregatorTemplates.listUnique = s =>
@@ -417,6 +418,31 @@ const aggregators = (tpl => ({
   'Count as Fraction of Columns': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
 }))(aggregatorTemplates)
 
+
+// default aggregators & renderers use US naming and number formatting
+const cn_aggregators = (tpl => ({
+  '频数': tpl.count(usFmtInt),
+  '唯一值的个数': tpl.countUnique(usFmtInt),
+  '唯一值列表': tpl.listUnique(', '),
+  '和': tpl.sum(usFmt),
+  '整数和': tpl.sum(usFmtInt),
+  '平均值': tpl.average(usFmt),
+  '中值': tpl.median(usFmt),
+  '样本方差': tpl.var(1, usFmt),
+  '样本标准差': tpl.stdev(1, usFmt),
+  '最小值': tpl.min(usFmt),
+  '最大值': tpl.max(usFmt),
+  '第一个值': tpl.first(usFmt),
+  '最后一个值': tpl.last(usFmt),
+  '和与和之比': tpl.sumOverSum(usFmt),
+  '和占总量的百分比': tpl.fractionOf(tpl.sum(), 'total', usFmtPct),
+  '和占行的百分比': tpl.fractionOf(tpl.sum(), 'row', usFmtPct),
+  '和占列的百分比': tpl.fractionOf(tpl.sum(), 'col', usFmtPct),
+  '频数占总量的百分比': tpl.fractionOf(tpl.count(), 'total', usFmtPct),
+  '频数占行的百分比': tpl.fractionOf(tpl.count(), 'row', usFmtPct),
+  '频数占列的百分比': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
+}))(aggregatorTemplates)
+
 const locales = {
   en: {
     aggregators,
@@ -431,6 +457,23 @@ const locales = {
       apply: 'Apply',
       cancel: 'Cancel',
       totals: 'Totals',
+      vs: 'vs',
+      by: 'by'
+    }
+  },
+  cn: {
+    aggregators: cn_aggregators,
+    localeStrings: {
+      renderError: '渲染出错',
+      computeError: '计算出错',
+      uiRenderError: '透视表UI渲染出错',
+      selectAll: '全选',
+      selectNone: '全不选',
+      tooMany: '(太多)',
+      filterResults: '筛选',
+      apply: '应用',
+      cancel: '取消',
+      totals: '总计',
       vs: 'vs',
       by: 'by'
     }
@@ -456,10 +499,10 @@ const dayNamesEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const zeroPad = number => `0${number}`.substr(-2, 2) // eslint-disable-line no-magic-numbers
 
 const derivers = {
-  bin (col, binWidth) {
+  bin(col, binWidth) {
     return record => record[col] - record[col] % binWidth
   },
-  dateFormat (
+  dateFormat(
     col,
     formatString,
     utcOutput = false,
@@ -505,7 +548,7 @@ Data Model class
 */
 
 class PivotData {
-  constructor (inputProps = {}) {
+  constructor(inputProps = {}) {
     this.props = Object.assign({}, PivotData.defaultProps, inputProps)
     this.aggregator = this.props.aggregators[this.props.aggregatorName](
       this.props.vals
@@ -529,7 +572,7 @@ class PivotData {
     )
   }
 
-  filter (record) {
+  filter(record) {
     for (const k in this.props.valueFilter) {
       if (record[k] in this.props.valueFilter[k]) {
         return false
@@ -538,7 +581,7 @@ class PivotData {
     return true
   }
 
-  forEachMatchingRecord (criteria, callback) {
+  forEachMatchingRecord(criteria, callback) {
     return PivotData.forEachRecord(
       this.props.data,
       this.props.derivedAttributes,
@@ -557,7 +600,7 @@ class PivotData {
     )
   }
 
-  arrSort (attrs) {
+  arrSort(attrs) {
     let a
     const sortersArr = (() => {
       const result = []
@@ -578,7 +621,7 @@ class PivotData {
     }
   }
 
-  sortKeys () {
+  sortKeys() {
     if (!this.sorted) {
       this.sorted = true
       const v = (r, c) => this.getAggregator(r, c).value()
@@ -605,17 +648,17 @@ class PivotData {
     }
   }
 
-  getColKeys () {
+  getColKeys() {
     this.sortKeys()
     return this.colKeys
   }
 
-  getRowKeys () {
+  getRowKeys() {
     this.sortKeys()
     return this.rowKeys
   }
 
-  processRecord (record) {
+  processRecord(record) {
     // this code is called in a tight loop
     const colKey = []
     const rowKey = []
@@ -661,7 +704,7 @@ class PivotData {
     }
   }
 
-  getAggregator (rowKey, colKey) {
+  getAggregator(rowKey, colKey) {
     let agg
     const flatRowKey = rowKey.join(String.fromCharCode(0))
     const flatColKey = colKey.join(String.fromCharCode(0))
@@ -676,10 +719,10 @@ class PivotData {
     }
     return (
       agg || {
-        value () {
+        value() {
           return null
         },
-        format () {
+        format() {
           return ''
         }
       }

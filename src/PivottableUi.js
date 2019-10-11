@@ -2,9 +2,9 @@ import common from './helper/defaultProps'
 import DraggableAttribute from './DraggableAttribute'
 import Dropdown from './Dropdown'
 import Pivottable from './Pivottable'
-import { PivotData, getSort, aggregators, sortAs } from './helper/utils'
+import { PivotData, getSort, locales, sortAs } from './helper/utils'
 import draggable from 'vuedraggable'
-import TableRenderer from './TableRenderer'
+import { getRenders } from './TableRenderer'
 
 export default {
   name: 'vue-pivottable-ui',
@@ -46,27 +46,29 @@ export default {
     }
   },
   computed: {
-    renderers () {
-      return TableRenderer
+    renderers() {
+      let renders = getRenders(this.lang)
+      return renders
     },
-    numValsAllowed () {
+    numValsAllowed() {
+      let aggregators = locales[this.lang]['aggregators']
       return aggregators[this.propsData.aggregatorName || this.aggregatorName]([])().numInputs || 0
     },
-    rowAttrs () {
+    rowAttrs() {
       return this.propsData.rows.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
           !this.hiddenFromDragDrop.includes(e)
       )
     },
-    colAttrs () {
+    colAttrs() {
       return this.propsData.cols.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
           !this.hiddenFromDragDrop.includes(e)
       )
     },
-    unusedAttrs () {
+    unusedAttrs() {
       return Object.keys(this.attrValues)
         .filter(
           e =>
@@ -78,7 +80,7 @@ export default {
         .sort(sortAs(this.unusedOrder))
     }
   },
-  data () {
+  data() {
     return {
       propsData: {
         aggregatorName: '',
@@ -117,10 +119,10 @@ export default {
       }
     }
   },
-  beforeUpdated (nextProps) {
+  beforeUpdated(nextProps) {
     this.materializeInput(nextProps.data)
   },
-  created () {
+  created() {
     this.materializeInput(this.data)
     this.propsData.vals = this.vals.slice()
     this.propsData.rows = this.rows
@@ -130,7 +132,7 @@ export default {
     Object.keys(this.openStatus).map(this.assignValue)
   },
   watch: {
-    data () {
+    data() {
       this.materializeInput(this.data)
       this.propsData.vals = this.vals.slice()
       this.propsData.rows = this.rows
@@ -141,28 +143,28 @@ export default {
     }
   },
   methods: {
-    assignValue (field) {
+    assignValue(field) {
       this.propsData.valueFilter = {
         ...this.propsData.valueFilter,
         [field]: {}
       }
     },
-    propUpdater (key) {
+    propUpdater(key) {
       return value => {
         this.propsData[key] = value
       }
     },
-    updateValueFilter ({ attribute, valueFilter }) {
+    updateValueFilter({ attribute, valueFilter }) {
       this.propsData.valueFilter[attribute] = { ...valueFilter }
     },
-    moveFilterBoxToTop ({ attribute }) {
+    moveFilterBoxToTop({ attribute }) {
       this.maxZIndex += 1
       this.zIndices[attribute] = this.maxZIndex + 1
     },
-    openFilterBox ({ attribute, open }) {
+    openFilterBox({ attribute, open }) {
       this.openStatus[attribute] = open
     },
-    materializeInput (nextData) {
+    materializeInput(nextData) {
       if (this.propsData.data === nextData) {
         return
       }
@@ -170,6 +172,8 @@ export default {
       const attrValues = {}
       const materializedInput = []
       let recordsProcessed = 0
+      PivotData.defaultProps.lang = this.lang
+      PivotData.defaultProps.aggregators = locales[this.lang]['aggregators']
       PivotData.forEachRecord(this.data, this.derivedAttributes, function (record) {
         materializedInput.push(record)
         for (const attr of Object.keys(record)) {
@@ -192,7 +196,7 @@ export default {
       this.materializedInput = materializedInput
       this.attrValues = attrValues
     },
-    makeDnDCell (items, onChange, classes, h) {
+    makeDnDCell(items, onChange, classes, h) {
       return h(draggable, {
         attrs: {
           draggable: 'li[data-id]',
@@ -210,33 +214,33 @@ export default {
           sort: onChange.bind(this)
         }
       },
-      [
-        items.map(x => {
-          return h(DraggableAttribute, {
-            props: {
-              sortable: this.sortonlyFromDragDrop.includes(x) || !this.disabledFromDragDrop.includes(x),
-              draggable: !this.sortonlyFromDragDrop.includes(x) && !this.disabledFromDragDrop.includes(x),
-              name: x,
-              key: x,
-              attrValues: this.attrValues[x],
-              sorter: getSort(this.sorters, x),
-              menuLimit: this.menuLimit,
-              zIndex: this.zIndices[x] || this.maxZIndex,
-              valueFilter: this.propsData.valueFilter[x],
-              open: this.openStatus[x]
-            },
-            domProps: {
-            },
-            on: {
-              'update:filter': this.updateValueFilter,
-              'moveToTop:filterbox': this.moveFilterBoxToTop,
-              'open:filterbox': this.openFilterBox
-            }
+        [
+          items.map(x => {
+            return h(DraggableAttribute, {
+              props: {
+                sortable: this.sortonlyFromDragDrop.includes(x) || !this.disabledFromDragDrop.includes(x),
+                draggable: !this.sortonlyFromDragDrop.includes(x) && !this.disabledFromDragDrop.includes(x),
+                name: x,
+                key: x,
+                attrValues: this.attrValues[x],
+                sorter: getSort(this.sorters, x),
+                menuLimit: this.menuLimit,
+                zIndex: this.zIndices[x] || this.maxZIndex,
+                valueFilter: this.propsData.valueFilter[x],
+                open: this.openStatus[x]
+              },
+              domProps: {
+              },
+              on: {
+                'update:filter': this.updateValueFilter,
+                'moveToTop:filterbox': this.moveFilterBoxToTop,
+                'open:filterbox': this.openFilterBox
+              }
+            })
           })
-        })
-      ])
+        ])
     },
-    rendererCell (rendererName, h) {
+    rendererCell(rendererName, h) {
       return this.$slots.rendererCell
         ? h('td', {
           staticClass: ['pvtRenderers pvtVals pvtText']
@@ -244,21 +248,21 @@ export default {
         : h('td', {
           staticClass: ['pvtRenderers']
         },
-        [
-          h(Dropdown, {
-            props: {
-              values: Object.keys(this.renderers)
-            },
-            domProps: {
-              value: rendererName
-            },
-            on: {
-              input: (value) => { this.propUpdater('rendererName')(value) }
-            }
-          })
-        ])
+          [
+            h(Dropdown, {
+              props: {
+                values: Object.keys(this.renderers)
+              },
+              domProps: {
+                value: rendererName
+              },
+              on: {
+                input: (value) => { this.propUpdater('rendererName')(value) }
+              }
+            })
+          ])
     },
-    aggregatorCell (aggregatorName, vals, h) {
+    aggregatorCell(aggregatorName, vals, h) {
       return this.$slots.aggregatorCell
         ? h('td', {
           staticClass: ['pvtVals pvtText']
@@ -266,74 +270,74 @@ export default {
         : h('td', {
           staticClass: ['pvtVals']
         },
-        [
-          h('div',
-            [
-              h(Dropdown, {
-                style: {
-                  display: 'inline-block'
-                },
-                props: {
-                  values: Object.keys(aggregators)
-                },
-                domProps: {
-                  value: aggregatorName
-                },
-                on: {
-                  input: (value) => { this.propUpdater('aggregatorName')(value) }
-                }
-              }),
-              h('a', {
-                staticClass: ['pvtRowOrder'],
-                attrs: {
-                  role: 'button'
-                },
-                on: {
-                  click: () => { this.propUpdater('rowOrder')(this.sortIcons[this.propsData.rowOrder].next) }
-                }
-              }, this.sortIcons[this.propsData.rowOrder].rowSymbol),
-              h('a', {
-                staticClass: ['pvtColOrder'],
-                attrs: {
-                  role: 'button'
-                },
-                on: {
-                  click: () => { this.propUpdater('colOrder')(this.sortIcons[this.propsData.colOrder].next) }
-                }
-              }, this.sortIcons[this.propsData.colOrder].colSymbol)
-            ]
-          ),
-          this.numValsAllowed > 0
-            ? new Array(this.numValsAllowed).fill().map((n, i) => [
-              h(Dropdown, {
-                props: {
-                  values: Object.keys(this.attrValues).filter(e =>
-                    !this.hiddenAttributes.includes(e) &&
+          [
+            h('div',
+              [
+                h(Dropdown, {
+                  style: {
+                    display: 'inline-block'
+                  },
+                  props: {
+                    values: Object.keys(locales[this.lang]['aggregators'])
+                  },
+                  domProps: {
+                    value: aggregatorName
+                  },
+                  on: {
+                    input: (value) => { this.propUpdater('aggregatorName')(value) }
+                  }
+                }),
+                h('a', {
+                  staticClass: ['pvtRowOrder'],
+                  attrs: {
+                    role: 'button'
+                  },
+                  on: {
+                    click: () => { this.propUpdater('rowOrder')(this.sortIcons[this.propsData.rowOrder].next) }
+                  }
+                }, this.sortIcons[this.propsData.rowOrder].rowSymbol),
+                h('a', {
+                  staticClass: ['pvtColOrder'],
+                  attrs: {
+                    role: 'button'
+                  },
+                  on: {
+                    click: () => { this.propUpdater('colOrder')(this.sortIcons[this.propsData.colOrder].next) }
+                  }
+                }, this.sortIcons[this.propsData.colOrder].colSymbol)
+              ]
+            ),
+            this.numValsAllowed > 0
+              ? new Array(this.numValsAllowed).fill().map((n, i) => [
+                h(Dropdown, {
+                  props: {
+                    values: Object.keys(this.attrValues).filter(e =>
+                      !this.hiddenAttributes.includes(e) &&
                       !this.hiddenFromAggregators.includes(e))
-                },
-                domProps: {
-                  value: vals[i]
-                },
-                on: {
-                  input: (value) => { this.propsData.vals.splice(i, 1, value) }
-                }
-              })
-            ])
-            : undefined
-        ])
+                  },
+                  domProps: {
+                    value: vals[i]
+                  },
+                  on: {
+                    input: (value) => { this.propsData.vals.splice(i, 1, value) }
+                  }
+                })
+              ])
+              : undefined
+          ])
     },
-    outputCell (props, h) {
+    outputCell(props, h) {
       return h('td', {
         staticClass: ['pvtOutput']
       },
-      [
-        h(Pivottable, {
-          props
-        })
-      ])
+        [
+          h(Pivottable, {
+            props
+          })
+        ])
     }
   },
-  render (h) {
+  render(h) {
     if (this.data.length < 1) return
     const rendererName = this.propsData.rendererName || this.rendererName
     const aggregatorName = this.propsData.aggregatorName || this.aggregatorName
@@ -409,28 +413,28 @@ export default {
     return h('table', {
       staticClass: ['pvtUi']
     },
-    [
-      h('tbody',
-        [
-          h('tr',
-            [
-              rendererCell,
-              unusedAttrsCell
-            ]
-          ),
-          h('tr',
-            [
-              aggregatorCell,
-              colAttrsCell
-            ]
-          ),
-          h('tr',
-            [
-              rowAttrsCell,
-              outputCell
-            ]
-          )
-        ])
-    ])
+      [
+        h('tbody',
+          [
+            h('tr',
+              [
+                rendererCell,
+                unusedAttrsCell
+              ]
+            ),
+            h('tr',
+              [
+                aggregatorCell,
+                colAttrsCell
+              ]
+            ),
+            h('tr',
+              [
+                rowAttrsCell,
+                outputCell
+              ]
+            )
+          ])
+      ])
   }
 }
