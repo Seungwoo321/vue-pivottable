@@ -462,20 +462,20 @@ const locales = {
     }
   },
   cn: {
-      aggregators: cn_aggregators,
-      localeStrings: {
-        renderError: '渲染出错',
-        computeError: '计算出错',
-        uiRenderError: '透视表UI渲染出错',
-        selectAll: '全选',
-        selectNone: '全不选',
-        tooMany: '(太多)',
-        filterResults: '筛选',
-        apply: '应用',
-        cancel: '取消',
-        totals: '总计',
-        vs: 'vs',
-        by: 'by'
+    aggregators: cn_aggregators,
+    localeStrings: {
+      renderError: '渲染出错',
+      computeError: '计算出错',
+      uiRenderError: '透视表UI渲染出错',
+      selectAll: '全选',
+      selectNone: '全不选',
+      tooMany: '(太多)',
+      filterResults: '筛选',
+      apply: '应用',
+      cancel: '取消',
+      totals: '总计',
+      vs: 'vs',
+      by: 'by'
     }
   }
 }
@@ -783,7 +783,8 @@ PivotData.forEachRecord = function (input, derivedAttributes, f) {
 }
 
 PivotData.defaultProps = {
-  aggregators: aggregators,
+  lang: 'cn',
+  aggregators: cn_aggregators,
   cols: [],
   rows: [],
   vals: [],

@@ -10,10 +10,7 @@ export default {
   name: 'vue-pivottable-ui',
   mixins: [common],
   props: {
-    lang: {
-      type: String,
-      default: 'en'
-    },
+   
     hiddenAttributes: {
       type: Array,
       default: function () {
@@ -175,6 +172,8 @@ export default {
       const attrValues = {}
       const materializedInput = []
       let recordsProcessed = 0
+      PivotData.defaultProps.lang = this.lang
+      PivotData.defaultProps.aggregators = locales[this.lang]['aggregators']
       PivotData.forEachRecord(this.data, this.derivedAttributes, function (record) {
         materializedInput.push(record)
         for (const attr of Object.keys(record)) {
