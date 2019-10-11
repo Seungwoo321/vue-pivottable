@@ -71,12 +71,8 @@ function makeRenderer(opts = {}) {
       const pivotData = new PivotData({ aggregators: locales[this.lang]['aggregators'], ...this.$props })
       const colAttrs = pivotData.props.cols
       const rowAttrs = pivotData.props.rows
-      console.log(colAttrs)
-      console.log(rowAttrs)
       const rowKeys = pivotData.getRowKeys()
-      console.log(rowKeys)
       const colKeys = pivotData.getColKeys()
-      console.log(colKeys)
       const grandTotalAggregator = pivotData.getAggregator([], [])
 
       // eslint-disable-next-line no-unused-vars
@@ -175,8 +171,6 @@ function makeRenderer(opts = {}) {
 
                   colKeys.map((colKey, i) => {
                     const x = this.spanSize(colKeys, i, j)
-                    console.log(i, j)
-                    console.log(colKeys[i][j])
                     if (x === -1) {
                       return null
                     }
