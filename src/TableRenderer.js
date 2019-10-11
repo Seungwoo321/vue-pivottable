@@ -343,7 +343,7 @@ const TSVExportRenderer = {
         rows: rows
       },
       domProps: {
-        value: result.map(r => r.join('\t')).join('\n')
+        value: result.map(r => r.join(',')).join('\n')
       }
     })
   }
