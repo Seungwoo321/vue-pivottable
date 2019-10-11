@@ -348,8 +348,8 @@ const TSVExportRenderer = {
 
 export default {
   Table: makeRenderer({ name: 'vue-table' }),
-  'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
-  'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
-  'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
-  'Expor Table TSV': TSVExportRenderer
+  '表热力图': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
+  '列热力图': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
+  '列热力图': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
+  '数值表': TSVExportRenderer
 }
