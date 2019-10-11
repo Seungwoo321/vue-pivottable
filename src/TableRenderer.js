@@ -349,7 +349,6 @@ const TSVExportRenderer = {
   }
 }
 
-/*
 let en_table = {
   Table: makeRenderer({ name: 'vue-table' }),
   'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
@@ -372,7 +371,6 @@ let rendersOfLang = {
 export function getRenders (lang) {
   return rendersOfLang[lang]
 }
-*/
 
 // export default cn_table;
 export default {

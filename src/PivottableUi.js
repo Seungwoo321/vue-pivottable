@@ -4,8 +4,7 @@ import Dropdown from './Dropdown'
 import Pivottable from './Pivottable'
 import { PivotData, getSort, locales, sortAs } from './helper/utils'
 import draggable from 'vuedraggable'
-import TableRenderer from './TableRenderer'
-// import {getRenders} from './TableRenderer'
+import {getRenders} from './TableRenderer'
 
 export default {
   name: 'vue-pivottable-ui',
@@ -48,8 +47,8 @@ export default {
   },
   computed: {
     renderers() {
-      let renders = TableRenderer
-      return renders
+      let x_renders = getRenders(this.lang)
+      return x_renders
     },
     numValsAllowed() {
       let aggregators = locales[this.lang]['aggregators']
