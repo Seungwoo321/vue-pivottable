@@ -335,8 +335,8 @@ const TSVExportRenderer = {
     return h('textarea', {
       style: {
         width: window.innerWidth / 2,
-       'min-width': '600px',
-        height: window.innerHeight / 2
+        height: window.innerHeight / 2,
+        'min-width': '600px'
       },
       attrs: {
         readOnly: true,
@@ -349,6 +349,15 @@ const TSVExportRenderer = {
   }
 }
 
+let en_table = {
+  Table: makeRenderer({ name: 'vue-table' }),
+  'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
+  'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
+  'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
+  'Expor Table TSV': TSVExportRenderer
+}
+
+//export default cn_table;
 let cn_table = {
   '透视表': makeRenderer({ name: 'vue-table' }),
   '表热力图': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
@@ -358,9 +367,6 @@ let cn_table = {
 }
 
 export default {
-  Table: makeRenderer({ name: 'vue-table' }),
-  'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
-  'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
-  'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
-  'Expor Table TSV': TSVExportRenderer
+  cn: cn_table,
+  en: en_table
 }

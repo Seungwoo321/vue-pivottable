@@ -462,8 +462,7 @@ const locales = {
     }
   },
   cn: {
-    en: {
-      cn_aggregators,
+      aggregators: cn_aggregators,
       localeStrings: {
         renderError: '渲染出错',
         computeError: '计算出错',
@@ -477,7 +476,6 @@ const locales = {
         totals: '总计',
         vs: 'vs',
         by: 'by'
-      }
     }
   }
 }
