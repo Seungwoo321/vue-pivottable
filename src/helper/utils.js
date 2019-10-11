@@ -377,6 +377,7 @@ const aggregatorTemplates = {
   }
 }
 
+// f is formatter
 aggregatorTemplates.countUnique = f =>
   aggregatorTemplates.uniques(x => x.length, f)
 aggregatorTemplates.listUnique = s =>
@@ -417,6 +418,31 @@ const aggregators = (tpl => ({
   'Count as Fraction of Columns': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
 }))(aggregatorTemplates)
 
+
+// default aggregators & renderers use US naming and number formatting
+const cn_aggregators = (tpl => ({
+  '频数': tpl.count(usFmtInt),
+  '唯一值的个数': tpl.countUnique(usFmtInt),
+  '唯一值列表': tpl.listUnique(', '),
+  '和': tpl.sum(usFmt),
+  '整数和': tpl.sum(usFmtInt),
+  '平均值': tpl.average(usFmt),
+  '中值': tpl.median(usFmt),
+  '样本方差': tpl.var(1, usFmt),
+  '样本标准差': tpl.stdev(1, usFmt),
+  '最小值': tpl.min(usFmt),
+  '最大值': tpl.max(usFmt),
+  '第一个值': tpl.first(usFmt),
+  '最后一个值': tpl.last(usFmt),
+  '和与和之比': tpl.sumOverSum(usFmt),
+  '和占总量的百分比': tpl.fractionOf(tpl.sum(), 'total', usFmtPct),
+  '和占行的百分比': tpl.fractionOf(tpl.sum(), 'row', usFmtPct),
+  '和占列的百分比': tpl.fractionOf(tpl.sum(), 'col', usFmtPct),
+  '频数占总量的百分比': tpl.fractionOf(tpl.count(), 'total', usFmtPct),
+  '频数占行的百分比': tpl.fractionOf(tpl.count(), 'row', usFmtPct),
+  '频数占列的百分比': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
+}))(aggregatorTemplates)
+
 const locales = {
   en: {
     aggregators,
@@ -437,7 +463,7 @@ const locales = {
   },
   cn: {
     en: {
-      aggregators,
+      cn_aggregators,
       localeStrings: {
         renderError: '渲染出错',
         computeError: '计算出错',
