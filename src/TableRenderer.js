@@ -331,12 +331,11 @@ const TSVExportRenderer = {
 
     result.unshift(headerRow);
     let rows = result.length;
-    // 'min-width': '40px',
-    // 'min-height': '40px',
 
     return h('textarea', {
       style: {
         width: window.innerWidth / 2,
+       'min-width': '600px',
         height: window.innerHeight / 2
       },
       attrs: {
@@ -350,11 +349,11 @@ const TSVExportRenderer = {
   }
 }
 
-cn_table = {
+let cn_table = {
   '透视表': makeRenderer({ name: 'vue-table' }),
   '表热力图': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
   '列热力图': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
-  '列热力图': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
+  '行热力图': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
   '数值表': TSVExportRenderer
 }
 
