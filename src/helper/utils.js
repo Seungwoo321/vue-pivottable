@@ -783,8 +783,7 @@ PivotData.forEachRecord = function (input, derivedAttributes, f) {
 }
 
 PivotData.defaultProps = {
-  lang: 'cn',
-  aggregators: cn_aggregators,
+  aggregators: aggregators,
   cols: [],
   rows: [],
   vals: [],

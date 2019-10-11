@@ -10,7 +10,6 @@ export default {
   name: 'vue-pivottable-ui',
   mixins: [common],
   props: {
-   
     hiddenAttributes: {
       type: Array,
       default: function () {
@@ -48,7 +47,8 @@ export default {
   },
   computed: {
     renderers() {
-      return TableRenderer[this.lang]
+      let renders = TableRenderer
+      return renders
     },
     numValsAllowed() {
       let aggregators = locales[this.lang]['aggregators']

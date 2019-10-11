@@ -336,7 +336,7 @@ const TSVExportRenderer = {
       style: {
         width: window.innerWidth / 2,
         height: window.innerHeight / 2,
-        'min-width': '600px'
+        'min-width': '600px',
       },
       attrs: {
         readOnly: true,
@@ -358,15 +358,10 @@ let en_table = {
 }
 
 //export default cn_table;
-let cn_table = {
+export default {
   '透视表': makeRenderer({ name: 'vue-table' }),
   '表热力图': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
   '列热力图': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
   '行热力图': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
   '数值表': TSVExportRenderer
-}
-
-export default {
-  cn: cn_table,
-  en: en_table
 }
