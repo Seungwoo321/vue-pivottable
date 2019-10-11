@@ -434,6 +434,25 @@ const locales = {
       vs: 'vs',
       by: 'by'
     }
+  },
+  cn: {
+    en: {
+      aggregators,
+      localeStrings: {
+        renderError: '渲染出错',
+        computeError: '计算出错',
+        uiRenderError: '透视表UI渲染出错',
+        selectAll: '全选',
+        selectNone: '全不选',
+        tooMany: '(太多)',
+        filterResults: '筛选',
+        apply: '应用',
+        cancel: '取消',
+        totals: '总计',
+        vs: 'vs',
+        by: 'by'
+      }
+    }
   }
 }
 
