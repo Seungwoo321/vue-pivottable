@@ -5,6 +5,7 @@ import Pivottable from './Pivottable'
 import { PivotData, getSort, locales, sortAs } from './helper/utils'
 import draggable from 'vuedraggable'
 import TableRenderer from './TableRenderer'
+// import {getRenders} from './TableRenderer'
 
 export default {
   name: 'vue-pivottable-ui',

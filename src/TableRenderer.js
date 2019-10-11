@@ -349,6 +349,7 @@ const TSVExportRenderer = {
   }
 }
 
+/*
 let en_table = {
   Table: makeRenderer({ name: 'vue-table' }),
   'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
@@ -357,7 +358,23 @@ let en_table = {
   'Expor Table TSV': TSVExportRenderer
 }
 
-//export default cn_table;
+let cn_table = {
+  '透视表': makeRenderer({ name: 'vue-table' }),
+  '表热力图': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
+  '列热力图': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
+  '行热力图': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
+  '数值表': TSVExportRenderer
+}
+let rendersOfLang = {
+  en: en_table,
+  cn: cn_table
+}
+export function getRenders (lang) {
+  return rendersOfLang[lang]
+}
+*/
+
+// export default cn_table;
 export default {
   '透视表': makeRenderer({ name: 'vue-table' }),
   '表热力图': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
