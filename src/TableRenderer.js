@@ -1,4 +1,4 @@
-import { PivotData } from './helper/utils'
+import { PivotData, locales } from './helper/utils'
 import defaultProps from './helper/defaultProps'
 function redColorScaleGenerator(values) {
   const min = Math.min.apply(Math, values)
@@ -68,7 +68,7 @@ function makeRenderer(opts = {}) {
       }
     },
     render(h) {
-      const pivotData = new PivotData(this.$props)
+      const pivotData = new PivotData({ aggregators: locales[this.lang]['aggregators'], ...this.$props })
       const colAttrs = pivotData.props.cols
       const rowAttrs = pivotData.props.rows
       const rowKeys = pivotData.getRowKeys()
@@ -304,7 +304,7 @@ const TSVExportRenderer = {
   name: 'tsv-export-renderers',
   mixins: [defaultProps],
   render(h) {
-    const pivotData = new PivotData(this.$props)
+    const pivotData = new PivotData({ aggregators: locales[this.lang]['aggregators'], ...this.$props })
     const rowKeys = pivotData.getRowKeys()
     const colKeys = pivotData.getColKeys()
     if (rowKeys.length === 0) {
@@ -368,7 +368,7 @@ let rendersOfLang = {
   en: en_table,
   cn: cn_table
 }
-export function getRenders (lang) {
+export function getRenders(lang) {
   return rendersOfLang[lang]
 }
 
