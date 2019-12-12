@@ -40,7 +40,8 @@
             :vals="vals"
             :disabledFromDragDrop="disabledFromDragDrop"
             :sortonlyFromDragDrop="sortonlyFromDragDrop"
-            :hiddenFromDragDrop="hiddenFromDragDrop">
+            :hiddenFromDragDrop="hiddenFromDragDrop"
+            :tableMaxWidth="660"> <!-- #7 -->
         </vue-pivottable-ui>
       </div>
       <pre>
@@ -65,7 +66,7 @@
 
 <script>
 import tips from './tips'
-import { VuePivottable, VuePivottableUi } from '@/'
+import { VuePivottable, VuePivottableUi } from '@/' // #4
 
 export default {
   components: {
