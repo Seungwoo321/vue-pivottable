@@ -19,7 +19,6 @@
   "author": "Seungwoo, Lee <seungwoo321@gmail.com> (https://github.com/seungwoo321)",
   "license": "MIT",
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
     "lint": "vue-cli-service lint"
   },
