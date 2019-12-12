@@ -41,7 +41,7 @@
             :disabledFromDragDrop="disabledFromDragDrop"
             :sortonlyFromDragDrop="sortonlyFromDragDrop"
             :hiddenFromDragDrop="hiddenFromDragDrop"
-            :tableMaxWidth="660"> <!-- #7 -->
+            :tableMaxWidth="660">
         </vue-pivottable-ui>
       </div>
       <pre>
