@@ -10,6 +10,13 @@ export default {
   name: 'vue-pivottable-ui',
   mixins: [common],
   props: {
+    tableMaxWidth: {
+      type: Number,
+      default: 0,
+      validator: function (value) {
+        return value >= 0
+      }
+    },
     hiddenAttributes: {
       type: Array,
       default: function () {
@@ -121,16 +128,15 @@ export default {
     this.materializeInput(nextProps.data)
   },
   created () {
-    this.materializeInput(this.data)
-    this.propsData.vals = this.vals.slice()
-    this.propsData.rows = this.rows
-    this.propsData.cols = this.cols
-    this.unusedOrder = this.unusedAttrs
-    Object.keys(this.attrValues).map(this.assignValue)
-    Object.keys(this.openStatus).map(this.assignValue)
+    this.init()
   },
   watch: {
     data () {
+      this.init()
+    }
+  },
+  methods: {
+    init () {
       this.materializeInput(this.data)
       this.propsData.vals = this.vals.slice()
       this.propsData.rows = this.rows
@@ -138,14 +144,9 @@ export default {
       this.unusedOrder = this.unusedAttrs
       Object.keys(this.attrValues).map(this.assignValue)
       Object.keys(this.openStatus).map(this.assignValue)
-    }
-  },
-  methods: {
+    },
     assignValue (field) {
-      this.propsData.valueFilter = {
-        ...this.propsData.valueFilter,
-        [field]: {}
-      }
+      this.$set(this.propsData.valueFilter, field, {})
     },
     propUpdater (key) {
       return value => {
@@ -153,7 +154,7 @@ export default {
       }
     },
     updateValueFilter ({ attribute, valueFilter }) {
-      this.propsData.valueFilter[attribute] = { ...valueFilter }
+      this.$set(this.propsData.valueFilter, attribute, valueFilter)
     },
     moveFilterBoxToTop ({ attribute }) {
       this.maxZIndex += 1
@@ -399,9 +400,9 @@ export default {
       cols: this.propsData.cols,
       rendererName,
       aggregatorName,
-      vals
+      vals,
+      tableMaxWidth: this.tableMaxWidth
     }
-
     const rendererCell = this.rendererCell(rendererName, h)
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
     const outputCell = this.outputCell(props, h)
