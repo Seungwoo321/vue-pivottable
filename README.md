@@ -3,6 +3,9 @@
 [![npm](https://flat.badgen.net/npm/v/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
 [![npm](https://flat.badgen.net/npm/dt/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
 
+It is a Vue-based pivot table library. It is a Vue port of the jQuery-based [PivotTable.js(https://pivottable.js.org/)
+
+
 ## Installation
 
 ```shall
