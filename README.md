@@ -1,17 +1,16 @@
+# Vue Pivottable
 
-<div align="center">
-    <h1>Vue Pivottable</h1>
-    <small>`vue-pivottable` is a Vue-based pivot table library. It is a Vue port of the jQuery-based
-[PivotTable.js](https://pivottable.js.org/)</small>
-</div>
+[![npm](https://flat.badgen.net/npm/v/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
+[![npm](https://flat.badgen.net/npm/dt/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
+
+It is a Vue-based pivot table library. It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
+
 
 ## Installation
 
 ```shall
 npm i vue-pivottable
 ```
-
-
 
 ## Usage
 ### Global Compoents
