@@ -10,7 +10,7 @@
   "dependencies": {
     "core-js": "^3.4.3",
     "vue": "^2.6.10",
-    "vue-pivottable": "latest"
+    "vue-pivottable": "^0.3.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
