@@ -1,10 +1,22 @@
+
 # Vue Pivottable
 
 [![npm](https://flat.badgen.net/npm/v/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
 [![npm](https://flat.badgen.net/npm/dt/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
 
-It is a Vue-based pivot table library. It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
+It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 
+## Live Demo
+[link](https://jsfiddle.net/front123/repqmz3f/)
+
+## Run Demo
+```bash
+$ git clone https://github.com/Seungwoo321/vue-pivottable.git
+$ cd vue-pivottable/demo/example-vue-cli3/
+$ npm install
+$ npm run serve
+```
+![vue-pivottable-demo.gif](https://seungwoo321.github.io/vue-pivottable-demo.gif)
 
 ## Installation
 
@@ -98,13 +110,6 @@ export default {
 </script>
 ```
 
-
-[Live Demo](https://jsfiddle.net/front123/repqmz3f/)
-
-## Inspired
-[plotly/react-pivottable](https://github.com/plotly/react-pivottable) - React-based pivot table library
-
-
 ## Props
 * See [`react-pivottable`](https://github.com/plotly/react-pivottable/blob/master/README.md#properties-and-layered-architecture) for details.
 
@@ -130,6 +135,10 @@ export default {
 |sortonlyFromDragDrop|`Array` <br> [] | contains attribute names to sort from the drag'n'drop of the UI (has not `react-pivottable`)
 |disabledFromDragDrop|`Array` <br> [] |contains attribute names to disable from the drag'n'drop portion of the UI (has not `react-pivottable`)
 |menuLimit|`Number` <br> 500| maximum number of values to list in the double-click menu
+
+## Inspired
+[plotly/react-pivottable](https://github.com/plotly/react-pivottable) - React-based pivot table library
+
 
 ## License
 MIT
