@@ -106,7 +106,7 @@ export default {
 
 
 ## Props
-* See (`react-pivottable`)[https://github.com/plotly/react-pivottable/blob/master/README.md#properties-and-layered-architecture] for details.
+* See [`react-pivottable`](https://github.com/plotly/react-pivottable/blob/master/README.md#properties-and-layered-architecture) for details.
 
 |Key|Type & Default Value| Description
 |----|-------------------|---------------
@@ -119,7 +119,7 @@ export default {
 |aggregatorName|`String` <br> first key in `aggregators` | key to `aggregators` object specifying the aggregator to use for computations
 |rendererName|`String` <br> Table | key to renderers object specifying the renderer to use
 |valueFilter|`Object` <br> {} | object whose keys are attribute names and values are objects of attribute value-boolean pairs which denote records to include or exclude from computation and rendering; used to prepopulate the filter menus that appear on double-click 
-|sorters|`Function or Object` <br> {} | accessed or called with an attribute name and can return a function which can be used as an argument to array.sort for output purposes. <br> See (`react-pivottable`)[https://github.com/plotly/react-pivottable/blob/master/README.md#properties-and-layered-architecture] for details.
+|sorters|`Function or Object` <br> {} | accessed or called with an attribute name and can return a function which can be used as an argument to array.sort for output purposes. <br> See [`react-pivottable`](https://github.com/plotly/react-pivottable/blob/master/README.md#properties-and-layered-architecture) for details.
 |derivedAttributes|`Object` <br> {} | derivedAttributes | defines derived attributes
 |rowOrder|`String` <br> key_a_to_z | 	the order in which row data is provided to the renderer, must be one of `"key_a_to_z"`, `"value_a_to_z"`, `"value_z_to_a"`, ordering by value orders by row total 
 |colOrder|`String` <br> key_a_to_z | the order in which column data is provided to the renderer, must be one of `"key_a_to_z"`, `"value_a_to_z"`, `"value_z_to_a"`, ordering by value orders by column total
