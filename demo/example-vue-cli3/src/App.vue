@@ -28,7 +28,7 @@
 <script>
 import tips from './tips'
 // import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
-import { VuePivottableUi } from '../../../src'
+import { VuePivottableUi } from 'vue-pivottable'
 import 'vue-pivottable/dist/vue-pivottable.css'
 export default {
   components: {
