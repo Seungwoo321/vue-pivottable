@@ -28,6 +28,6 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "vue-pivottable": "^0.3.5"
+    "vue-pivottable": "^0.3.62"
   }
 }
