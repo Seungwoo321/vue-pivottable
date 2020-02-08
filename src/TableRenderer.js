@@ -330,11 +330,10 @@ const TSVExportRenderer = {
     })
 
     result.unshift(headerRow)
-
     return h('textarea', {
       style: {
-        width: window.innerWidth / 2,
-        height: window.innerHeight / 2
+        width: `100%`,
+        height: `${window.innerHeight / 2}px`
       },
       attrs: {
         readOnly: true
