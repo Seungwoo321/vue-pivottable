@@ -138,7 +138,7 @@ export default {
 
 ## Inspired
 [plotly/react-pivottable](https://github.com/plotly/react-pivottable) - React-based pivot table library
-
+[statnett/vue-plotly](https://github.com/statnett/vue-plotly) - A vue wrapper for plotly.js chart library
 
 ## License
 MIT
