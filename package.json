@@ -1,6 +1,6 @@
 {
   "name": "vue-pivottable",
-  "version": "0.3.61",
+  "version": "0.3.62",
   "main": "src/index.js",
   "files": [
     "dist",
@@ -25,6 +25,7 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
+    "vue-plotly": "^1.1.0",
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {
@@ -35,7 +36,6 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-plotly": "^1.1.0",
     "vue-template-compiler": "^2.6.10",
     "webpack-bundle-analyzer": "^3.6.0"
   }
