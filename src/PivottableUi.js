@@ -334,13 +334,13 @@ export default {
       [
         isPlotlyRenderer
           ? h(PlotlyRenderer[props.rendererName], {
+            props
+          })
+          : h(Pivottable, {
             props: {
               ...props,
               tableMaxWidth: this.tableMaxWidth
             }
-          })
-          : h(Pivottable, {
-            props
           })
       ])
     }
