@@ -1,6 +1,6 @@
 {
   "name": "vue-pivottable",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "main": "src/index.js",
   "files": [
     "dist",
@@ -25,6 +25,7 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
+    "vue-plotly": "^1.1.0",
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {

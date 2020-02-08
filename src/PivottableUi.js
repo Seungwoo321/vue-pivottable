@@ -1,14 +1,14 @@
-import common from './helper/defaultProps'
+import defaultProps from './helper/defaultProps'
 import DraggableAttribute from './DraggableAttribute'
 import Dropdown from './Dropdown'
 import Pivottable from './Pivottable'
 import { PivotData, getSort, aggregators, sortAs } from './helper/utils'
 import draggable from 'vuedraggable'
 import TableRenderer from './TableRenderer'
-
+import PlotlyRenderer from './PlotlyRenderer'
 export default {
   name: 'vue-pivottable-ui',
-  mixins: [common],
+  mixins: [defaultProps],
   props: {
     tableMaxWidth: {
       type: Number,
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     renderers () {
-      return TableRenderer
+      return Object.assign({}, TableRenderer, PlotlyRenderer)
     },
     numValsAllowed () {
       return aggregators[this.propsData.aggregatorName || this.aggregatorName]([])().numInputs || 0
@@ -96,7 +96,8 @@ export default {
         vals: [],
         cols: [],
         rows: [],
-        valueFilter: {}
+        valueFilter: {},
+        renderer: null
       },
       openStatus: {},
       attrValues: {},
@@ -254,7 +255,10 @@ export default {
               value: rendererName
             },
             on: {
-              input: (value) => { this.propUpdater('rendererName')(value) }
+              input: (value) => {
+                this.propUpdater('rendererName')(value)
+                this.propUpdater('renderer', this.renderers[value])
+              }
             }
           })
         ])
@@ -323,14 +327,21 @@ export default {
             : undefined
         ])
     },
-    outputCell (props, h) {
+    outputCell (props, isPlotlyRenderer, h) {
       return h('td', {
         staticClass: ['pvtOutput']
       },
       [
-        h(Pivottable, {
-          props
-        })
+        isPlotlyRenderer
+          ? h(PlotlyRenderer[props.rendererName], {
+            props: {
+              ...props,
+              tableMaxWidth: this.tableMaxWidth
+            }
+          })
+          : h(Pivottable, {
+            props
+          })
       ])
     }
   },
@@ -400,12 +411,11 @@ export default {
       cols: this.propsData.cols,
       rendererName,
       aggregatorName,
-      vals,
-      tableMaxWidth: this.tableMaxWidth
+      vals
     }
     const rendererCell = this.rendererCell(rendererName, h)
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
-    const outputCell = this.outputCell(props, h)
+    const outputCell = this.outputCell(props, rendererName.indexOf('Chart') > -1, h)
 
     return h('table', {
       staticClass: ['pvtUi']
