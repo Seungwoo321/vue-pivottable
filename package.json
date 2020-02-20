@@ -1,6 +1,6 @@
 {
   "name": "vue-pivottable",
-  "version": "0.3.62",
+  "version": "0.3.63",
   "main": "src/index.js",
   "files": [
     "dist",
@@ -16,6 +16,7 @@
     "pivottable",
     "vue-pivottable"
   ],
+  "homepage": "https://seungwoo321.github.io/opensource/vue-pivottable.html",
   "author": "Seungwoo, Lee <seungwoo321@gmail.com> (https://github.com/seungwoo321)",
   "license": "MIT",
   "scripts": {
