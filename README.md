@@ -1,10 +1,14 @@
 
 # Vue Pivottable
 
+It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
+
+
 [![npm](https://flat.badgen.net/npm/v/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
 [![npm](https://flat.badgen.net/npm/dt/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
+[![npm](https://flat.badgen.net/npm/license/vue-pivottable)](https://flat.badgen.net/npm/license/vue-pivottable)
+[![](https://data.jsdelivr.com/v1/package/npm/vue-pivottable/badge)](https://www.jsdelivr.com/package/npm/vue-pivottable)
 
-It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 
 ## Live Demo
 [link](https://jsfiddle.net/front123/repqmz3f/)
