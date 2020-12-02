@@ -12,7 +12,9 @@ function redColorScaleGenerator (values) {
 function makeRenderer (opts = {}) {
   const TableRenderer = {
     name: opts.name,
-    mixins: [defaultProps],
+    mixins: [
+      defaultProps
+    ],
     props: {
       heatmapMode: String,
       tableColorScaleGenerator: {
