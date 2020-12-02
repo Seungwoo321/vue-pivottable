@@ -8,15 +8,10 @@ import TableRenderer from './TableRenderer'
 import PlotlyRenderer from './PlotlyRenderer'
 export default {
   name: 'vue-pivottable-ui',
-  mixins: [defaultProps],
+  mixins: [
+    defaultProps
+  ],
   props: {
-    tableMaxWidth: {
-      type: Number,
-      default: 0,
-      validator: function (value) {
-        return value >= 0
-      }
-    },
     hiddenAttributes: {
       type: Array,
       default: function () {
@@ -53,7 +48,7 @@ export default {
     }
   },
   computed: {
-    renderers () {
+    rendererItems () {
       return Object.assign({}, TableRenderer, PlotlyRenderer)
     },
     numValsAllowed () {
@@ -83,6 +78,33 @@ export default {
             !this.hiddenFromDragDrop.includes(e)
         )
         .sort(sortAs(this.unusedOrder))
+    },
+    config () {
+      return {
+        derivedAttributes: this.derivedAttributes,
+        hiddenAttributes: this.hiddenAttributes,
+        hiddenFromAggregators: [],
+        hiddenFromDragDrop: [],
+        menuLimit: 500,
+        cols: [
+          'Party'
+        ],
+        rows: [
+          'Province'
+        ],
+        vals: [],
+        rowOrder: 'key_a_to_z',
+        colOrder: 'key_a_to_z',
+        exclusions: {},
+        inclusions: {},
+        unusedAttrsVertical: 85,
+        autoSortUnusedAttrs: false,
+        showUI: true,
+        sorters: {},
+        inclusionsInfo: {},
+        aggregatorName: 'Count',
+        rendererName: 'Table'
+      }
     }
   },
   data () {
@@ -134,6 +156,12 @@ export default {
   watch: {
     data () {
       this.init()
+    },
+    propsData: {
+      handler (value) {
+        this.$emit('onRefresh', value)
+      },
+      deep: true
     }
   },
   methods: {
@@ -249,7 +277,7 @@ export default {
         [
           h(Dropdown, {
             props: {
-              values: Object.keys(this.renderers)
+              values: Object.keys(this.rendererItems)
             },
             domProps: {
               value: rendererName
@@ -257,7 +285,7 @@ export default {
             on: {
               input: (value) => {
                 this.propUpdater('rendererName')(value)
-                this.propUpdater('renderer', this.renderers[value])
+                this.propUpdater('renderer', this.rendererItems[value])
               }
             }
           })

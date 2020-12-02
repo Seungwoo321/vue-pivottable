@@ -14,13 +14,16 @@
           :data="pivotData"
           :aggregatorName="aggregatorName"
           :rendererName="rendererName"
+          :tableColorScaleGenerator="colorScaleGenerator"
           :rows="rows"
           :cols="cols"
           :vals="vals"
           :disabledFromDragDrop="disabledFromDragDrop"
           :sortonlyFromDragDrop="sortonlyFromDragDrop"
-          :hiddenFromDragDrop="hiddenFromDragDrop">
-      </vue-pivottable-ui>
+          :hiddenFromDragDrop="hiddenFromDragDrop"
+          :sorters="sorters"
+          @onRefresh="onRefresh"
+      />
     <footer>Released under the <a href="//github.com/seungwoo321/vue-pivottable/blob/master/LICENSE">MIT</a> license. <a href="//github.com/seungwoo321/vue-pivottable">View source.</a></footer>
   </div>
 </template>
@@ -28,8 +31,9 @@
 <script>
 import tips from './tips'
 // import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
-import { VuePivottableUi } from 'vue-pivottable'
+import { VuePivottableUi, PivotUtilities } from '../../../src'
 import 'vue-pivottable/dist/vue-pivottable.css'
+import { scaleLinear } from 'd3-scale'
 export default {
   components: {
     VuePivottableUi
@@ -37,6 +41,7 @@ export default {
   name: 'app',
   data () {
     return {
+      sortAs: PivotUtilities.sortAs,
       pivotData: tips,
       aggregatorName: 'Sum',
       rendererName: 'Table Heatmap',
@@ -46,6 +51,26 @@ export default {
       disabledFromDragDrop: ['Payer Gender'],
       hiddenFromDragDrop: ['Total Bill'],
       sortonlyFromDragDrop: ['Party Size']
+    }
+  },
+  computed: {
+    sorters () {
+      return {
+        'Day of Week': this.sortAs(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+      }
+    }
+  },
+  methods: {
+    onRefresh (config) {
+      console.log(config)
+    },
+    colorScaleGenerator (values) {
+      const scale = scaleLinear()
+        .domain([0, Math.max.apply(null, values)])
+        .range(['#fff', '#77f'])
+      return x => {
+        return { 'background-color': scale(x) }
+      }
     }
   }
 }

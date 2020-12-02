@@ -2,17 +2,16 @@ import TableRenderer from './TableRenderer'
 import defaultProps from './helper/defaultProps'
 export default {
   name: 'vue-pivottable',
-  props: ['tableMaxWidth'],
   mixins: [defaultProps],
   computed: {
-    renderers () {
+    defaultRenderers () {
       return TableRenderer[this.rendererName in TableRenderer ? this.rendererName : Object.keys(TableRenderer)[0]]
     }
   },
   methods: {
     createPivottable (h) {
       const props = this.$props
-      return h(this.renderers, {
+      return h(this.renderers || this.defaultRenderers, {
         props
       })
     },

@@ -114,6 +114,26 @@ export default {
 </script>
 ```
 
+### PivotUtilities
+- Example code [link](https://github.com/Seungwoo321/vue-pivottable/blob/master/demo/example-vue-cli3/src/App.vue)
+- Data derivers, Sort overriding and custom heatmap colors...
+- e.g. `aggregatorTemplates`, `aggregators`, `derivers`, `locales`, `naturalSort`, `numberFormat`, `getSort`, `sortAs`, `PivotDat`
+```js
+import {
+  aggregatorTemplates,
+  aggregators,
+  derivers,
+  locales,
+  naturalSort,
+  numberFormat,
+  getSort,
+  sortAs,
+  PivotData
+} from 'vue-pivottable'
+
+```
+
+
 ## Props
 * See [`react-pivottable`](https://github.com/plotly/react-pivottable/blob/master/README.md#properties-and-layered-architecture) for details.
 
@@ -139,6 +159,7 @@ export default {
 |sortonlyFromDragDrop|`Array` <br> [] | contains attribute names to sort from the drag'n'drop of the UI (has not `react-pivottable`)
 |disabledFromDragDrop|`Array` <br> [] |contains attribute names to disable from the drag'n'drop portion of the UI (has not `react-pivottable`)
 |menuLimit|`Number` <br> 500| maximum number of values to list in the double-click menu
+|tableColorScaleGenerator|`Function` <br> undefined| generate custom color render for `Table Heatmap`  |
 
 ## Inspired
 * [plotly/react-pivottable](https://github.com/plotly/react-pivottable) - React-based pivot table library
