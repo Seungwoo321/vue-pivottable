@@ -118,18 +118,19 @@ export default {
 - Example code [link](https://github.com/Seungwoo321/vue-pivottable/blob/master/demo/example-vue-cli3/src/App.vue)
 - Data derivers, Sort overriding and custom heatmap colors...
 - e.g. `aggregatorTemplates`, `aggregators`, `derivers`, `locales`, `naturalSort`, `numberFormat`, `getSort`, `sortAs`, `PivotDat`
+
 ```js
-import {
-  aggregatorTemplates,
-  aggregators,
-  derivers,
-  locales,
-  naturalSort,
-  numberFormat,
-  getSort,
-  sortAs,
-  PivotData
-} from 'vue-pivottable'
+import { PivotUtilities } from 'vue-pivottable'
+
+const aggregatorTemplates = PivotUtilities.aggregatorTemplates
+const aggregators = PivotUtilities.aggregators
+const derivers = PivotUtilities.derivers
+const locales = PivotUtilities.locales
+const naturalSort = PivotUtilities.naturalSort
+const numberFormat = PivotUtilities.numberFormat
+const getSort = PivotUtilities.getSort
+const sortAs = PivotUtilities.sortAs
+const PivotData = PivotUtilities.PivotData
 
 ```
 
