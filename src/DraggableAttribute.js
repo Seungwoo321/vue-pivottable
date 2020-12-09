@@ -20,7 +20,7 @@ export default {
     },
     attrValues: {
       type: Object,
-      required: true
+      required: false
     },
     valueFilter: {
       type: Object,
@@ -33,7 +33,8 @@ export default {
       required: true
     },
     menuLimit: Number,
-    zIndex: Number
+    zIndex: Number,
+    unused: Boolean
   },
   data () {
     return {
@@ -229,12 +230,13 @@ export default {
       },
       [
         this.name,
-        !this.disabled ? h('span', {
-          staticClass: ['pvtTriangle'],
-          on: {
-            'click': this.toggleFilterBox.bind(this)
-          }
-        }, '  ▾') : undefined,
+        !this.disabled &&
+        !this.unused ? h('span', {
+            staticClass: ['pvtTriangle'],
+            on: {
+              'click': this.toggleFilterBox.bind(this)
+            }
+          }, '  ▾') : undefined,
         this.open ? this.getFilterBox(h) : undefined
       ]
       )

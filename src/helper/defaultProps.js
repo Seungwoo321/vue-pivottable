@@ -46,6 +46,12 @@ export default {
         return []
       }
     },
+    unusedAttributes: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
     valueFilter: {
       type: Object,
       default: function () {
