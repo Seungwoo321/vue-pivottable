@@ -15,6 +15,7 @@
           :aggregatorName="aggregatorName"
           :rendererName="rendererName"
           :tableColorScaleGenerator="colorScaleGenerator"
+          :unusedAttributes="unusedAttributes"
           :rows="rows"
           :cols="cols"
           :vals="vals"
@@ -23,13 +24,18 @@
           :hiddenFromDragDrop="hiddenFromDragDrop"
           :sorters="sorters"
           @onRefresh="onRefresh"
-      />
+      >
+        <div v-if="loading" slot="output">
+          loading...
+        </div>
+      </vue-pivottable-ui>
     <footer>Released under the <a href="//github.com/seungwoo321/vue-pivottable/blob/master/LICENSE">MIT</a> license. <a href="//github.com/seungwoo321/vue-pivottable">View source.</a></footer>
   </div>
 </template>
 
 <script>
 import tips from './tips'
+import tips2 from './tips2'
 // import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
 import { VuePivottableUi, PivotUtilities } from '../../../src'
 import 'vue-pivottable/dist/vue-pivottable.css'
@@ -42,16 +48,24 @@ export default {
   data () {
     return {
       sortAs: PivotUtilities.sortAs,
-      pivotData: tips,
+      pivotData: [],
       aggregatorName: 'Sum',
       rendererName: 'Table Heatmap',
+      unusedAttributes: ['Unused 1'],
       rows: ['Payer Gender', 'Party Size'],
       cols: ['Meal', 'Payer Smoker', 'Day of Week'],
       vals: ['Total Bill'],
       disabledFromDragDrop: ['Payer Gender'],
       hiddenFromDragDrop: ['Total Bill'],
-      sortonlyFromDragDrop: ['Party Size']
+      sortonlyFromDragDrop: ['Party Size'],
+      attributes: ['Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
+      loading: false
     }
+  },
+  created () {
+    setTimeout(() => {
+      this.pivotData = tips
+    }, 1000)
   },
   computed: {
     sorters () {
@@ -62,7 +76,7 @@ export default {
   },
   methods: {
     onRefresh (config) {
-      console.log(config)
+      this.attributes = config.cols.concat(config.rows)
     },
     colorScaleGenerator (values) {
       const scale = scaleLinear()
@@ -71,6 +85,28 @@ export default {
       return x => {
         return { 'background-color': scale(x) }
       }
+    }
+  },
+  watch: {
+    attributes: {
+      handler (value, oldValue) {
+        if (value.length === oldValue.length) return
+        if (value.includes('Unused 1')) {
+          this.loading = true
+          setTimeout(() => {
+            this.pivotData = tips2
+            this.loading = false
+          }, 1000)
+        } else {
+          this.loading = true
+          setTimeout(() => {
+            this.pivotData = tips
+            this.loading = false
+          }, 1000)
+        }
+      },
+      deep: true,
+      immediate: false
     }
   }
 }

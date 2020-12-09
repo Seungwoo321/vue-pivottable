@@ -69,7 +69,7 @@ export default {
       )
     },
     unusedAttrs () {
-      return Object.keys(this.attrValues)
+      return Object.keys(this.attrValues).concat(this.propsData.unusedAttributes)
         .filter(
           e =>
             !this.propsData.rows.includes(e) &&
@@ -114,13 +114,15 @@ export default {
         rendererName: '',
         rowOrder: 'key_a_to_z',
         colOrder: 'key_a_to_z',
-        data: [],
+        // data: [],
         vals: [],
         cols: [],
         rows: [],
+        unusedAttributes: [],
         valueFilter: {},
         renderer: null
       },
+      pivotData: [],
       openStatus: {},
       attrValues: {},
       unusedOrder: [],
@@ -154,13 +156,19 @@ export default {
     this.init()
   },
   watch: {
-    data () {
-      this.init()
+    data: {
+      handler (value) {
+        this.init()
+      },
+      immediate: false,
+      deep: true
     },
     propsData: {
       handler (value) {
+        if (this.pivotData.length === 0) return
         this.$emit('onRefresh', value)
       },
+      immediate: false,
       deep: true
     }
   },
@@ -170,6 +178,7 @@ export default {
       this.propsData.vals = this.vals.slice()
       this.propsData.rows = this.rows
       this.propsData.cols = this.cols
+      this.propsData.unusedAttributes = this.unusedAttributes.filter(attr => !Object.keys(this.attrValues).includes(attr))
       this.unusedOrder = this.unusedAttrs
       Object.keys(this.attrValues).map(this.assignValue)
       Object.keys(this.openStatus).map(this.assignValue)
@@ -193,10 +202,10 @@ export default {
       this.openStatus[attribute] = open
     },
     materializeInput (nextData) {
-      if (this.propsData.data === nextData) {
+      if (this.pivotData === nextData) {
         return
       }
-      this.propsData.data = nextData
+      this.pivotData = nextData
       const attrValues = {}
       const materializedInput = []
       let recordsProcessed = 0
@@ -253,7 +262,8 @@ export default {
               menuLimit: this.menuLimit,
               zIndex: this.zIndices[x] || this.maxZIndex,
               valueFilter: this.propsData.valueFilter[x],
-              open: this.openStatus[x]
+              open: this.openStatus[x],
+              unused: this.propsData.unusedAttributes.includes(x)
             },
             domProps: {
             },
@@ -375,6 +385,7 @@ export default {
   },
   render (h) {
     if (this.data.length < 1) return
+    const outputSlot = this.$slots.output
     const rendererName = this.propsData.rendererName || this.rendererName
     const aggregatorName = this.propsData.aggregatorName || this.aggregatorName
     const vals = this.propsData.vals
@@ -466,7 +477,9 @@ export default {
           h('tr',
             [
               rowAttrsCell,
-              outputCell
+              outputSlot ? h('td', {
+                staticClass: 'pvtOutput'
+              }, outputSlot) : outputCell
             ]
           )
         ])
