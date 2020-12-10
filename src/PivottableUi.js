@@ -42,6 +42,14 @@ export default {
         return []
       }
     },
+    rowLimit: {
+      type: Number,
+      default: 500
+    },
+    colLimit: {
+      type: Number,
+      default: 500
+    },
     menuLimit: {
       type: Number,
       default: 500
@@ -114,7 +122,6 @@ export default {
         rendererName: '',
         rowOrder: 'key_a_to_z',
         colOrder: 'key_a_to_z',
-        // data: [],
         vals: [],
         cols: [],
         rows: [],
@@ -179,7 +186,7 @@ export default {
       this.propsData.rows = this.rows
       this.propsData.cols = this.cols
       this.propsData.unusedAttributes = this.unusedAttributes.filter(attr => !Object.keys(this.attrValues).includes(attr))
-      this.unusedOrder = this.unusedAttrs
+      this.unusedOrder = this.unusedAttributes
       Object.keys(this.attrValues).map(this.assignValue)
       Object.keys(this.openStatus).map(this.assignValue)
     },
@@ -385,6 +392,7 @@ export default {
   },
   render (h) {
     if (this.data.length < 1) return
+    const outputScopedSlot = this.$scopedSlots.output
     const outputSlot = this.$slots.output
     const rendererName = this.propsData.rendererName || this.rendererName
     const aggregatorName = this.propsData.aggregatorName || this.aggregatorName
@@ -452,10 +460,11 @@ export default {
       aggregatorName,
       vals
     }
+    const pivotData = new PivotData(props)
+    const limitOver = outputScopedSlot && (this.colLimit < pivotData.getColKeys().length || this.rowLimit < pivotData.getRowKeys().length)
     const rendererCell = this.rendererCell(rendererName, h)
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
     const outputCell = this.outputCell(props, rendererName.indexOf('Chart') > -1, h)
-
     return h('table', {
       staticClass: ['pvtUi']
     },
@@ -477,9 +486,9 @@ export default {
           h('tr',
             [
               rowAttrsCell,
-              outputSlot ? h('td', {
-                staticClass: 'pvtOutput'
-              }, outputSlot) : outputCell
+              outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : undefined,
+              outputScopedSlot && limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : undefined,
+              !outputSlot && !limitOver && outputCell
             ]
           )
         ])

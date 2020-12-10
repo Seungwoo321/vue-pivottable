@@ -28,6 +28,9 @@
         <div v-if="loading" slot="output">
           loading...
         </div>
+        <template v-if="!loading" slot="output" slot-scope="{ pivotData }">
+          {{ pivotData }}
+        </template>
       </vue-pivottable-ui>
     <footer>Released under the <a href="//github.com/seungwoo321/vue-pivottable/blob/master/LICENSE">MIT</a> license. <a href="//github.com/seungwoo321/vue-pivottable">View source.</a></footer>
   </div>
