@@ -215,6 +215,7 @@ export default {
   },
   render (h) {
     const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
+    const pvtAttrScopedSlot = this.$scopedSlots.pvtAttr
     return h('li', {
       attrs: {
         'data-id': !this.disabled ? this.name : undefined
@@ -229,7 +230,7 @@ export default {
         }
       },
       [
-        this.name,
+        pvtAttrScopedSlot ? pvtAttrScopedSlot({ name: this.name }) : this.name,
         !this.disabled &&
         !this.unused ? h('span', {
             staticClass: ['pvtTriangle'],

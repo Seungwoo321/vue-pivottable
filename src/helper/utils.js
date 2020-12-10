@@ -517,18 +517,19 @@ class PivotData {
     this.colTotals = {}
     this.allTotal = this.aggregator(this, [], [])
     this.sorted = false
+    this.filteredData = []
     // iterate through input, accumulating data for cells
     PivotData.forEachRecord(
       this.props.data,
       this.props.derivedAttributes,
       record => {
         if (this.filter(record)) {
+          this.filteredData.push(record)
           this.processRecord(record)
         }
       }
     )
   }
-
   filter (record) {
     for (const k in this.props.valueFilter) {
       if (record[k] in this.props.valueFilter[k]) {
@@ -603,6 +604,10 @@ class PivotData {
           this.colKeys.sort(this.arrSort(this.props.cols))
       }
     }
+  }
+
+  getFilteredData () {
+    return this.filteredData
   }
 
   getColKeys () {

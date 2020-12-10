@@ -7,11 +7,10 @@
     </a>
       <div class="title">
         <h1>Vue Pivottable</h1>
-        <small>Sample Dataset: Tips</small>
-
+        <small>Sample Dataset: Tips({{ filteredData.length }})</small>
       </div>
       <vue-pivottable-ui
-          :data="pivotData"
+          :data="data"
           :aggregatorName="aggregatorName"
           :rendererName="rendererName"
           :tableColorScaleGenerator="colorScaleGenerator"
@@ -30,6 +29,9 @@
         </div>
         <template v-if="!loading" slot="output" slot-scope="{ pivotData }">
           {{ pivotData }}
+        </template>
+        <template slot="pvtAttr" slot-scope="{ name }">
+          {{ name }}
         </template>
       </vue-pivottable-ui>
     <footer>Released under the <a href="//github.com/seungwoo321/vue-pivottable/blob/master/LICENSE">MIT</a> license. <a href="//github.com/seungwoo321/vue-pivottable">View source.</a></footer>
@@ -50,24 +52,26 @@ export default {
   name: 'app',
   data () {
     return {
+      PivotData: PivotUtilities.PivotData,
+      filteredData: [],
       sortAs: PivotUtilities.sortAs,
-      pivotData: [],
+      data: [],
       aggregatorName: 'Sum',
       rendererName: 'Table Heatmap',
       unusedAttributes: ['Unused 1'],
       rows: ['Payer Gender', 'Party Size'],
       cols: ['Meal', 'Payer Smoker', 'Day of Week'],
       vals: ['Total Bill'],
-      disabledFromDragDrop: ['Payer Gender'],
+      disabledFromDragDrop: [], // ['Payer Gender'],
       hiddenFromDragDrop: ['Total Bill'],
-      sortonlyFromDragDrop: ['Party Size'],
+      sortonlyFromDragDrop: [], // ['Party Size'],
       attributes: ['Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
       loading: false
     }
   },
   created () {
     setTimeout(() => {
-      this.pivotData = tips
+      this.data = tips
     }, 1000)
   },
   computed: {
@@ -79,6 +83,8 @@ export default {
   },
   methods: {
     onRefresh (config) {
+      const PivotData = this.PivotData
+      this.filteredData = new PivotData(config).getFilteredData()
       this.attributes = config.cols.concat(config.rows)
     },
     colorScaleGenerator (values) {
@@ -97,13 +103,13 @@ export default {
         if (value.includes('Unused 1')) {
           this.loading = true
           setTimeout(() => {
-            this.pivotData = tips2
+            this.data = tips2
             this.loading = false
           }, 1000)
         } else {
           this.loading = true
           setTimeout(() => {
-            this.pivotData = tips
+            this.data = tips
             this.loading = false
           }, 1000)
         }
