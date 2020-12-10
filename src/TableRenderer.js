@@ -76,7 +76,6 @@ function makeRenderer (opts = {}) {
       const rowKeys = pivotData.getRowKeys()
       const colKeys = pivotData.getColKeys()
       const grandTotalAggregator = pivotData.getAggregator([], [])
-
       // eslint-disable-next-line no-unused-vars
       let valueCellColors = () => { }
       // eslint-disable-next-line no-unused-vars
@@ -330,7 +329,6 @@ const TSVExportRenderer = {
       })
       return row
     })
-
     result.unshift(headerRow)
     return h('textarea', {
       style: {
