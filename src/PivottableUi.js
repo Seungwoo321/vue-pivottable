@@ -44,11 +44,11 @@ export default {
     },
     rowLimit: {
       type: Number,
-      default: 500
+      default: 0
     },
     colLimit: {
       type: Number,
-      default: 500
+      default: 0
     },
     menuLimit: {
       type: Number,
@@ -173,7 +173,19 @@ export default {
     propsData: {
       handler (value) {
         if (this.pivotData.length === 0) return
-        this.$emit('onRefresh', value)
+        const props = {
+          ...this.$props,
+          data: this.materializedInput,
+          rowOrder: value.rowOrder,
+          colOrder: value.colOrder,
+          valueFilter: value.valueFilter,
+          rows: value.rows,
+          cols: value.cols,
+          rendererName: this.rendererName,
+          aggregatorName: this.aggregatorName,
+          vals: this.vals
+        }
+        this.$emit('onRefresh', props)
       },
       immediate: false,
       deep: true
@@ -239,6 +251,7 @@ export default {
       this.attrValues = attrValues
     },
     makeDnDCell (items, onChange, classes, h) {
+      const scopedSlots = this.$scopedSlots.pvtAttr
       return h(draggable, {
         attrs: {
           draggable: 'li[data-id]',
@@ -259,6 +272,9 @@ export default {
       [
         items.map(x => {
           return h(DraggableAttribute, {
+            scopedSlots: {
+              pvtAttr: props => h('slot', scopedSlots(props))
+            },
             props: {
               sortable: this.sortonlyFromDragDrop.includes(x) || !this.disabledFromDragDrop.includes(x),
               draggable: !this.sortonlyFromDragDrop.includes(x) && !this.disabledFromDragDrop.includes(x),
@@ -461,7 +477,7 @@ export default {
       vals
     }
     const pivotData = new PivotData(props)
-    const limitOver = outputScopedSlot && (this.colLimit < pivotData.getColKeys().length || this.rowLimit < pivotData.getRowKeys().length)
+    const limitOver = outputScopedSlot && this.colLimit > 0 && this.rowLimit > 0 && (pivotData.getColKeys().length > this.colLimit || pivotData.getRowKeys().length > this.rowLimit)
     const rendererCell = this.rendererCell(rendererName, h)
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
     const outputCell = this.outputCell(props, rendererName.indexOf('Chart') > -1, h)
