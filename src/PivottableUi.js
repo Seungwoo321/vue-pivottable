@@ -77,7 +77,7 @@ export default {
       )
     },
     unusedAttrs () {
-      return this.propsData.unusedAttributes
+      return this.propsData.attributes
         .filter(
           e =>
             !this.propsData.rows.includes(e) &&
@@ -125,7 +125,7 @@ export default {
         vals: [],
         cols: [],
         rows: [],
-        unusedAttributes: [],
+        attributes: [],
         valueFilter: {},
         renderer: null
       },
@@ -163,12 +163,6 @@ export default {
     this.init()
   },
   watch: {
-    unusedAttributes: {
-      handler (value) {
-        this.propsData.unusedAttributes = value.filter(attr => !Object.keys(this.attrValues).includes(attr))
-        this.unusedOrder = this.propsData.unusedAttributes
-      }
-    },
     data: {
       handler (value) {
         this.init()
@@ -203,8 +197,8 @@ export default {
       this.propsData.vals = this.vals.slice()
       this.propsData.rows = this.rows
       this.propsData.cols = this.cols
-      this.propsData.unusedAttributes = this.unusedAttributes.filter(attr => !Object.keys(this.attrValues).includes(attr))
-      this.unusedOrder = this.propsData.unusedAttributes
+      this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
+      this.unusedOrder = this.unusedAttrs
       Object.keys(this.attrValues).map(this.assignValue)
       Object.keys(this.openStatus).map(this.assignValue)
     },
@@ -292,7 +286,7 @@ export default {
               zIndex: this.zIndices[x] || this.maxZIndex,
               valueFilter: this.propsData.valueFilter[x],
               open: this.openStatus[x],
-              unused: this.propsData.unusedAttributes.includes(x)
+              unused: this.unusedAttrs.includes(x)
             },
             domProps: {
             },

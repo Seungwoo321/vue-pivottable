@@ -14,7 +14,7 @@
           :aggregatorName="aggregatorName"
           :rendererName="rendererName"
           :tableColorScaleGenerator="colorScaleGenerator"
-          :unusedAttributes="unusedAttributes"
+          :attributes="attributes"
           :rows="rows"
           :cols="cols"
           :vals="vals"
@@ -58,14 +58,14 @@ export default {
       data: [],
       aggregatorName: 'Sum',
       rendererName: 'Table Heatmap',
-      unusedAttributes: ['Unused 1'],
+      attributes: ['Unused 1', 'Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
       rows: ['Payer Gender', 'Party Size'],
       cols: ['Meal', 'Payer Smoker', 'Day of Week'],
       vals: ['Total Bill'],
       disabledFromDragDrop: [], // ['Payer Gender'],
       hiddenFromDragDrop: ['Total Bill'],
       sortonlyFromDragDrop: [], // ['Party Size'],
-      attributes: ['Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
+      pivotColumns: ['Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
       loading: false
     }
   },
@@ -85,7 +85,7 @@ export default {
     onRefresh (config) {
       const PivotData = this.PivotData
       this.filteredData = new PivotData(config).getFilteredData()
-      this.attributes = config.cols.concat(config.rows)
+      this.pivotColumns = config.cols.concat(config.rows)
     },
     colorScaleGenerator (values) {
       const scale = scaleLinear()
@@ -97,7 +97,7 @@ export default {
     }
   },
   watch: {
-    attributes: {
+    pivotColumns: {
       handler (value, oldValue) {
         if (value.length === oldValue.length) return
         if (value.includes('Unused 1')) {

@@ -46,7 +46,7 @@ export default {
         return []
       }
     },
-    unusedAttributes: {
+    attributes: {
       type: Array,
       default: function () {
         return []
