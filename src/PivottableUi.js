@@ -278,7 +278,7 @@ export default {
       [
         items.map(x => {
           return h(DraggableAttribute, {
-            scopedSlots: {
+            [scopedSlots ? 'scopedSlots' : undefined]: {
               pvtAttr: props => h('slot', scopedSlots(props))
             },
             props: {
