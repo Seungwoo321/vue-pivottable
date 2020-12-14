@@ -77,7 +77,7 @@ export default {
       )
     },
     unusedAttrs () {
-      return Object.keys(this.attrValues).concat(this.propsData.unusedAttributes)
+      return this.propsData.unusedAttributes
         .filter(
           e =>
             !this.propsData.rows.includes(e) &&
@@ -163,6 +163,12 @@ export default {
     this.init()
   },
   watch: {
+    unusedAttributes: {
+      handler (value) {
+        this.propsData.unusedAttributes = value.filter(attr => !Object.keys(this.attrValues).includes(attr))
+        this.unusedOrder = this.propsData.unusedAttributes
+      }
+    },
     data: {
       handler (value) {
         this.init()
@@ -198,7 +204,7 @@ export default {
       this.propsData.rows = this.rows
       this.propsData.cols = this.cols
       this.propsData.unusedAttributes = this.unusedAttributes.filter(attr => !Object.keys(this.attrValues).includes(attr))
-      this.unusedOrder = this.unusedAttributes
+      this.unusedOrder = this.propsData.unusedAttributes
       Object.keys(this.attrValues).map(this.assignValue)
       Object.keys(this.openStatus).map(this.assignValue)
     },
