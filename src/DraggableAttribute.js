@@ -216,7 +216,6 @@ export default {
   render (h) {
     const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
     const pvtAttrScopedSlot = this.$scopedSlots.pvtAttr
-    console.log(pvtAttrScopedSlot)
     return h('li', {
       attrs: {
         'data-id': !this.disabled ? this.name : undefined
