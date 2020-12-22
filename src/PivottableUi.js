@@ -170,6 +170,12 @@ export default {
       immediate: false,
       deep: true
     },
+    attributes: {
+      handler (value) {
+        this.propsData.attributes = value.length > 0 ? value : Object.keys(this.attrValues)
+      },
+      deep: true
+    },
     propsData: {
       handler (value) {
         if (this.pivotData.length === 0) return
