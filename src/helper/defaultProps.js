@@ -1,4 +1,4 @@
-import aggregators from './utils'
+import { aggregators } from './utils'
 
 export default {
   props: {
