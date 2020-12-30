@@ -1,8 +1,16 @@
+import { aggregators } from './utils'
+
 export default {
   props: {
     data: {
       type: [Array, Object, Function],
       required: true
+    },
+    aggregators: {
+      type: Object,
+      default: function () {
+        return aggregators
+      }
     },
     aggregatorName: String,
     cols: {
