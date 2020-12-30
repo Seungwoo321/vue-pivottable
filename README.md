@@ -146,6 +146,7 @@ const PivotData = PivotUtilities.PivotData
 |rows|`Array`<br> []| attribute names to prepopulate in row area
 |rowTotal|`Boolean`<br> true| show total of rows (has not `react-pivottable`)
 |colTotal|`Boolean`<br> true| show total of cols (has not `react-pivottable`)
+|aggregators|`Object` of functions<br><br>`aggregators` from `Utilites`|dictionary of generators for aggregation functions in dropdown (see [original PivotTable.js documentation](https://github.com/nicolaskruchten/pivottable/wiki/Aggregators))    
 |aggregatorName|`String` <br> first key in `aggregators` | key to `aggregators` object specifying the aggregator to use for computations
 |rendererName|`String` <br> Table | key to renderers object specifying the renderer to use
 |valueFilter|`Object` <br> {} | object whose keys are attribute names and values are objects of attribute value-boolean pairs which denote records to include or exclude from computation and rendering; used to prepopulate the filter menus that appear on double-click 
