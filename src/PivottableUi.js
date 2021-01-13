@@ -219,6 +219,7 @@ export default {
       };
     },
     updateValueFilter({ attribute, valueFilter }) {
+      console.log("updating value filter", valueFilter);
       this.$set(this.propsData.valueFilter, attribute, valueFilter);
     },
     moveFilterBoxToTop({ attribute }) {
