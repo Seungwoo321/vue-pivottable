@@ -15,6 +15,7 @@
           :rendererName="rendererName"
           :tableColorScaleGenerator="colorScaleGenerator"
           :attributes="attributes"
+          :valueFilter="valueFilter"
           :rows="rows"
           :cols="cols"
           :vals="vals"
@@ -52,6 +53,11 @@ export default {
   name: 'app',
   data () {
     return {
+      valueFilter: {
+        Meal: {
+          Dinner: true
+        }
+      },
       PivotData: PivotUtilities.PivotData,
       filteredData: [],
       sortAs: PivotUtilities.sortAs,
@@ -83,9 +89,11 @@ export default {
   },
   methods: {
     onRefresh (config) {
+      console.log(config)
       const PivotData = this.PivotData
       this.filteredData = new PivotData(config).getFilteredData()
-      this.pivotColumns = config.cols.concat(config.rows)
+      // this.pivotColumns = config.cols.concat(config.rows)
+      console.log(2)
     },
     colorScaleGenerator (values) {
       const scale = scaleLinear()

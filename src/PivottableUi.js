@@ -207,6 +207,7 @@ export default {
       this.unusedOrder = this.unusedAttrs
       Object.keys(this.attrValues).map(this.assignValue)
       Object.keys(this.openStatus).map(this.assignValue)
+      Object.keys(this.valueFilter).forEach(key => this.updateValueFilter({ attribute: key, valueFilter: this.valueFilter[key] }))
     },
     assignValue (field) {
       this.$set(this.propsData.valueFilter, field, {})
