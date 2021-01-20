@@ -89,11 +89,8 @@ export default {
   },
   methods: {
     onRefresh (config) {
-      console.log(config)
       const PivotData = this.PivotData
       this.filteredData = new PivotData(config).getFilteredData()
-      // this.pivotColumns = config.cols.concat(config.rows)
-      console.log(2)
     },
     colorScaleGenerator (values) {
       const scale = scaleLinear()
