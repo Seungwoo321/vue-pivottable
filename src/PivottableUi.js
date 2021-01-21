@@ -11,6 +11,10 @@ export default {
   mixins: [
     defaultProps
   ],
+  model: {
+    prop: 'config',
+    event: 'onRefresh'
+  },
   props: {
     hiddenAttributes: {
       type: Array,
@@ -53,6 +57,12 @@ export default {
     menuLimit: {
       type: Number,
       default: 500
+    },
+    config: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   computed: {
@@ -86,33 +96,6 @@ export default {
             !this.hiddenFromDragDrop.includes(e)
         )
         .sort(sortAs(this.unusedOrder))
-    },
-    config () {
-      return {
-        derivedAttributes: this.derivedAttributes,
-        hiddenAttributes: this.hiddenAttributes,
-        hiddenFromAggregators: [],
-        hiddenFromDragDrop: [],
-        menuLimit: 500,
-        cols: [
-          'Party'
-        ],
-        rows: [
-          'Province'
-        ],
-        vals: [],
-        rowOrder: 'key_a_to_z',
-        colOrder: 'key_a_to_z',
-        exclusions: {},
-        inclusions: {},
-        unusedAttrsVertical: 85,
-        autoSortUnusedAttrs: false,
-        showUI: true,
-        sorters: {},
-        inclusionsInfo: {},
-        aggregatorName: 'Count',
-        rendererName: 'Table'
-      }
     }
   },
   data () {
@@ -179,17 +162,41 @@ export default {
     propsData: {
       handler (value) {
         if (this.pivotData.length === 0) return
+        const {
+          derivedAttributes,
+          hiddenAttributes,
+          hiddenFromAggregators,
+          hiddenFromDragDrop,
+          sortonlyFromDragDrop,
+          disabledFromDragDrop,
+          menuLimit,
+          rowLimit,
+          colLimit,
+          unusedAttrs,
+          sorters
+        } = this
         const props = {
-          ...this.$props,
+          derivedAttributes,
+          hiddenAttributes,
+          hiddenFromAggregators,
+          hiddenFromDragDrop,
+          sortonlyFromDragDrop,
+          disabledFromDragDrop,
+          menuLimit,
+          rowLimit,
+          colLimit,
+          attributes: value.attributes,
+          unusedAttrs,
+          sorters,
           data: this.materializedInput,
           rowOrder: value.rowOrder,
           colOrder: value.colOrder,
           valueFilter: value.valueFilter,
           rows: value.rows,
           cols: value.cols,
-          rendererName: this.rendererName,
-          aggregatorName: this.aggregatorName,
-          vals: this.vals
+          rendererName: value.rendererName,
+          aggregatorName: value.aggregatorName,
+          vals: value.vals
         }
         this.$emit('onRefresh', props)
       },
@@ -203,6 +210,10 @@ export default {
       this.propsData.vals = this.vals.slice()
       this.propsData.rows = this.rows
       this.propsData.cols = this.cols
+      this.propsData.rowOrder = this.rowOrder
+      this.propsData.colOrder = this.colOrder
+      this.propsData.rendererName = this.rendererName
+      this.propsData.aggregatorName = this.aggregatorName
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
       Object.keys(this.attrValues).map(this.assignValue)
@@ -235,7 +246,7 @@ export default {
       const attrValues = {}
       const materializedInput = []
       let recordsProcessed = 0
-      PivotData.forEachRecord(this.data, this.derivedAttributes, function (record) {
+      PivotData.forEachRecord(this.pivotData, this.derivedAttributes, function (record) {
         materializedInput.push(record)
         for (const attr of Object.keys(record)) {
           if (!(attr in attrValues)) {

@@ -10,20 +10,21 @@
         <small>Sample Dataset: Tips({{ filteredData.length }})</small>
       </div>
       <vue-pivottable-ui
-          :data="data"
-          :aggregatorName="aggregatorName"
-          :rendererName="rendererName"
-          :tableColorScaleGenerator="colorScaleGenerator"
-          :attributes="attributes"
-          :valueFilter="valueFilter"
-          :rows="rows"
-          :cols="cols"
-          :vals="vals"
-          :disabledFromDragDrop="disabledFromDragDrop"
-          :sortonlyFromDragDrop="sortonlyFromDragDrop"
-          :hiddenFromDragDrop="hiddenFromDragDrop"
-          :sorters="sorters"
-          @onRefresh="onRefresh"
+        v-model="config"
+        :data="data"
+        :aggregatorName="aggregatorName"
+        :rendererName="rendererName"
+        :tableColorScaleGenerator="colorScaleGenerator"
+        :attributes="attributes"
+        :valueFilter="valueFilter"
+        :rows="rows"
+        :cols="cols"
+        :vals="vals"
+        :disabledFromDragDrop="disabledFromDragDrop"
+        :sortonlyFromDragDrop="sortonlyFromDragDrop"
+        :hiddenFromDragDrop="hiddenFromDragDrop"
+        :sorters="sorters"
+        rowOrder="value_a_to_z"
       >
         <div v-if="loading" slot="output">
           loading...
@@ -35,6 +36,13 @@
           {{ name }}
         </template>
       </vue-pivottable-ui>
+      <!-- issue #14 -->
+      <!--
+      <div>
+        {{ Object.keys(config).length }}
+        {{ config }}
+      </div>
+      -->
     <footer>Released under the <a href="//github.com/seungwoo321/vue-pivottable/blob/master/LICENSE">MIT</a> license. <a href="//github.com/seungwoo321/vue-pivottable">View source.</a></footer>
   </div>
 </template>
@@ -58,6 +66,7 @@ export default {
           Dinner: true
         }
       },
+      config: {},
       PivotData: PivotUtilities.PivotData,
       filteredData: [],
       sortAs: PivotUtilities.sortAs,
@@ -85,13 +94,12 @@ export default {
       return {
         'Day of Week': this.sortAs(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
       }
+    },
+    unusedAttrs () {
+      return this.config.unusedAttrs
     }
   },
   methods: {
-    onRefresh (config) {
-      const PivotData = this.PivotData
-      this.filteredData = new PivotData(config).getFilteredData()
-    },
     colorScaleGenerator (values) {
       const scale = scaleLinear()
         .domain([0, Math.max.apply(null, values)])
@@ -102,21 +110,15 @@ export default {
     }
   },
   watch: {
-    pivotColumns: {
+    config: {
       handler (value, oldValue) {
-        if (value.length === oldValue.length) return
-        if (value.includes('Unused 1')) {
-          this.loading = true
-          setTimeout(() => {
-            this.data = tips2
-            this.loading = false
-          }, 1000)
+        const PivotData = this.PivotData
+        if (value.cols.indexOf('Unused 1') > -1 || value.rows.indexOf('Unused 1') > -1) {
+          this.data = tips2
+          this.filteredData = new PivotData(value).getFilteredData()
         } else {
-          this.loading = true
-          setTimeout(() => {
-            this.data = tips
-            this.loading = false
-          }, 1000)
+          this.data = tips
+          this.filteredData = new PivotData(value).getFilteredData()
         }
       },
       deep: true,
