@@ -428,8 +428,6 @@ const locales = {
       selectNone: 'Select None',
       tooMany: '(too many to list)',
       filterResults: 'Filter values',
-      apply: 'Apply',
-      cancel: 'Cancel',
       totals: 'Totals',
       vs: 'vs',
       by: 'by'

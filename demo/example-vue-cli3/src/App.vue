@@ -12,6 +12,8 @@
       <vue-pivottable-ui
         v-model="config"
         :data="data"
+        :aggregators="aggregators"
+        :localeStrings="localeStrings.ko"
         :aggregatorName="aggregatorName"
         :rendererName="rendererName"
         :tableColorScaleGenerator="colorScaleGenerator"
@@ -36,7 +38,7 @@
           {{ name }}
         </template>
       </vue-pivottable-ui>
-      <!-- issue #14 -->
+      <!-- fix issue #14 -->
       <!--
       <div>
         {{ Object.keys(config).length }}
@@ -61,6 +63,7 @@ export default {
   name: 'app',
   data () {
     return {
+      // fix issue #27
       valueFilter: {
         Meal: {
           Dinner: true
@@ -68,10 +71,13 @@ export default {
       },
       config: {},
       PivotData: PivotUtilities.PivotData,
-      filteredData: [],
       sortAs: PivotUtilities.sortAs,
+      locales: PivotUtilities.locales,
+      aggregatorTemplates: PivotUtilities.aggregatorTemplates,
+      numberFormat: PivotUtilities.numberFormat,
+      filteredData: [],
       data: [],
-      aggregatorName: 'Sum',
+      aggregatorName: '합계',
       rendererName: 'Table Heatmap',
       attributes: ['Unused 1', 'Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
       rows: ['Payer Gender', 'Party Size'],
@@ -81,7 +87,63 @@ export default {
       hiddenFromDragDrop: ['Total Bill'],
       sortonlyFromDragDrop: [], // ['Party Size'],
       pivotColumns: ['Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
-      loading: false
+      loading: false,
+      localeStrings: {
+        en: {
+          renderError: 'An error occurred rendering the PivotTable results.',
+          computeError: 'An error occurred computing the PivotTable results.',
+          uiRenderError: 'An error occurred rendering the PivotTable UI.',
+          selectAll: 'Select All',
+          selectNone: 'Select None',
+          tooMany: 'too many values to show',
+          filterResults: 'Filter values',
+          totals: 'Totals',
+          only: 'only',
+          rendererNames: {
+            Table: 'Table',
+            'Table Heatmap': 'Table Heatmap',
+            'Table Col Heatmap': 'Table Col Heatmap',
+            'Table Row Heatmap': 'Table Row Heatmap',
+            'Expor Table TSV': 'Expor Table TSV',
+            'Grouped Column Chart': 'Grouped Column Chart',
+            'Stacked Column Chart': 'Stacked Column Chart',
+            'Grouped Bar Chart': 'Grouped Bar Chart',
+            'Stacked Bar Chart': 'Stacked Bar Chart',
+            'Line Chart': 'Line Chart',
+            'Dot Chart': 'Dot Chart',
+            'Area Chart': 'Area Chart',
+            'Scatter Chart': 'Scatter Chart',
+            'Multiple Pie Chart': 'Multiple Pie Chart'
+          }
+        },
+        ko: {
+          renderError: '피벗 테이블 결과를 렌더링하는 동안 오류가 발생 했습니다.',
+          computeError: '피벗 테이블 결과를 계산하는 동안 오류가 발생 했습니다.',
+          uiRenderError: '피벗 테이블 UI를 렌더링하는 동안 오류가 발생 했습니다.',
+          selectAll: '모두 선택',
+          selectNone: '선택 안함',
+          tooMany: '표시 할 값이 너무 많습니다.',
+          filterResults: '값 필터링',
+          totals: '합계',
+          only: '단독',
+          rendererNames: {
+            Table: '테이블',
+            'Table Heatmap': '테이블 히트맵',
+            'Table Col Heatmap': '테이블 열 히트맵',
+            'Table Row Heatmap': '테이블 행 히트맵',
+            'Export Table TSV': '테이블 TSV로 내보내기',
+            'Grouped Column Chart': '그룹화된 차트',
+            'Stacked Column Chart': '누적 차트',
+            'Grouped Bar Chart': '그룹화된 막대형 차트',
+            'Stacked Bar Chart': '누적 막대형 차트',
+            'Line Chart': '라인 차트',
+            'Dot Chart': '도트 차트',
+            'Area Chart': '영역 차트',
+            'Scatter Chart': '분산형 차트',
+            'Multiple Pie Chart': '다중 원형 차트'
+          }
+        }
+      }
     }
   },
   created () {
@@ -97,6 +159,37 @@ export default {
     },
     unusedAttrs () {
       return this.config.unusedAttrs
+    },
+    aggregators () {
+      const usFmt = this.numberFormat()
+      const usFmtInt = this.numberFormat({ digitsAfterDecimal: 0 })
+      const usFmtPct = this.numberFormat({
+        digitsAfterDecimal: 1,
+        scaler: 100,
+        suffix: '%'
+      })
+      return (tpl => ({
+        '개수': tpl.count(usFmtInt),
+        '고유 값 개수': tpl.countUnique(usFmtInt),
+        '고유 값 목록': tpl.listUnique(', '),
+        '합계': tpl.sum(usFmt),
+        '정수 합계': tpl.sum(usFmtInt),
+        '평균': tpl.average(usFmt),
+        '중앙': tpl.median(usFmt),
+        '표본 분산': tpl.var(1, usFmt),
+        '샘플 표준 편차': tpl.stdev(1, usFmt),
+        '최소': tpl.min(usFmt),
+        '최대': tpl.max(usFmt),
+        '첫 번째': tpl.first(usFmt),
+        '마지막': tpl.last(usFmt),
+        '누적 합계': tpl.sumOverSum(usFmt),
+        '부분별 비율 합계': tpl.fractionOf(tpl.sum(), 'total', usFmtPct),
+        '행별 비율 합계': tpl.fractionOf(tpl.sum(), 'row', usFmtPct),
+        '열별 비율 합계': tpl.fractionOf(tpl.sum(), 'col', usFmtPct),
+        '전체 중 부분 개수': tpl.fractionOf(tpl.count(), 'total', usFmtPct),
+        '행 부분 개수': tpl.fractionOf(tpl.count(), 'row', usFmtPct),
+        '열 부분 개수': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
+      }))(this.aggregatorTemplates)
     }
   },
   methods: {

@@ -32,6 +32,18 @@ export default {
       type: Function,
       required: true
     },
+    localeStrings: {
+      type: Object,
+      default: function () {
+        return {
+          selectAll: 'Select All',
+          selectNone: 'Select None',
+          tooMany: '(too many to list)', // too many values to show
+          filterResults: 'Filter values',
+          only: 'only'
+        }
+      }
+    },
     menuLimit: Number,
     zIndex: Number,
     unused: Boolean
@@ -122,12 +134,12 @@ export default {
           staticClass: 'pvtSearchContainer'
         },
         [
-          showMenu || h('p', 'too many values to show'),
+          showMenu || h('p', this.localeStrings.tooMany),
           showMenu && h('input', {
             staticClass: ['pvtSearch'],
             attrs: {
               type: 'text',
-              placeholder: 'Filter Values'
+              placeholder: this.localeStrings.filterResults
             },
             domProps: {
               value: this.filterText
@@ -153,7 +165,7 @@ export default {
             on: {
               click: () => this.removeValuesFromFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
             }
-          }, `Select ${values.length === shown.length ? 'All' : shown.length}`),
+          }, this.localeStrings.selectAll),
           h('a', {
             staticClass: ['pvtButton'],
             attrs: {
@@ -162,7 +174,7 @@ export default {
             on: {
               click: () => this.addValuesToFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
             }
-          }, `Deselect ${values.length === shown.length ? 'All' : shown.length}`)
+          }, this.localeStrings.selectNone)
         ]),
         showMenu && h('div', {
           staticClass: ['pvtCheckContainer']
@@ -196,7 +208,7 @@ export default {
                 on: {
                   click: e => this.selectOnly(e, x)
                 }
-              }, 'only'),
+              }, this.localeStrings.only),
               h('a', {
                 staticClass: ['pvtOnlySpacer']
               })

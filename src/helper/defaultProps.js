@@ -6,6 +6,24 @@ export default {
       type: [Array, Object, Function],
       required: true
     },
+    localeStrings: {
+      type: Object,
+      default: function () {
+        return {
+          renderError: 'An error occurred rendering the PivotTable results.',
+          computeError: 'An error occurred computing the PivotTable results.',
+          uiRenderError: 'An error occurred rendering the PivotTable UI.',
+          selectAll: 'Select All',
+          selectNone: 'Select None',
+          tooMany: '(too many to list)',
+          filterResults: 'Filter values',
+          totals: 'Totals',
+          vs: 'vs',
+          by: 'by',
+          only: 'only'
+        }
+      }
+    },
     aggregators: {
       type: Object,
       default: function () {
@@ -98,6 +116,17 @@ export default {
       validator: function (value) {
         return value >= 0
       }
+    }
+  },
+  methods: {
+    renderError (h) {
+      return h('span', this.localeStrings.renderError)
+    },
+    computeError (h) {
+      return h('span', this.localeStrings.computeError)
+    },
+    uiRenderError (h) {
+      return h('span', this.localeStrings.uiRenderError)
     }
   }
 }

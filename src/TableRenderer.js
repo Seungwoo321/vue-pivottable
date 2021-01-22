@@ -24,7 +24,17 @@ function makeRenderer (opts = {}) {
       tableOptions: {
         type: Object,
         default: function () {
-          return {}
+          return {
+            clickCallback: null
+          }
+        }
+      },
+      localeStrings: {
+        type: Object,
+        default: function () {
+          return {
+            totals: 'Totals'
+          }
         }
       }
     },
@@ -70,7 +80,14 @@ function makeRenderer (opts = {}) {
       }
     },
     render (h) {
-      const pivotData = new PivotData(this.$props)
+      let pivotData = null
+      try {
+        pivotData = new PivotData(this.$props)
+      } catch (error) {
+        if (console && console.error(error.stack)) {
+          return this.computeError(h)
+        }
+      }
       const colAttrs = pivotData.props.cols
       const rowAttrs = pivotData.props.rows
       const rowKeys = pivotData.getRowKeys()
@@ -189,7 +206,7 @@ function makeRenderer (opts = {}) {
                   attrs: {
                     rowSpan: colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
                   }
-                }, 'Totals') : undefined
+                }, this.localeStrings.totals) : undefined
               ])
             }),
 
@@ -205,7 +222,7 @@ function makeRenderer (opts = {}) {
                 }),
 
                 this.rowTotal
-                  ? h('th', { staticClass: ['pvtTotalLabel'] }, colAttrs.length === 0 ? 'Totals' : null)
+                  ? h('th', { staticClass: ['pvtTotalLabel'] }, colAttrs.length === 0 ? this.localeStrings.totals : null)
                   : (colAttrs.length === 0 ? undefined : h('th', { staticClass: ['pvtTotalLabel'] }, null))
               ]
             ) : undefined
@@ -269,7 +286,7 @@ function makeRenderer (opts = {}) {
                   attrs: {
                     colSpan: rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)
                   }
-                }, 'Totals') : undefined,
+                }, this.localeStrings.totals) : undefined,
 
                 this.colTotal ? colKeys.map((colKey, i) => {
                   const totalAggregator = pivotData.getAggregator([], colKey)
@@ -296,6 +313,9 @@ function makeRenderer (opts = {}) {
           ])
 
       ])
+    },
+    renderError (h, error) {
+      return this.renderError(h)
     }
   }
   return TableRenderer
@@ -342,6 +362,9 @@ const TSVExportRenderer = {
         value: result.map(r => r.join('\t')).join('\n')
       }
     })
+  },
+  renderError (h, error) {
+    return this.renderError(h)
   }
 }
 
@@ -350,5 +373,5 @@ export default {
   'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
   'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
   'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
-  'Expor Table TSV': TSVExportRenderer
+  'Export Table TSV': TSVExportRenderer
 }

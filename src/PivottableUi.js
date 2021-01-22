@@ -67,10 +67,14 @@ export default {
   },
   computed: {
     rendererItems () {
-      return Object.assign({}, TableRenderer, PlotlyRenderer)
+      console.log(TableRenderer, PlotlyRenderer)
+      return Object.assign({}, TableRenderer, PlotlyRenderer, this.renderers)
+    },
+    aggregatorItems () {
+      return this.aggregators || aggregators
     },
     numValsAllowed () {
-      return aggregators[this.propsData.aggregatorName || this.aggregatorName]([])().numInputs || 0
+      return this.aggregatorItems[this.propsData.aggregatorName || this.aggregatorName]([])().numInputs || 0
     },
     rowAttrs () {
       return this.propsData.rows.filter(
@@ -143,7 +147,7 @@ export default {
     this.materializeInput(nextProps.data)
   },
   created () {
-    this.init()
+    // this.init()
   },
   watch: {
     data: {
@@ -196,6 +200,7 @@ export default {
           cols: value.cols,
           rendererName: value.rendererName,
           aggregatorName: value.aggregatorName,
+          aggregators: this.aggregatorItems,
           vals: value.vals
         }
         this.$emit('onRefresh', props)
@@ -304,7 +309,8 @@ export default {
               zIndex: this.zIndices[x] || this.maxZIndex,
               valueFilter: this.propsData.valueFilter[x],
               open: this.openStatus[x],
-              unused: this.unusedAttrs.includes(x)
+              unused: this.unusedAttrs.includes(x),
+              localeStrings: this.localeStrings
             },
             domProps: {
             },
@@ -358,7 +364,7 @@ export default {
                   display: 'inline-block'
                 },
                 props: {
-                  values: Object.keys(aggregators)
+                  values: Object.keys(this.aggregators)
                 },
                 domProps: {
                   value: aggregatorName
@@ -490,11 +496,19 @@ export default {
       valueFilter: this.propsData.valueFilter,
       rows: this.propsData.rows,
       cols: this.propsData.cols,
+      aggregators: this.aggregatorItems,
       rendererName,
       aggregatorName,
       vals
     }
-    const pivotData = new PivotData(props)
+    let pivotData = null
+    try {
+      pivotData = new PivotData(props)
+    } catch (error) {
+      if (console && console.error(error.stack)) {
+        return this.computeError(h)
+      }
+    }
     const limitOver = outputScopedSlot && this.colLimit > 0 && this.rowLimit > 0 && (pivotData.getColKeys().length > this.colLimit || pivotData.getRowKeys().length > this.rowLimit)
     const rendererCell = this.rendererCell(rendererName, h)
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
@@ -527,5 +541,8 @@ export default {
           )
         ])
     ])
+  },
+  renderError (h, error) {
+    return this.uiRenderError(h)
   }
 }
