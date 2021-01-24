@@ -200,6 +200,8 @@ export default {
 
       Object.keys(this.attrValues).map(this.assignValue);
       Object.keys(this.openStatus).map(this.assignValue);
+      this.propsData.colOrder = this.colOrder;
+      this.propsData.rowOrder = this.rowOrder;
       this.propsData.valueFilter = this.valueFilter;
     },
     assignValue(field) {
@@ -423,6 +425,11 @@ export default {
         'td',
         {
           staticClass: ['pvtOutput'],
+          // on: {
+          //   click: (value) => {
+          //     console.log('did this work?', value);
+          //   },
+          // },
         },
         [
           isPlotlyRenderer
