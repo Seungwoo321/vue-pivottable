@@ -150,7 +150,7 @@ export default {
       handler (value) {
         this.init()
       },
-      immediate: false,
+      immediate: true,
       deep: true
     },
     attributes: {
