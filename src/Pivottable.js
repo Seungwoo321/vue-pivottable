@@ -4,14 +4,14 @@ export default {
   name: 'vue-pivottable',
   mixins: [defaultProps],
   computed: {
-    defaultRenderers () {
-      return TableRenderer[this.rendererName in TableRenderer ? this.rendererName : Object.keys(TableRenderer)[0]]
+    rendererItems () {
+      return this.renderers || Object.assign({}, TableRenderer)
     }
   },
   methods: {
     createPivottable (h) {
       const props = this.$props
-      return h(this.renderers || this.defaultRenderers, {
+      return h(this.rendererItems[this.rendererName], {
         props
       })
     },
@@ -30,5 +30,8 @@ export default {
   },
   render (h) {
     return this.tableMaxWidth > 0 ? this.createWrapperContainer(h) : this.createPivottable(h)
+  },
+  renderError (h, error) {
+    return this.renderError(h)
   }
 }

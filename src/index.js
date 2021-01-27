@@ -1,5 +1,7 @@
 import VuePivottable from './Pivottable'
 import VuePivottableUi from './PivottableUi'
+import TableRenderer from './TableRenderer'
+import PlotlyRenderer from './PlotlyRenderer'
 import {
   aggregatorTemplates,
   aggregators,
@@ -24,6 +26,11 @@ const PivotUtilities = {
   PivotData
 }
 
+const Renderer = {
+  TableRenderer,
+  PlotlyRenderer
+}
+
 const components = {
   VuePivottable,
   VuePivottableUi
@@ -34,7 +41,8 @@ if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
 export {
   VuePivottable,
   VuePivottableUi,
-  PivotUtilities
+  PivotUtilities,
+  Renderer
 }
 
 export default (Vue) => {

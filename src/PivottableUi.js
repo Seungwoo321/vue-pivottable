@@ -2,10 +2,10 @@ import defaultProps from './helper/defaultProps'
 import DraggableAttribute from './DraggableAttribute'
 import Dropdown from './Dropdown'
 import Pivottable from './Pivottable'
-import { PivotData, getSort, aggregators, sortAs } from './helper/utils'
-import draggable from 'vuedraggable'
 import TableRenderer from './TableRenderer'
 import PlotlyRenderer from './PlotlyRenderer'
+import { PivotData, getSort, sortAs, aggregators } from './helper/utils'
+import draggable from 'vuedraggable'
 export default {
   name: 'vue-pivottable-ui',
   mixins: [
@@ -67,14 +67,13 @@ export default {
   },
   computed: {
     rendererItems () {
-      console.log(TableRenderer, PlotlyRenderer)
-      return Object.assign({}, TableRenderer, PlotlyRenderer, this.renderers)
+      return (this.renderers) || Object.assign({}, TableRenderer, PlotlyRenderer)
     },
     aggregatorItems () {
-      return this.aggregators || aggregators
+      return (this.aggregators) || aggregators
     },
     numValsAllowed () {
-      return this.aggregatorItems[this.propsData.aggregatorName || this.aggregatorName]([])().numInputs || 0
+      return this.aggregatorItems[this.propsData.aggregatorName]([])().numInputs || 0
     },
     rowAttrs () {
       return this.propsData.rows.filter(
@@ -146,9 +145,6 @@ export default {
   beforeUpdated (nextProps) {
     this.materializeInput(nextProps.data)
   },
-  created () {
-    // this.init()
-  },
   watch: {
     data: {
       handler (value) {
@@ -205,7 +201,7 @@ export default {
         }
         this.$emit('onRefresh', props)
       },
-      immediate: false,
+      immediate: true,
       deep: true
     }
   },
@@ -334,7 +330,8 @@ export default {
         [
           h(Dropdown, {
             props: {
-              values: Object.keys(this.rendererItems)
+              values: Object.keys(this.rendererItems),
+              localeStrings: this.localeStrings.rendererMap
             },
             domProps: {
               value: rendererName
@@ -342,7 +339,7 @@ export default {
             on: {
               input: (value) => {
                 this.propUpdater('rendererName')(value)
-                this.propUpdater('renderer', this.rendererItems[value])
+                this.propUpdater('renderer', this.rendererItems[this.rendererName])
               }
             }
           })
@@ -364,13 +361,17 @@ export default {
                   display: 'inline-block'
                 },
                 props: {
-                  values: Object.keys(this.aggregators)
+                  values: Object.keys(this.aggregatorItems),
+                  localeStrings: this.localeStrings.aggregatorMap
                 },
                 domProps: {
                   value: aggregatorName
                 },
                 on: {
-                  input: (value) => { this.propUpdater('aggregatorName')(value) }
+                  input: (value) => {
+                    console.log(value)
+                    this.propUpdater('aggregatorName')(value)
+                  }
                 }
               }),
               h('a', {
@@ -434,8 +435,8 @@ export default {
     if (this.data.length < 1) return
     const outputScopedSlot = this.$scopedSlots.output
     const outputSlot = this.$slots.output
-    const rendererName = this.propsData.rendererName || this.rendererName
-    const aggregatorName = this.propsData.aggregatorName || this.aggregatorName
+    const rendererName = this.propsData.rendererName
+    const aggregatorName = this.propsData.aggregatorName
     const vals = this.propsData.vals
     const unusedAttrsCell = this.makeDnDCell(
       this.unusedAttrs,
@@ -490,6 +491,7 @@ export default {
     )
     const props = {
       ...this.$props,
+      localeStrings: this.localeStrings,
       data: this.materializedInput,
       rowOrder: this.propsData.rowOrder,
       colOrder: this.propsData.colOrder,

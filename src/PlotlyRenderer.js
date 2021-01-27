@@ -1,4 +1,4 @@
-import { PivotData, aggregators } from './helper/utils'
+import { PivotData } from './helper/utils'
 import defaultProps from './helper/defaultProps'
 import { Plotly } from 'vue-plotly'
 function makeRenderer (opts = {}, traceOptions = {}, layoutOptions = {}, transpose = false) {
@@ -23,7 +23,7 @@ function makeRenderer (opts = {}, traceOptions = {}, layoutOptions = {}, transpo
       if (datumKeys.length === 0) datumKeys.push([])
 
       let fullAggName = this.$props.aggregatorName
-      const numInputs = aggregators[fullAggName]([])().numInputs || 0
+      const numInputs = this.$props.aggregators[fullAggName]([])().numInputs || 0
       if (numInputs !== 0) {
         fullAggName += ` of ${this.$props.vals.slice(0, numInputs).join(', ')}`
       }
