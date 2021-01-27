@@ -1,5 +1,5 @@
 import { PivotData } from './helper/utils'
-import defaultProps from './helper/defaultProps'
+import defaultProps from './helper/common'
 import { Plotly } from 'vue-plotly'
 function makeRenderer (opts = {}, traceOptions = {}, layoutOptions = {}, transpose = false) {
   const plotlyRenderer = {

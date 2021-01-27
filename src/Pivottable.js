@@ -1,5 +1,5 @@
 import TableRenderer from './TableRenderer'
-import defaultProps from './helper/defaultProps'
+import defaultProps from './helper/common'
 export default {
   name: 'vue-pivottable',
   mixins: [defaultProps],

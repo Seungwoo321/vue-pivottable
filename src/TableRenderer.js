@@ -1,5 +1,5 @@
 import { PivotData } from './helper/utils'
-import defaultProps from './helper/defaultProps'
+import defaultProps from './helper/common'
 function redColorScaleGenerator (values) {
   const min = Math.min.apply(Math, values)
   const max = Math.max.apply(Math, values)
@@ -84,6 +84,7 @@ function makeRenderer (opts = {}) {
       try {
         pivotData = new PivotData(this.$props)
       } catch (error) {
+        // eslint-disable-next-line no-console
         if (console && console.error(error.stack)) {
           return this.computeError(h)
         }

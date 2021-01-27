@@ -1,4 +1,4 @@
-import defaultProps from './helper/defaultProps'
+import defaultProps from './helper/common'
 import DraggableAttribute from './DraggableAttribute'
 import Dropdown from './Dropdown'
 import Pivottable from './Pivottable'
@@ -369,7 +369,6 @@ export default {
                 },
                 on: {
                   input: (value) => {
-                    console.log(value)
                     this.propUpdater('aggregatorName')(value)
                   }
                 }
@@ -507,6 +506,7 @@ export default {
     try {
       pivotData = new PivotData(props)
     } catch (error) {
+      // eslint-disable-next-line no-console
       if (console && console.error(error.stack)) {
         return this.computeError(h)
       }
