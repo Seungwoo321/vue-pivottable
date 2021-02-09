@@ -146,6 +146,16 @@ export default {
     this.materializeInput(nextProps.data)
   },
   watch: {
+    cols: {
+      handler (value) {
+        this.propsData.cols = value
+      }
+    },
+    rows: {
+      handler (value) {
+        this.propsData.rows = value
+      }
+    },
     data: {
       handler (value) {
         this.init()
