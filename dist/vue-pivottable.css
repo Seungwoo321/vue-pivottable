@@ -8,7 +8,7 @@
     color: #2a3f5f;
     font-family: Verdana;
     border-collapse: collapse;
-} 
+}
 .pvtUi select {
     user-select: none;
     -webkit-user-select: none;
@@ -256,7 +256,7 @@ table.pvtTable tbody tr td {
     max-width: 600px;
     min-width: 210px;
     background-color: #fff;
-    position: absolute;
+    position: fixed;
     padding: 6px;
     user-select: none;
     min-height: 100px;
