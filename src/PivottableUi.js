@@ -66,6 +66,9 @@ export default {
     }
   },
   computed: {
+    appliedFilter () {
+      return this.propsData.valueFilter
+    },
     rendererItems () {
       return (this.renderers) || Object.assign({}, TableRenderer, PlotlyRenderer)
     },
@@ -156,6 +159,13 @@ export default {
         this.propsData.rows = value
       }
     },
+    appliedFilter: {
+      handler (value, oldValue) {
+        this.$emit('update:valueFilter', value)
+      },
+      immediate: true,
+      deep: true
+    },
     data: {
       handler (value) {
         this.init()
@@ -227,9 +237,7 @@ export default {
       this.propsData.aggregatorName = this.aggregatorName
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
-      Object.keys(this.attrValues).map(this.assignValue)
-      Object.keys(this.openStatus).map(this.assignValue)
-      Object.keys(this.valueFilter).forEach(key => this.updateValueFilter({ attribute: key, valueFilter: this.valueFilter[key] }))
+      Object.keys(this.attrValues).forEach(key => this.updateValueFilter({ attribute: key, valueFilter: this.valueFilter && this.valueFilter[key] && Object.keys(this.valueFilter[key]).length ? this.valueFilter[key] : {} }))
     },
     assignValue (field) {
       this.$set(this.propsData.valueFilter, field, {})
@@ -546,9 +554,7 @@ export default {
           h('tr',
             [
               rowAttrsCell,
-              outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : undefined,
-              outputScopedSlot && limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : undefined,
-              !outputSlot && !limitOver && outputCell
+              outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : outputCell
             ]
           )
         ])
