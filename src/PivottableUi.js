@@ -161,7 +161,7 @@ export default {
     },
     appliedFilter: {
       handler (value, oldValue) {
-        this.$emit('update:valueFitler', value)
+        this.$emit('update:valueFilter', value)
       },
       immediate: true,
       deep: true
