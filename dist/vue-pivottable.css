@@ -4,6 +4,7 @@
 }
 
 .pvtUi {
+    table-layout: fixed;
     width: 100%;
     color: #2a3f5f;
     font-family: Verdana;
