@@ -66,6 +66,9 @@ export default {
     }
   },
   computed: {
+    appliedFilter () {
+      return this.propsData.valueFilter
+    },
     rendererItems () {
       return (this.renderers) || Object.assign({}, TableRenderer, PlotlyRenderer)
     },
@@ -79,14 +82,14 @@ export default {
       return this.propsData.rows.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
-                    !this.hiddenFromDragDrop.includes(e)
+          !this.hiddenFromDragDrop.includes(e)
       )
     },
     colAttrs () {
       return this.propsData.cols.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
-                    !this.hiddenFromDragDrop.includes(e)
+          !this.hiddenFromDragDrop.includes(e)
       )
     },
     unusedAttrs () {
@@ -94,9 +97,9 @@ export default {
         .filter(
           e =>
             !this.propsData.rows.includes(e) &&
-                        !this.propsData.cols.includes(e) &&
-                        !this.hiddenAttributes.includes(e) &&
-                        !this.hiddenFromDragDrop.includes(e)
+            !this.propsData.cols.includes(e) &&
+            !this.hiddenAttributes.includes(e) &&
+            !this.hiddenFromDragDrop.includes(e)
         )
         .sort(sortAs(this.unusedOrder))
     }
@@ -155,6 +158,13 @@ export default {
       handler (value) {
         this.propsData.rows = value
       }
+    },
+    appliedFilter: {
+      handler (value, oldValue) {
+        this.$emit('update:valueFitler', value)
+      },
+      immediate: true,
+      deep: true
     },
     data: {
       handler (value) {
@@ -227,9 +237,7 @@ export default {
       this.propsData.aggregatorName = this.aggregatorName
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
-      Object.keys(this.attrValues).map(this.assignValue)
-      Object.keys(this.openStatus).map(this.assignValue)
-      Object.keys(this.valueFilter).forEach(key => this.updateValueFilter({ attribute: key, valueFilter: this.valueFilter[key] }))
+      Object.keys(this.attrValues).forEach(key => this.updateValueFilter({ attribute: key, valueFilter: this.valueFilter && this.valueFilter[key] && Object.keys(this.valueFilter[key].length ? this.valueFilter[key] : {}) }))
     },
     assignValue (field) {
       this.$set(this.propsData.valueFilter, field, {})
@@ -409,7 +417,7 @@ export default {
                 props: {
                   values: Object.keys(this.attrValues).filter(e =>
                     !this.hiddenAttributes.includes(e) &&
-                                            !this.hiddenFromAggregators.includes(e))
+                    !this.hiddenFromAggregators.includes(e))
                 },
                 domProps: {
                   value: vals[i]
@@ -555,9 +563,7 @@ export default {
           h('tr',
             [
               rowAttrsCell,
-              outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : undefined,
-              outputScopedSlot && limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : undefined,
-              !outputSlot && !limitOver && outputCell
+              outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : outputCell
             ]
           )
         ])
