@@ -159,6 +159,11 @@ export default {
         this.propsData.rows = value
       }
     },
+    rendererName: {
+      handler (value) {
+        this.propsData.rendererName = value
+      }
+    },
     appliedFilter: {
       handler (value, oldValue) {
         this.$emit('update:valueFilter', value)
