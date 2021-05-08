@@ -34,6 +34,10 @@
         :sorters="sorters"
         rowOrder="value_a_to_z"
       >
+        <colgroup slot="colGroup">
+            <col :width="300">
+            <col>
+        </colgroup>
         <div v-if="loading" slot="output">
           loading...
         </div>

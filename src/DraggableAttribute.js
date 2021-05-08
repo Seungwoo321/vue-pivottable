@@ -217,7 +217,8 @@ export default {
         ])
       ])
     },
-    toggleFilterBox () {
+    toggleFilterBox (event) {
+      event.stopPropagation()
       this.openFilterBox(this.name, !this.open)
       this.moveFilterBoxToTop(this.name)
     },

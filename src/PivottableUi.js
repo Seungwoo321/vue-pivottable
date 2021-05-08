@@ -262,6 +262,9 @@ export default {
     openFilterBox ({ attribute, open }) {
       this.openStatus[attribute] = open
     },
+    closeFilterBox (event) {
+      this.openStatus = {}
+    },
     materializeInput (nextData) {
       if (this.pivotData === nextData) {
         return
@@ -465,6 +468,7 @@ export default {
       e => {
         const item = e.item.getAttribute('data-id')
         if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtUnused') || !e.to.classList.contains('pvtUnused'))) {
+          this.openFilterBox({ attribute: item, open: false })
           return
         }
         if (e.from.classList.contains('pvtUnused')) {
@@ -551,27 +555,31 @@ export default {
         }),
         h('col')
       ]),
-      h('tbody',
-        [
-          h('tr',
-            [
-              rendererCell,
-              unusedAttrsCell
-            ]
-          ),
-          h('tr',
-            [
-              aggregatorCell,
-              colAttrsCell
-            ]
-          ),
-          h('tr',
-            [
-              rowAttrsCell,
-              outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : outputCell
-            ]
-          )
-        ])
+      h('tbody', {
+        on: {
+          'click': this.closeFilterBox
+        }
+      },
+      [
+        h('tr',
+          [
+            rendererCell,
+            unusedAttrsCell
+          ]
+        ),
+        h('tr',
+          [
+            aggregatorCell,
+            colAttrsCell
+          ]
+        ),
+        h('tr',
+          [
+            rowAttrsCell,
+            outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : outputCell
+          ]
+        )
+      ])
     ])
   },
   renderError (h, error) {
