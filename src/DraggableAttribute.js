@@ -126,7 +126,10 @@ export default {
           zIndex: this.zIndex
         },
         on: {
-          click: () => this.moveFilterBoxToTop(this.name)
+          click: (e) => {
+            e.stopPropagation()
+            this.moveFilterBoxToTop(this.name)
+          }
         }
       },
       [
