@@ -468,13 +468,14 @@ export default {
       e => {
         const item = e.item.getAttribute('data-id')
         if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtUnused') || !e.to.classList.contains('pvtUnused'))) {
-          this.openFilterBox({ attribute: item, open: false })
           return
         }
         if (e.from.classList.contains('pvtUnused')) {
+          this.openFilterBox({ attribute: item, open: false })
           this.unusedOrder.splice(e.oldIndex, 1)
         }
         if (e.to.classList.contains('pvtUnused')) {
+          this.openFilterBox({ attribute: item, open: false })
           this.unusedOrder.splice(e.newIndex, 0, item)
         }
       },
