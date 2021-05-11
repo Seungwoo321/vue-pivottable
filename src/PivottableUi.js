@@ -82,14 +82,14 @@ export default {
       return this.propsData.rows.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
-          !this.hiddenFromDragDrop.includes(e)
+                    !this.hiddenFromDragDrop.includes(e)
       )
     },
     colAttrs () {
       return this.propsData.cols.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
-          !this.hiddenFromDragDrop.includes(e)
+                    !this.hiddenFromDragDrop.includes(e)
       )
     },
     unusedAttrs () {
@@ -97,9 +97,9 @@ export default {
         .filter(
           e =>
             !this.propsData.rows.includes(e) &&
-            !this.propsData.cols.includes(e) &&
-            !this.hiddenAttributes.includes(e) &&
-            !this.hiddenFromDragDrop.includes(e)
+                        !this.propsData.cols.includes(e) &&
+                        !this.hiddenAttributes.includes(e) &&
+                        !this.hiddenFromDragDrop.includes(e)
         )
         .sort(sortAs(this.unusedOrder))
     }
@@ -171,6 +171,13 @@ export default {
       immediate: true,
       deep: true
     },
+    valueFilter: {
+      handler (value) {
+        this.propsData.valueFilter = value
+      },
+      immediate: true,
+      deep: true
+    },
     data: {
       handler (value) {
         this.init()
@@ -226,7 +233,7 @@ export default {
         }
         this.$emit('onRefresh', props)
       },
-      immediate: true,
+      immediate: false,
       deep: true
     }
   },
@@ -425,7 +432,7 @@ export default {
                 props: {
                   values: Object.keys(this.attrValues).filter(e =>
                     !this.hiddenAttributes.includes(e) &&
-                    !this.hiddenFromAggregators.includes(e))
+                                            !this.hiddenFromAggregators.includes(e))
                 },
                 domProps: {
                   value: vals[i]
@@ -473,10 +480,12 @@ export default {
         if (e.from.classList.contains('pvtUnused')) {
           this.openFilterBox({ attribute: item, open: false })
           this.unusedOrder.splice(e.oldIndex, 1)
+          this.$emit('dragged:unused', item)
         }
         if (e.to.classList.contains('pvtUnused')) {
           this.openFilterBox({ attribute: item, open: false })
           this.unusedOrder.splice(e.newIndex, 0, item)
+          this.$emit('dropped:unused', item)
         }
       },
       `pvtAxisContainer pvtUnused pvtHorizList`,
@@ -491,9 +500,11 @@ export default {
         }
         if (e.from.classList.contains('pvtCols')) {
           this.propsData.cols.splice(e.oldIndex, 1)
+          this.$emit('dragged:cols', item)
         }
         if (e.to.classList.contains('pvtCols')) {
           this.propsData.cols.splice(e.newIndex, 0, item)
+          this.$emit('dropped:cols', item)
         }
       },
       'pvtAxisContainer pvtHorizList pvtCols',
@@ -508,9 +519,11 @@ export default {
         }
         if (e.from.classList.contains('pvtRows')) {
           this.propsData.rows.splice(e.oldIndex, 1)
+          this.$emit('dragged:rows', item)
         }
         if (e.to.classList.contains('pvtRows')) {
           this.propsData.rows.splice(e.newIndex, 0, item)
+          this.$emit('dropped:rows', item)
         }
       },
       'pvtAxisContainer pvtVertList pvtRows',
