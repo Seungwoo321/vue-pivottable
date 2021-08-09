@@ -41,7 +41,10 @@
             :disabledFromDragDrop="disabledFromDragDrop"
             :sortonlyFromDragDrop="sortonlyFromDragDrop"
             :hiddenFromDragDrop="hiddenFromDragDrop"
-            :tableMaxWidth="660">
+        >
+            <colgroup slot="colGroup">
+                <col :width="300">
+            </colgroup>
         </vue-pivottable-ui>
       </div>
       <pre>
