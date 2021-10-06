@@ -1,7 +1,6 @@
 {
   "name": "vue-pivottable",
   "version": "0.3.78",
-  "main": "src/index.js",
   "files": [
     "dist",
     "src"
@@ -20,14 +19,22 @@
   "author": "Seungwoo, Lee <seungwoo321@gmail.com> (https://github.com/seungwoo321)",
   "license": "MIT",
   "scripts": {
-    "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
+    "build": "vite build",
     "lint": "vue-cli-service lint"
+  },
+  "main": "dist/vue-pivottable.umd.js",
+  "module": "dist/vue-pivottable.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-pivottable.es.js",
+      "require": "./dist/vue-pivottable.umd.js"
+    }
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "vue": "^2.6.10",
-    "vue-plotly": "^1.1.0",
-    "vuedraggable": "^2.23.0"
+    "vue": "^2.6.14",
+    "vue-plotly": "https://github.com/alabama/vue-plotly.git",
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",
@@ -37,6 +44,8 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "vite": "^2.6.3",
+    "vite-plugin-vue2": "^1.8.2",
     "vue-template-compiler": "^2.6.10",
     "webpack-bundle-analyzer": "^3.6.0"
   }

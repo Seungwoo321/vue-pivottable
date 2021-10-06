@@ -1,5 +1,6 @@
 # Etc
 package-lock.json
+.idea
 
 # Logs
 logs

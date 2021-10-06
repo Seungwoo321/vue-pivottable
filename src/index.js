@@ -31,14 +31,15 @@ const components = {
 
 if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
 
-export {
-  VuePivottable,
-  VuePivottableUi,
-  PivotUtilities
-}
-
-export default (Vue) => {
+const addVueGlobalUse = (Vue) => {
   for (const key in components) {
     Vue.component(components[key].name, components[key])
   }
+}
+
+export {
+  VuePivottable,
+  VuePivottableUi,
+  PivotUtilities,
+  addVueGlobalUse
 }
