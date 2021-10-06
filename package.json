@@ -28,6 +28,10 @@
     ".": {
       "import": "./dist/vue-pivottable.es.js",
       "require": "./dist/vue-pivottable.umd.js"
+    },
+    "./dist/vue-pivottable.css": {
+      "import": "./dist/vue-pivottable.css",
+      "require": "./dist/vue-pivottable.css"
     }
   },
   "dependencies": {
