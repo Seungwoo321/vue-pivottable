@@ -1,13 +1,13 @@
 {
   "name": "vue-pivottable",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "files": [
     "dist",
     "src"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Seungwoo321/vue-pivottable.git"
+    "url": "git://github.com/dyyce/vue-pivottable.git"
   },
   "keywords": [
     "vue",
