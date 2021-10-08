@@ -9075,9 +9075,9 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-"vue-plotly@https://github.com/alabama/vue-plotly.git":
-  version "1.1.0"
-  resolved "https://github.com/alabama/vue-plotly.git#3b02020cca79d3cd3f5a2d5d42e999dccf076a8b"
+"vue-plotly@https://github.com/alabama/vue-plotly.git#master":
+  version "1.1.1"
+  resolved "https://github.com/alabama/vue-plotly.git#f7f94b567d37dd3be77b4d0c865c45776f300a4b"
   dependencies:
     core-js "^3.6.4"
     plotly.js-dist-min "^2.5.1"
