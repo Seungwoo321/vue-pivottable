@@ -46,7 +46,7 @@ show total of cols
 ## aggregators
 
 * Type: `Object`
-* Default: `aggregators` from `Utilites`
+* Default: `aggregators` from `Utilities`
 
 dictionary of generators for aggregation functions in dropdown (see [original PivotTable.js documentation](https://github.com/nicolaskruchten/pivottable/wiki/Aggregators))
 
