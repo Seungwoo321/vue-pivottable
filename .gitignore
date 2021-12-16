@@ -70,3 +70,4 @@ typings/
 
 #vuepress
 .temp
+docs/.vuepress/dist

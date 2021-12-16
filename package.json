@@ -23,7 +23,8 @@
     "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "docs:deploy": "sh deploy.sh"
   },
   "dependencies": {
     "core-js": "^2.6.5",

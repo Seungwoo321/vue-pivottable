@@ -1,23 +1,22 @@
 
 module.exports = {
-  base: '/',
+  base: '/vue-pivottable/',
   locales: {
     '/': {
       lang: 'en-US',
       title: 'VuePivottable',
       description: 'It is a Vue port of the jQuery-based PivotTable.js',
-    },
-    '/ko/': {
-      lang: 'ko-KR',
-      title: 'VuePivottable',
-      description: 'It is a Vue port of the jQuery-based PivotTable.js',
-    },
+    }
+    // '/ko/': {
+    //   lang: 'ko-KR',
+    //   title: 'VuePivottable',
+    //   description: 'It is a Vue port of the jQuery-based PivotTable.js',
+    // },
   },
   head: [
     ['meta', { name: 'application-name', content: 'VuePivottable' }],
     ['meta', { name: 'apple-mobile-web-app-title', content: 'VuePivottable' }],
   ],
-  // theme: '@vuepress/vue',
   themeConfig: {
     repo: 'seungwoo321/vue-pivottable',
     docsDir: 'docs',
@@ -34,18 +33,18 @@ module.exports = {
         sidebar: {
           '/guide/': getGuideSidebar('Guide', 'Advanced')
         }
-      },
-      '/ko/': {
-        label: '한국어',
-        selectText: '언어 변경',
-        ariaLabel: '언어 변경',
-        editLinkText: 'GitHub에서 수정하기',
-        lastUpdated: '최근 수정 날짜',
-        nav: require('./nav/ko'),
-        sidebar: {
-          '/ko/guide/': getGuideSidebar('가이드', 'Advanced')
-        }
       }
+      // '/ko/': {
+      //   label: '한국어',
+      //   selectText: '언어 변경',
+      //   ariaLabel: '언어 변경',
+      //   editLinkText: 'GitHub에서 수정하기',
+      //   lastUpdated: '최근 수정 날짜',
+      //   nav: require('./nav/ko'),
+      //   sidebar: {
+      //     '/ko/guide/': getGuideSidebar('가이드', 'Advanced')
+      //   }
+      // }
     }
   }
 }
