@@ -14,7 +14,7 @@ export default {
     },
     aggregatorName: {
       type: String,
-      default: 'Sum'
+      default: 'Count'
     },
     cols: {
       type: Array,

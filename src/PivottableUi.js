@@ -82,14 +82,14 @@ export default {
       return this.propsData.rows.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
-                    !this.hiddenFromDragDrop.includes(e)
+          !this.hiddenFromDragDrop.includes(e)
       )
     },
     colAttrs () {
       return this.propsData.cols.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
-                    !this.hiddenFromDragDrop.includes(e)
+          !this.hiddenFromDragDrop.includes(e)
       )
     },
     unusedAttrs () {
@@ -97,9 +97,9 @@ export default {
         .filter(
           e =>
             !this.propsData.rows.includes(e) &&
-                        !this.propsData.cols.includes(e) &&
-                        !this.hiddenAttributes.includes(e) &&
-                        !this.hiddenFromDragDrop.includes(e)
+            !this.propsData.cols.includes(e) &&
+            !this.hiddenAttributes.includes(e) &&
+            !this.hiddenFromDragDrop.includes(e)
         )
         .sort(sortAs(this.unusedOrder))
     }
@@ -364,9 +364,7 @@ export default {
           h(Dropdown, {
             props: {
               values: Object.keys(this.rendererItems),
-              localeStrings: this.localeStrings.rendererMap
-            },
-            domProps: {
+              localeStrings: this.localeStrings.rendererMap,
               value: rendererName
             },
             on: {
@@ -395,11 +393,12 @@ export default {
                 },
                 props: {
                   values: Object.keys(this.aggregatorItems),
-                  localeStrings: this.localeStrings.aggregatorMap
-                },
-                domProps: {
+                  localeStrings: this.localeStrings.aggregatorMap,
                   value: aggregatorName
                 },
+                // domProps: {
+                //   value: aggregatorName
+                // },
                 on: {
                   input: (value) => {
                     this.propUpdater('aggregatorName')(value)
@@ -432,13 +431,14 @@ export default {
                 props: {
                   values: Object.keys(this.attrValues).filter(e =>
                     !this.hiddenAttributes.includes(e) &&
-                                            !this.hiddenFromAggregators.includes(e))
-                },
-                domProps: {
+                    !this.hiddenFromAggregators.includes(e)),
                   value: vals[i]
                 },
                 on: {
-                  input: (value) => { this.propsData.vals.splice(i, 1, value) }
+                  input: (value) => {
+                    console.log(value)
+                    this.propsData.vals.splice(i, 1, value)
+                  }
                 }
               })
             ])
@@ -561,14 +561,7 @@ export default {
       staticClass: ['pvtUi']
     },
     [
-      colGroupSlot || h('colgroup', [
-        h('col', {
-          attrs: {
-            width: '140px'
-          }
-        }),
-        h('col')
-      ]),
+      colGroupSlot,
       h('tbody', {
         on: {
           'click': this.closeFilterBox

@@ -1,21 +1,22 @@
 export default {
-  props: ['values', 'localeStrings'],
-  data () {
-    return {
-      changeValue: ''
-    }
+  props: ['values', 'localeStrings', 'value'],
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
+  created () {
+    this.$emit('input', this.values[0])
   },
   methods: {
     handleChange (e) {
-      this.changeValue = e.target.value
-      this.$emit('input', this.changeValue)
+      this.$emit('input', e.target.value)
     }
   },
   render (h) {
     return h('select', {
       staticClass: ['pvtDropdown'],
-      attrs: {
-        value: this.changeValue
+      domProps: {
+        value: this.value
       },
       on: {
         change: this.handleChange
@@ -23,11 +24,12 @@ export default {
     },
     [
       this.values.map(r => {
+        console.log(this.value)
         const text = this.localeStrings ? this.localeStrings[r] : r
         return h('option', {
           attrs: {
             value: r,
-            selected: r === this.changeValue ? 'selected' : undefined
+            selected: r === this.value ? 'selected' : undefined
           }
         }, text)
       })
