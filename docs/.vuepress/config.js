@@ -67,7 +67,7 @@ function getGuideSidebar(groupA, groupB) {
       children: [
         'style',
         'locale',
-        'Utilities'
+        'utilities'
       ]
     }
   ]
