@@ -6,7 +6,7 @@
 It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 
 <div class="wrapper-demo">
-    <img src="/images/vue-pivottable-demo.gif">
+    <img src="/vue-pivottable/images/vue-pivottable-demo.gif">
 </div>
 
 <style>
