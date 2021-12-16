@@ -22,6 +22,7 @@
     padding: 6px;
     vertical-align: top;
     border: 1px solid #a2b1c6;
+    overflow-x: auto;
 }
 
 table.pvtTable {
@@ -111,6 +112,7 @@ table.pvtTable tbody tr td {
     outline: none;
     line-height: 1 !important;
     margin: 3px;
+    user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
