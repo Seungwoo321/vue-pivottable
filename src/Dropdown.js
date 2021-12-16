@@ -24,7 +24,6 @@ export default {
     },
     [
       this.values.map(r => {
-        console.log(this.value)
         const text = this.localeStrings ? this.localeStrings[r] : r
         return h('option', {
           attrs: {

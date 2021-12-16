@@ -436,7 +436,6 @@ export default {
                 },
                 on: {
                   input: (value) => {
-                    console.log(value)
                     this.propsData.vals.splice(i, 1, value)
                   }
                 }
