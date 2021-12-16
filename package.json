@@ -1,6 +1,6 @@
 {
   "name": "vue-pivottable",
-  "version": "0.3.92",
+  "version": "0.3.93",
   "main": "src/index.js",
   "files": [
     "dist",
@@ -21,7 +21,9 @@
   "license": "MIT",
   "scripts": {
     "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "dependencies": {
     "core-js": "^2.6.5",
@@ -38,6 +40,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.6.10",
+    "vuepress": "^1.8.2",
     "webpack-bundle-analyzer": "^3.6.0"
   }
 }
