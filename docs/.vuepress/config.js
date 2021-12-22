@@ -56,17 +56,15 @@ function getGuideSidebar(groupA, groupB) {
       collapsable: false,
       children: [
         '',
-        'getting-started',
-        'props',
-        'slot'
+        'getting-started'
       ]
     },
     {
       title: groupB,
       collapsable: false,
       children: [
-        'style',
         'locale',
+        'slot',
         'utilities'
       ]
     }

@@ -1,6 +1,15 @@
-# Props
+---
+sidebarDepth: 3
+sidebar: auto
+---
 
-## data
+# Props Reference
+
+## Basic Props
+
+Props that support both `vue-pivottable` and `vue-pivottable-ui`.
+
+### data
 
 * Type: `none`
 * Default: `none`
@@ -8,153 +17,167 @@
 
 data to be summarized
 
-## vals
+### vals
 
 * Type: `Array`
 * Default: `[]`
 
 attribute names used as arguments to aggregator (gets passed to aggregator generating function)
 
-## cols
+### cols
 
 * Type: `Array`
 * Default: `[]`
 
 attribute names to prepopulate in cols area
 
-## rows
+### rows
 
 * Type: `Array`
 * Default: `[]`
 
 attribute names to prepopulate in row area
 
-## rowTotal
+### rowTotal
 
 * Type: `Boolean`
 * Default: `true`
 
 show total of rows
 
-## colTotal
+### colTotal
 
 * Type: `Boolean`
 * Default: `true`
 
 show total of cols
 
-## aggregators
+### aggregators
 
 * Type: `Object`
 * Default: `aggregators` from `Utilities`
 
 dictionary of generators for aggregation functions in dropdown (see [original PivotTable.js documentation](https://github.com/nicolaskruchten/pivottable/wiki/Aggregators))
 
-## aggregatorName
+### aggregatorName
 
 * Type: `String`
 * Default: `Count`
 
 key to `aggregators` object specifying the aggregator to use for computations
 
-## rendererName
+### rendererName
 
 * Type: `String`
 * Default : `Table`
 
 key to renderers object specifying the renderer to use
 
-## valueFilter
+### valueFilter
 
 * Type: `Object`
 * Default: `{}`
 
 object whose keys are attribute names and values are objects of attribute value-boolean pairs which denote records to include or exclude from computation and rendering; used to prepopulate the filter menus that appear on double-click
 
-## sorters
+### sorters
 
 * Type: `Function or Object`
 * Default: `{}`
 
 accessed or called with an attribute name and can return a function which can be used as an argument to array.sort for output purposes.
 
-## derivedAttributes
+### derivedAttributes
 
 * Type: `Object`
 * Default: `{}`
 
 defines derived attributes
 
-## rowOrder
+### rowOrder
 
 * Type: `String`
 * Default: `key_a_to_z`
 
 the order in which row data is provided to the renderer, must be one of `"key_a_to_z"`, `"value_a_to_z"`, `"value_z_to_a"`, ordering by value orders by row total
 
-## colOrder
+### colOrder
 
 * Type: `String`
 * Default: `key_a_to_z`
 
 the order in which column data is provided to the renderer, must be one of `"key_a_to_z"`, `"value_a_to_z"`, `"value_z_to_a"`, ordering by value orders by column total
 
-## tableMaxWidth
+### tableMaxWidth
 
 * Type: `Number`
 * Default: `0`
 
 value of max-width in table style
 
-## hiddenAttributes
-
-* Type: `Array`
-* Default: `[]`
-
-contains attribute names to omit from the UI
-
-## hiddenFromAggregators
-
-* Type: `Array`
-* Default: `[]`
-
-contains attribute names to omit from the aggregator arguments dropdowns
-
-## hiddenFromDragDrop
-
-* Type: `Array`
-* Default: `[]`
-
-contains attribute names to omit from the aggregator arguments dropdowns
-
-## sortonlyFromDragDrop
-
-* Type: `Array`
-* Default: `[]`
-
-contains attribute names to sort from the drag'n'drop of the UI
-
-## disabledFromDragDrop
-
-* Type: `Array`
-* Default: `[]`
-contains attribute names to disable from the drag'n'drop portion of the UI
-
-## menuLimit
-
-* Type: `Number`
-* Default: `500`
-
-maximum number of values to list in the double-click menu
-
-## tableColorScaleGenerator
+### tableColorScaleGenerator
 
 * Type: `Function`
 * Default: `undefined`
 
 generate custom color render for `Table Heatmap`
 
-## localeStrings
+### localeStrings
 
 * Type: `Object`
 * Default: [see locale](./locale)
+
+## Pivottable UI Props
+
+Props that only support `vue-pivottable-ui`.
+
+### hiddenAttributes
+
+* Type: `Array`
+* Default: `[]`
+
+contains attribute names to omit from the UI
+
+### hiddenFromAggregators
+
+* Type: `Array`
+* Default: `[]`
+
+contains attribute names to omit from the aggregator arguments dropdowns
+
+### hiddenFromDragDrop
+
+* Type: `Array`
+* Default: `[]`
+
+contains attribute names to omit from the aggregator arguments dropdowns
+
+### sortonlyFromDragDrop
+
+* Type: `Array`
+* Default: `[]`
+
+contains attribute names to sort from the drag'n'drop of the UI
+
+### disabledFromDragDrop
+
+* Type: `Array`
+* Default: `[]`
+contains attribute names to disable from the drag'n'drop portion of the UI
+
+### menuLimit
+
+* Type: `Number`
+* Default: `500`
+
+maximum number of values to list in the double-click menu
+
+### rowLimit
+
+* Type: `Number`
+* Default: `0`
+
+### colLimit
+
+* Type: `Number`
+* Default: `0`
