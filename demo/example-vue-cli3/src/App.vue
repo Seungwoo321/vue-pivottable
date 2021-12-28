@@ -55,7 +55,6 @@
         <!-- <vue-pivottable
           v-model="config"
           :data="data"
-          :localeStrings="localeStrings[locale]"
           :rendererName="rendererName"
           :aggregatorName="aggregatorName"
           :tableColorScaleGenerator="colorScaleGenerator"
