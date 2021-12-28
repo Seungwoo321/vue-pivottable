@@ -15,76 +15,87 @@
           <option value="ko" :selected="locale === 'ko' ? 'selected' : undefined">ko</option>
         </select>
       </div>
-      <!-- {{ localeStrings[locale] }} -->
-      <vue-pivottable-ui
-        v-model="config"
-        :data="data"
-        :localeStrings="localeStrings[locale]"
-        :rendererName="rendererName"
-        :aggregatorName="aggregatorName"
-        :tableColorScaleGenerator="colorScaleGenerator"
-        :attributes="attributes"
-        :valueFilter="valueFilter"
-        :rows="rows"
-        :cols="cols"
-        :vals="vals"
-        :disabledFromDragDrop="disabledFromDragDrop"
-        :sortonlyFromDragDrop="sortonlyFromDragDrop"
-        :hiddenFromDragDrop="hiddenFromDragDrop"
-        :sorters="sorters"
-        rowOrder="value_a_to_z"
-      >
-        <colgroup slot="colGroup">
-            <col :width="300">
-            <col>
-        </colgroup>
-        <div v-if="loading" slot="output">
-          loading...
+      <div class="main-wrapper">
+        <vue-pivottable-ui
+          v-model="config"
+          :data="data"
+          :locale="locale"
+          :locales="locales"
+          :rendererName="rendererName"
+          :aggregatorName="aggregatorName"
+          :tableColorScaleGenerator="colorScaleGenerator"
+          :attributes="attributes"
+          :valueFilter="valueFilter"
+          :rows="rows"
+          :cols="cols"
+          :vals="vals"
+          :async="false"
+          :disabledFromDragDrop="disabledFromDragDrop"
+          :sortonlyFromDragDrop="sortonlyFromDragDrop"
+          :hiddenFromDragDrop="hiddenFromDragDrop"
+          :sorters="sorters"
+          rowOrder="value_a_to_z"
+          :tableOptions="tableOptions"
+          @no:filterbox="noFilterbox"
+        >
+          <colgroup slot="colGroup">
+              <col :width="300">
+              <col>
+          </colgroup>
+          <div v-if="loading" slot="output">
+            loading...
+          </div>
+          <template v-if="!loading" slot="output" slot-scope="{ pivotData }">
+            {{ pivotData }}
+          </template>
+          <template slot="pvtAttr" slot-scope="{ name }">
+            {{ name }}
+          </template>
+        </vue-pivottable-ui>
+        <!-- <vue-pivottable
+          v-model="config"
+          :data="data"
+          :localeStrings="localeStrings[locale]"
+          :rendererName="rendererName"
+          :aggregatorName="aggregatorName"
+          :tableColorScaleGenerator="colorScaleGenerator"
+          :attributes="attributes"
+          :valueFilter="valueFilter"
+          :rows="rows"
+          :cols="cols"
+          :vals="vals"
+          :disabledFromDragDrop="disabledFromDragDrop"
+          :sortonlyFromDragDrop="sortonlyFromDragDrop"
+          :hiddenFromDragDrop="hiddenFromDragDrop"
+          :sorters="sorters"
+          rowOrder="value_a_to_z"
+        >
+        </vue-pivottable> -->
+        <!-- fix issue #14 -->
+        <!--
+        <div>
+          {{ Object.keys(config).length }}
+          {{ config }}
         </div>
-        <template v-if="!loading" slot="output" slot-scope="{ pivotData }">
-          {{ pivotData }}
-        </template>
-        <template slot="pvtAttr" slot-scope="{ name }">
-          {{ name }}
-        </template>
-      </vue-pivottable-ui>
-      <!-- <vue-pivottable
-        v-model="config"
-        :data="data"
-        :localeStrings="localeStrings[locale]"
-        :rendererName="rendererName"
-        :aggregatorName="aggregatorName"
-        :tableColorScaleGenerator="colorScaleGenerator"
-        :attributes="attributes"
-        :valueFilter="valueFilter"
-        :rows="rows"
-        :cols="cols"
-        :vals="vals"
-        :disabledFromDragDrop="disabledFromDragDrop"
-        :sortonlyFromDragDrop="sortonlyFromDragDrop"
-        :hiddenFromDragDrop="hiddenFromDragDrop"
-        :sorters="sorters"
-        rowOrder="value_a_to_z"
-      >
-      </vue-pivottable> -->
-      <!-- fix issue #14 -->
-      <!--
-      <div>
-        {{ Object.keys(config).length }}
-        {{ config }}
+        -->
+        <textarea
+          style="height: 500px; margin: 10px;"
+          readonly
+          :value="JSON.stringify(config, undefined, 2)"
+        >
+        </textarea>
       </div>
-      -->
     <footer>Released under the <a href="//github.com/seungwoo321/vue-pivottable/blob/master/LICENSE">MIT</a> license. <a href="//github.com/seungwoo321/vue-pivottable">View source.</a></footer>
   </div>
 </template>
 
 <script>
 import tips from './tips'
-import tips2 from './tips2'
+// import tips2 from './tips2'
 // import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
 import { VuePivottableUi, PivotUtilities, Renderer } from '../../../src'
 // import { VuePivottable, PivotUtilities, Renderer } from '../../../src'
-import 'vue-pivottable/dist/vue-pivottable.css'
+import '../../../src/assets/vue-pivottable.css'
 import { scaleLinear } from 'd3-scale'
 export default {
   components: {
@@ -103,6 +114,7 @@ export default {
       config: {},
       filteredData: [],
       data: [],
+      asyncFields: ['Unused 1'],
       attributes: ['Unused 1', 'Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
       rows: ['Payer Gender', 'Party Size'],
       cols: ['Meal', 'Payer Smoker', 'Day of Week'],
@@ -114,106 +126,6 @@ export default {
       loading: false,
       aggregatorName: 'Sum',
       rendererName: 'Table',
-      localeStrings: {
-        en: {
-          renderError: 'An error occurred rendering the PivotTable results.',
-          computeError: 'An error occurred computing the PivotTable results.',
-          uiRenderError: 'An error occurred rendering the PivotTable UI.',
-          selectAll: 'Select All',
-          selectNone: 'Select None',
-          tooMany: 'too many values to show',
-          filterResults: 'Filter values',
-          totals: 'Totals',
-          only: 'only',
-          rendererNames: {
-            Table: 'Table',
-            'Table Heatmap': 'Table Heatmap',
-            'Table Col Heatmap': 'Table Col Heatmap',
-            'Table Row Heatmap': 'Table Row Heatmap',
-            'Export Table TSV': 'Export Table TSV',
-            'Grouped Column Chart': 'Grouped Column Chart',
-            'Stacked Column Chart': 'Stacked Column Chart',
-            'Grouped Bar Chart': 'Grouped Bar Chart',
-            'Stacked Bar Chart': 'Stacked Bar Chart',
-            'Line Chart': 'Line Chart',
-            'Dot Chart': 'Dot Chart',
-            'Area Chart': 'Area Chart',
-            'Scatter Chart': 'Scatter Chart',
-            'Multiple Pie Chart': 'Multiple Pie Chart'
-          },
-          aggregatorMap: {
-            Count: 'Count',
-            'Count Unique Values': 'Count Unique Values',
-            'List Unique Values': 'List Unique Values',
-            Sum: 'Sum',
-            'Integer Sum': 'Integer Sum',
-            Average: 'Average',
-            Median: 'Median',
-            'Sample Variance': 'Sample Variance',
-            'Sample Standard Deviation': 'Sample Standard Deviation',
-            Minimum: 'Minimum',
-            Maximum: 'Maximum',
-            First: 'First',
-            Last: 'Last',
-            'Sum over Sum': 'Sum over Sum',
-            'Sum as Fraction of Total': 'Sum as Fraction of Total',
-            'Sum as Fraction of Rows': 'Sum as Fraction of Rows',
-            'Sum as Fraction of Columns': 'Sum as Fraction of Columns',
-            'Count as Fraction of Total': 'Count as Fraction of Total',
-            'Count as Fraction of Rows': 'Count as Fraction of Rows',
-            'Count as Fraction of Columns': 'Count as Fraction of Columns'
-          }
-        },
-        ko: {
-          renderError: '피벗 테이블 결과를 렌더링하는 동안 오류가 발생 했습니다.',
-          computeError: '피벗 테이블 결과를 계산하는 동안 오류가 발생 했습니다.',
-          uiRenderError: '피벗 테이블 UI를 렌더링하는 동안 오류가 발생 했습니다.',
-          selectAll: '모두 선택',
-          selectNone: '선택 안함',
-          tooMany: '표시 할 값이 너무 많습니다.',
-          filterResults: '값 필터링',
-          totals: '합계',
-          only: '단독',
-          rendererMap: {
-            Table: '테이블',
-            'Table Heatmap': '테이블 히트맵',
-            'Table Col Heatmap': '테이블 열 히트맵',
-            'Table Row Heatmap': '테이블 행 히트맵',
-            'Export Table TSV': '테이블 TSV로 내보내기',
-            'Grouped Column Chart': '그룹화된 차트',
-            'Stacked Column Chart': '누적 차트',
-            'Grouped Bar Chart': '그룹화된 막대형 차트',
-            'Stacked Bar Chart': '누적 막대형 차트',
-            'Line Chart': '라인 차트',
-            'Dot Chart': '도트 차트',
-            'Area Chart': '영역 차트',
-            'Scatter Chart': '분산형 차트',
-            'Multiple Pie Chart': '다중 원형 차트'
-          },
-          aggregatorMap: {
-            Count: '개수',
-            'Count Unique Values': '고유 값 개수',
-            'List Unique Values': '고유 값 목록',
-            Sum: '합계',
-            'Integer Sum': '정수 합계',
-            Average: '평균',
-            Median: '중앙',
-            'Sample Variance': '표본 분산',
-            'Sample Standard Deviation': '샘플 표준 편차',
-            Minimum: '최소',
-            Maximum: '최대',
-            First: '첫 번째',
-            Last: '마지막',
-            'Sum over Sum': '누적 합계',
-            'Sum as Fraction of Total': '부분별 비율 합계',
-            'Sum as Fraction of Rows': '행별 비율 합계',
-            'Sum as Fraction of Columns': '열별 비율 합계',
-            'Count as Fraction of Total': '전체 중 부분 개수',
-            'Count as Fraction of Rows': '행 부분 개수',
-            'Count as Fraction of Columns': '열 부분 개수'
-          }
-        }
-      },
       locale: 'en'
     }
   },
@@ -223,65 +135,111 @@ export default {
     }, 1000)
   },
   computed: {
+    tableOptions () {
+      return {
+        clickCallback: function (e, value, filters, pivotData) {
+          const values = []
+          pivotData.forEachMatchingRecord(filters,
+            function (record) {
+              values.push(Object.values(record))
+            }
+          )
+          alert(values.join('\n'))
+        }
+      }
+    },
     sorters () {
       return {
         'Day of Week': PivotUtilities.sortAs(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
       }
     },
-    unusedAttrs () {
-      return this.config.unusedAttrs
+    locales () {
+      return {
+        en: {
+          aggregators: this.aggregators,
+          localeStrings: {
+            renderError: 'An error occurred rendering the PivotTable results.',
+            computeError: 'An error occurred computing the PivotTable results.',
+            uiRenderError: 'An error occurred rendering the PivotTable UI.',
+            selectAll: 'Select All',
+            selectNone: 'Select None',
+            tooMany: '(too many to list)',
+            filterResults: 'Filter values',
+            totals: 'Totals',
+            only: 'Only',
+            vs: 'vs',
+            by: 'by'
+          }
+        },
+        ko: {
+          aggregators: this.aggregators,
+          localeStrings: {
+            renderError: '피벗 테이블 결과를 렌더링하는 동안 오류가 발생 했습니다.',
+            computeError: '피벗 테이블 결과를 계산하는 동안 오류가 발생 했습니다.',
+            uiRenderError: '피벗 테이블 UI를 렌더링하는 동안 오류가 발생 했습니다.',
+            selectAll: '모두 선택',
+            selectNone: '선택 안함',
+            tooMany: '표시 할 값이 너무 많습니다.',
+            filterResults: '값 필터링',
+            totals: '합계',
+            only: '단독',
+            vs: 'vs',
+            by: 'by'
+          }
+        }
+      }
     },
     aggregators () {
       const usFmt = PivotUtilities.numberFormat()
-      // const usFmtInt = PivotUtilities.numberFormat({ digitsAfterDecimal: 0 })
-      // const usFmtPct = PivotUtilities.numberFormat({
-      //   digitsAfterDecimal: 1,
-      //   scaler: 100,
-      //   suffix: '%'
-      // })
+      const usFmtInt = PivotUtilities.numberFormat({ digitsAfterDecimal: 0 })
+      const usFmtPct = PivotUtilities.numberFormat({
+        digitsAfterDecimal: 1,
+        scaler: 100,
+        suffix: '%'
+      })
 
       return ((tpl) => ({
-        // 'Count': tpl.count(usFmtInt),
-        // 'Count Unique Values': tpl.countUnique(usFmtInt),
-        // 'List Unique Values': tpl.listUnique(', '),
-        Sum: tpl.sum(usFmt)
-        // 'Integer Sum': tpl.sum(usFmtInt),
-        // 'Average': tpl.average(usFmt),
-        // 'Median': tpl.median(usFmt),
-        // 'Sample Variance': tpl.var(1, usFmt),
-        // 'Sample Standard Deviation': tpl.stdev(1, usFmt),
-        // 'Minimum': tpl.min(usFmt),
-        // 'Maximum': tpl.max(usFmt),
-        // 'First': tpl.first(usFmt),
-        // 'Last': tpl.last(usFmt),
-        // 'Sum over Sum': tpl.sumOverSum(usFmt),
-        // 'Sum as Fraction of Total': tpl.fractionOf(tpl.sum(), 'total', usFmtPct),
-        // 'Sum as Fraction of Rows': tpl.fractionOf(tpl.sum(), 'row', usFmtPct),
-        // 'Sum as Fraction of Columns': tpl.fractionOf(tpl.sum(), 'col', usFmtPct),
-        // 'Count as Fraction of Total': tpl.fractionOf(tpl.count(), 'total', usFmtPct),
-        // 'Count as Fraction of Rows': tpl.fractionOf(tpl.count(), 'row', usFmtPct),
-        // 'Count as Fraction of Columns': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
+        'Count': tpl.count(usFmtInt),
+        'Count Unique Values': tpl.countUnique(usFmtInt),
+        'List Unique Values': tpl.listUnique(', '),
+        Sum: tpl.sum(usFmt),
+        'Integer Sum': tpl.sum(usFmtInt),
+        'Average': tpl.average(usFmt),
+        'Median': tpl.median(usFmt),
+        'Sample Variance': tpl.var(1, usFmt),
+        'Sample Standard Deviation': tpl.stdev(1, usFmt),
+        'Minimum': tpl.min(usFmt),
+        'Maximum': tpl.max(usFmt),
+        'First': tpl.first(usFmt),
+        'Last': tpl.last(usFmt),
+        'Sum over Sum': tpl.sumOverSum(usFmt),
+        'Sum as Fraction of Total': tpl.fractionOf(tpl.sum(), 'total', usFmtPct),
+        'Sum as Fraction of Rows': tpl.fractionOf(tpl.sum(), 'row', usFmtPct),
+        'Sum as Fraction of Columns': tpl.fractionOf(tpl.sum(), 'col', usFmtPct),
+        'Count as Fraction of Total': tpl.fractionOf(tpl.count(), 'total', usFmtPct),
+        'Count as Fraction of Rows': tpl.fractionOf(tpl.count(), 'row', usFmtPct),
+        'Count as Fraction of Columns': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
       })
       )(PivotUtilities.aggregatorTemplates)
     },
     renderers () {
       const TableRenderer = Renderer.TableRenderer
-      // const PlotlyRenderer = Renderer.PlotlyRenderer
+      const PlotlyRenderer = Renderer.PlotlyRenderer
       return (() => ({
         'Table': TableRenderer.Table,
         'Table Heatmap': TableRenderer['Table Heatmap'],
         'Table Col Heatmap': TableRenderer['Table Col Heatmap'],
         'Table Row Heatmap': TableRenderer['Table Row Heatmap'],
-        'Export Table TSV': TableRenderer['Export Table TSV']
-        // 'Grouped Column Chart': PlotlyRenderer['Grouped Column Chart'],
-        // 'Stacked Column Chart': PlotlyRenderer['Stacked Column Chart'],
-        // 'Grouped Bar Chart': PlotlyRenderer['Grouped Bar Chart'],
-        // 'Stacked Bar Chart': PlotlyRenderer['Stacked Bar Chart'],
-        // 'Line Chart': PlotlyRenderer['Line Chart'],
-        // 'Dot Chart': PlotlyRenderer['Dot Chart'],
-        // 'Area Chart': PlotlyRenderer['Area Chart'],
-        // 'Scatter Chart': PlotlyRenderer['Scatter Chart'],
-        // 'Multiple Pie Chart': PlotlyRenderer['Multiple Pie Chart']
+        'Export Table TSV': TableRenderer['Export Table TSV'],
+        'Grouped Column Chart': PlotlyRenderer['Grouped Column Chart'],
+        'Stacked Column Chart': PlotlyRenderer['Stacked Column Chart'],
+        'Grouped Bar Chart': PlotlyRenderer['Grouped Bar Chart'],
+        'Stacked Bar Chart': PlotlyRenderer['Stacked Bar Chart'],
+        'Line Chart': PlotlyRenderer['Line Chart'],
+        'Dot Chart': PlotlyRenderer['Dot Chart'],
+        'Area Chart': PlotlyRenderer['Area Chart'],
+        'Scatter Chart': PlotlyRenderer['Scatter Chart'],
+        'Multiple Pie Chart': PlotlyRenderer['Multiple Pie Chart']
       })
       )()
     }
@@ -294,19 +252,23 @@ export default {
       return x => {
         return { 'background-color': scale(x) }
       }
+    },
+    noFilterbox () {
+      alert('no data')
     }
   },
   watch: {
     config: {
       handler (value, oldValue) {
-        const PivotData = PivotUtilities.PivotData
-        if (value.cols.indexOf('Unused 1') > -1 || value.rows.indexOf('Unused 1') > -1) {
-          this.data = tips2
-          this.filteredData = new PivotData(value).getFilteredData()
-        } else {
-          this.data = tips
-          this.filteredData = new PivotData(value).getFilteredData()
-        }
+        // const PivotData = PivotUtilities.PivotData
+        // if (value.cols.indexOf('Unused 1') > -1 || value.rows.indexOf('Unused 1') > -1) {
+        //   this.data = tips2
+        //   this.filteredData = new PivotData(value).getFilteredData()
+        // } else {
+        //   this.data = tips
+        //   this.filteredData = new PivotData(value).getFilteredData()
+        // }
+        delete value.data
       },
       deep: true,
       immediate: false
@@ -316,9 +278,17 @@ export default {
 </script>
 
 <style>
-.main {
-  max-width: 980px;
-  margin: 8vh auto 20px;
+.main-wrapper {
+  display: flex;
+  flex-flow: column;
+}
+@media screen and (min-width: 900px) {
+  .main-wrapper {
+    flex-flow: row;
+  }
+  .main-wrapper > textarea {
+    width: 500px;
+  }
 }
 .title {
   text-align: center;
