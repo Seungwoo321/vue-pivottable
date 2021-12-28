@@ -48,7 +48,12 @@ export default {
 </script>
 ```
 
-<iframe width="100%" height="300" src="//jsfiddle.net/seungwoo321/2uvdanym/19/embedded/result/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
+<iframe src="https://codesandbox.io/embed/vue-pivottable-base-qhqoz?fontsize=14&hidenavigation=1&theme=light&view=preview"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="vue-pivottable-base"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
 
 ### Vue Pivottable UI
 
@@ -73,4 +78,9 @@ export default {
 </script>
 ```
 
-<iframe width="100%" height="300" src="//jsfiddle.net/seungwoo321/thds7ynu/4/embedded/result/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
+<iframe src="https://codesandbox.io/embed/vue-pivottable-ui-base-3y36u?fontsize=14&hidenavigation=1&theme=light&view=preview"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="vue-pivottable-ui-base"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>

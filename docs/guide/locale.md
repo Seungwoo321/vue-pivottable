@@ -2,56 +2,43 @@
 
 ## Default Value
 
-Use `localeStrings` in props.
+TBD
 
 ```js
 {
-  renderError: 'An error occurred rendering the PivotTable results.',
-  computeError: 'An error occurred computing the PivotTable results.',
-  uiRenderError: 'An error occurred rendering the PivotTable UI.',
-  selectAll: 'Select All',
-  selectNone: 'Select None',
-  tooMany: 'too many values to show',
-  filterResults: 'Filter values',
-  totals: 'Totals',
-  only: 'only',
-  rendererMap: {
-    Table: 'Table',
-    'Table Heatmap': 'Table Heatmap',
-    'Table Col Heatmap': 'Table Col Heatmap',
-    'Table Row Heatmap': 'Table Row Heatmap',
-    'Export Table TSV': 'Export Table TSV',
-    'Grouped Column Chart': 'Grouped Column Chart',
-    'Stacked Column Chart': 'Stacked Column Chart',
-    'Grouped Bar Chart': 'Grouped Bar Chart',
-    'Stacked Bar Chart': 'Stacked Bar Chart',
-    'Line Chart': 'Line Chart',
-    'Dot Chart': 'Dot Chart',
-    'Area Chart': 'Area Chart',
-    'Scatter Chart': 'Scatter Chart',
-    'Multiple Pie Chart': 'Multiple Pie Chart'
+  // default
+  en: {
+    aggregators: this.aggregators,
+    localeStrings: {
+      renderError: 'An error occurred rendering the PivotTable results.',
+      computeError: 'An error occurred computing the PivotTable results.',
+      uiRenderError: 'An error occurred rendering the PivotTable UI.',
+      selectAll: 'Select All',
+      selectNone: 'Select None',
+      tooMany: '(too many to list)',
+      filterResults: 'Filter values',
+      totals: 'Totals',
+      only: 'Only',
+      vs: 'vs',
+      by: 'by'
+    }
   },
-  aggregatorMap: {
-    Count: 'Count',
-    'Count Unique Values': 'Count Unique Values',
-    'List Unique Values': 'List Unique Values',
-    Sum: 'Sum',
-    'Integer Sum': 'Integer Sum',
-    Average: 'Average',
-    Median: 'Median',
-    'Sample Variance': 'Sample Variance',
-    'Sample Standard Deviation': 'Sample Standard Deviation',
-    Minimum: 'Minimum',
-    Maximum: 'Maximum',
-    First: 'First',
-    Last: 'Last',
-    'Sum over Sum': 'Sum over Sum',
-    'Sum as Fraction of Total': 'Sum as Fraction of Total',
-    'Sum as Fraction of Rows': 'Sum as Fraction of Rows',
-    'Sum as Fraction of Columns': 'Sum as Fraction of Columns',
-    'Count as Fraction of Total': 'Count as Fraction of Total',
-    'Count as Fraction of Rows': 'Count as Fraction of Rows',
-    'Count as Fraction of Columns': 'Count as Fraction of Columns'
+  // add the locale you want.
+  ko: {
+    aggregators: this.aggregators,
+    localeStrings: {
+      renderError: '피벗 테이블 결과를 렌더링하는 동안 오류가 발생 했습니다.',
+      computeError: '피벗 테이블 결과를 계산하는 동안 오류가 발생 했습니다.',
+      uiRenderError: '피벗 테이블 UI를 렌더링하는 동안 오류가 발생 했습니다.',
+      selectAll: '모두 선택',
+      selectNone: '선택 안함',
+      tooMany: '표시 할 값이 너무 많습니다.',
+      filterResults: '값 필터링',
+      totals: '합계',
+      only: '단독',
+      vs: 'vs',
+      by: 'by'
+    }
   }
 }
 ```

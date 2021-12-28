@@ -11,11 +11,18 @@ Props that support both `vue-pivottable` and `vue-pivottable-ui`.
 
 ### data
 
-* Type: `none`
-* Default: `none`
+* Type: `Array` || `Object`
+* Default: `undefined`
 * **Required**
 
 data to be summarized
+
+<iframe src="https://codesandbox.io/embed/vue-pivottable-props-data-l1rzc?fontsize=14&hidenavigation=1&theme=light&view=preview"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="vue-pivottable-props-data"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
 
 ### vals
 
@@ -23,6 +30,13 @@ data to be summarized
 * Default: `[]`
 
 attribute names used as arguments to aggregator (gets passed to aggregator generating function)
+
+<iframe src="https://codesandbox.io/embed/vue-pivottable-props-vals-vjqfh?fontsize=14&hidenavigation=1&theme=light&view=preview"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="vue-pivottable-props-vals"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
 
 ### cols
 
@@ -122,10 +136,14 @@ value of max-width in table style
 
 generate custom color render for `Table Heatmap`
 
-### localeStrings
+### locales
 
 * Type: `Object`
 * Default: [see locale](./locale)
+
+:::dnager
+localeStrings is deprecated, replace in locales.
+:::
 
 ## Pivottable UI Props
 
