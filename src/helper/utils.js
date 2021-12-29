@@ -377,21 +377,16 @@ const aggregatorTemplates = {
   }
 }
 
-aggregatorTemplates.countUnique = f =>
-  aggregatorTemplates.uniques(x => x.length, f)
-aggregatorTemplates.listUnique = s =>
-  aggregatorTemplates.uniques(x => x.join(s), x => x)
+aggregatorTemplates.countUnique = f => aggregatorTemplates.uniques(x => x.length, f)
+aggregatorTemplates.listUnique = s => aggregatorTemplates.uniques(x => x.join(s), x => x)
 aggregatorTemplates.max = f => aggregatorTemplates.extremes('max', f)
 aggregatorTemplates.min = f => aggregatorTemplates.extremes('min', f)
 aggregatorTemplates.first = f => aggregatorTemplates.extremes('first', f)
 aggregatorTemplates.last = f => aggregatorTemplates.extremes('last', f)
 aggregatorTemplates.median = f => aggregatorTemplates.quantile(0.5, f)
-aggregatorTemplates.average = f =>
-  aggregatorTemplates.runningStat('mean', 1, f)
-aggregatorTemplates.var = (ddof, f) =>
-  aggregatorTemplates.runningStat('var', ddof, f)
-aggregatorTemplates.stdev = (ddof, f) =>
-  aggregatorTemplates.runningStat('stdev', ddof, f)
+aggregatorTemplates.average = f => aggregatorTemplates.runningStat('mean', 1, f)
+aggregatorTemplates.var = (ddof, f) => aggregatorTemplates.runningStat('var', ddof, f)
+aggregatorTemplates.stdev = (ddof, f) => aggregatorTemplates.runningStat('stdev', ddof, f)
 
 // default aggregators & renderers use US naming and number formatting
 const aggregators = (tpl => ({
