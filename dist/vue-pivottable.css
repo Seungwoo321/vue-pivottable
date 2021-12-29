@@ -17,7 +17,9 @@
     -khtml-user-select: none;
     -ms-user-select: none;
 }
-
+.pvtUi td {
+    overflow-x: auto;
+}
 .pvtUi td.pvtOutput {
     padding: 6px;
     vertical-align: top;
