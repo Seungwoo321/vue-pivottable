@@ -1,5 +1,5 @@
 export default {
-  props: ['values', 'localeStrings', 'value'],
+  props: ['values', 'value'],
   model: {
     prop: 'value',
     event: 'input'
@@ -24,7 +24,7 @@ export default {
     },
     [
       this.values.map(r => {
-        const text = this.localeStrings ? this.localeStrings[r] : r
+        const text = r
         return h('option', {
           attrs: {
             value: r,

@@ -2,7 +2,9 @@ import TableRenderer from './TableRenderer'
 import defaultProps from './helper/common'
 export default {
   name: 'vue-pivottable',
-  mixins: [defaultProps],
+  mixins: [
+    defaultProps
+  ],
   computed: {
     rendererItems () {
       return this.renderers || Object.assign({}, TableRenderer)
@@ -12,7 +14,10 @@ export default {
     createPivottable (h) {
       const props = this.$props
       return h(this.rendererItems[this.rendererName], {
-        props
+        props: {
+          ...props,
+          localeStrings: props.locales[props.locale].localeStrings
+        }
       })
     },
     createWrapperContainer (h) {
