@@ -16,6 +16,10 @@ export default {
     event: 'onRefresh'
   },
   props: {
+    async: {
+      type: Boolean,
+      default: false
+    },
     hiddenAttributes: {
       type: Array,
       default: function () {
@@ -93,15 +97,13 @@ export default {
       )
     },
     unusedAttrs () {
-      return this.propsData.attributes
-        .filter(
-          e =>
-            !this.propsData.rows.includes(e) &&
-            !this.propsData.cols.includes(e) &&
-            !this.hiddenAttributes.includes(e) &&
-            !this.hiddenFromDragDrop.includes(e)
-        )
-        .sort(sortAs(this.unusedOrder))
+      return this.propsData.attributes.filter(
+        e =>
+          !this.propsData.rows.includes(e) &&
+          !this.propsData.cols.includes(e) &&
+          !this.hiddenAttributes.includes(e) &&
+          !this.hiddenFromDragDrop.includes(e)
+      ).sort(sortAs(this.unusedOrder))
     }
   },
   data () {
@@ -194,32 +196,19 @@ export default {
     propsData: {
       handler (value) {
         if (this.pivotData.length === 0) return
-        const {
-          derivedAttributes,
-          hiddenAttributes,
-          hiddenFromAggregators,
-          hiddenFromDragDrop,
-          sortonlyFromDragDrop,
-          disabledFromDragDrop,
-          menuLimit,
-          rowLimit,
-          colLimit,
-          unusedAttrs,
-          sorters
-        } = this
         const props = {
-          derivedAttributes,
-          hiddenAttributes,
-          hiddenFromAggregators,
-          hiddenFromDragDrop,
-          sortonlyFromDragDrop,
-          disabledFromDragDrop,
-          menuLimit,
-          rowLimit,
-          colLimit,
+          derivedAttributes: this.derivedAttributes,
+          hiddenAttributes: this.hiddenAttributes,
+          hiddenFromAggregators: this.hiddenFromAggregators,
+          hiddenFromDragDrop: this.hiddenFromDragDrop,
+          sortonlyFromDragDrop: this.sortonlyFromDragDrop,
+          disabledFromDragDrop: this.disabledFromDragDrop,
+          menuLimit: this.menuLimit,
+          rowLimit: this.rowLimit,
+          colLimit: this.colLimit,
           attributes: value.attributes,
-          unusedAttrs,
-          sorters,
+          unusedAttrs: this.unusedAttrs,
+          sorters: this.sorters,
           data: this.materializedInput,
           rowOrder: value.rowOrder,
           colOrder: value.colOrder,
@@ -249,7 +238,17 @@ export default {
       this.propsData.aggregatorName = this.aggregatorName
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
-      Object.keys(this.attrValues).forEach(key => this.updateValueFilter({ attribute: key, valueFilter: this.valueFilter && this.valueFilter[key] && Object.keys(this.valueFilter[key]).length ? this.valueFilter[key] : {} }))
+      Object.keys(this.attrValues).forEach(key => {
+        let valueFilter = {}
+        const values = this.valueFilter && this.valueFilter[key]
+        if (values && Object.keys(values).length) {
+          valueFilter = this.valueFilter[key]
+        }
+        this.updateValueFilter({
+          attribute: key,
+          valueFilter
+        })
+      })
     },
     assignValue (field) {
       this.$set(this.propsData.valueFilter, field, {})
@@ -338,15 +337,17 @@ export default {
               zIndex: this.zIndices[x] || this.maxZIndex,
               valueFilter: this.propsData.valueFilter[x],
               open: this.openStatus[x],
+              async: this.async,
               unused: this.unusedAttrs.includes(x),
-              localeStrings: this.localeStrings
+              localeStrings: this.locales[this.locale].localeStrings
             },
             domProps: {
             },
             on: {
               'update:filter': this.updateValueFilter,
               'moveToTop:filterbox': this.moveFilterBoxToTop,
-              'open:filterbox': this.openFilterBox
+              'open:filterbox': this.openFilterBox,
+              'no:filterbox': () => this.$emit('no:filterbox')
             }
           })
         })
@@ -364,7 +365,6 @@ export default {
           h(Dropdown, {
             props: {
               values: Object.keys(this.rendererItems),
-              localeStrings: this.localeStrings.rendererMap,
               value: rendererName
             },
             on: {
@@ -393,7 +393,6 @@ export default {
                 },
                 props: {
                   values: Object.keys(this.aggregatorItems),
-                  localeStrings: this.localeStrings.aggregatorMap,
                   value: aggregatorName
                 },
                 // domProps: {

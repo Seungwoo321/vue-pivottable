@@ -46,6 +46,7 @@ export default {
     },
     menuLimit: Number,
     zIndex: Number,
+    async: Boolean,
     unused: Boolean
   },
   data () {
@@ -222,6 +223,12 @@ export default {
     },
     toggleFilterBox (event) {
       event.stopPropagation()
+      if (!this.attrValues) {
+        if (this.$listeners['no:filterbox']) {
+          this.$emit('no:filterbox')
+        }
+        return
+      }
       this.openFilterBox(this.name, !this.open)
       this.moveFilterBoxToTop(this.name)
     },
@@ -248,7 +255,7 @@ export default {
       [
         pvtAttrScopedSlot ? pvtAttrScopedSlot({ name: this.name }) : this.name,
         !this.disabled &&
-        !this.unused ? h('span', {
+        (!this.async || (!this.unused && this.async)) ? h('span', {
             staticClass: ['pvtTriangle'],
             on: {
               'click': this.toggleFilterBox.bind(this)
