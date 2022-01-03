@@ -37,7 +37,9 @@ export default {
     },
     locales: {
       type: Object,
-      default: locales
+      default: function () {
+        return locales
+      }
     },
     rowTotal: {
       type: Boolean,
