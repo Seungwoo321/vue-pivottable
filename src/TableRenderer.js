@@ -261,7 +261,7 @@ function makeRenderer (opts = {}) {
                     attrs: {
                       key: `pvtVal${i}-${j}`
                     },
-                    on: getClickHandler ? {
+                    on: this.tableOptions.clickCallback ? {
                       click: getClickHandler(aggregator.value(), rowKey, colKey)
                     } : {}
                   }, aggregator.format(aggregator.value()))
@@ -270,7 +270,7 @@ function makeRenderer (opts = {}) {
                 this.rowTotal ? h('td', {
                   staticClass: ['pvtTotal'],
                   style: colTotalColors(totalAggregator.value()),
-                  on: getClickHandler ? {
+                  on: this.tableOptions.clickCallback ? {
                     click: getClickHandler(totalAggregator.value(), rowKey, [])
                   } : {}
                 }, totalAggregator.format(totalAggregator.value())) : undefined
@@ -294,7 +294,7 @@ function makeRenderer (opts = {}) {
                     attrs: {
                       key: `total${i}`
                     },
-                    on: getClickHandler ? {
+                    on: this.tableOptions.clickCallback ? {
                       click: getClickHandler(totalAggregator.value(), [], colKey)
                     } : {}
                   }, totalAggregator.format(totalAggregator.value()))
@@ -302,7 +302,7 @@ function makeRenderer (opts = {}) {
 
                 this.colTotal && this.rowTotal ? h('td', {
                   staticClass: ['pvtGrandTotal'],
-                  on: getClickHandler ? {
+                  on: this.tableOptions.clickCallback ? {
                     click: getClickHandler(grandTotalAggregator.value(), [], [])
                   } : {}
                 }, grandTotalAggregator.format(grandTotalAggregator.value())) : undefined
