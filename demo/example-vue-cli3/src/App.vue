@@ -53,21 +53,15 @@
           </template>
         </vue-pivottable-ui>
         <!-- <vue-pivottable
-          v-model="config"
           :data="data"
           :rendererName="rendererName"
           :aggregatorName="aggregatorName"
-          :tableColorScaleGenerator="colorScaleGenerator"
-          :attributes="attributes"
-          :valueFilter="valueFilter"
           :rows="rows"
           :cols="cols"
           :vals="vals"
-          :disabledFromDragDrop="disabledFromDragDrop"
-          :sortonlyFromDragDrop="sortonlyFromDragDrop"
-          :hiddenFromDragDrop="hiddenFromDragDrop"
           :sorters="sorters"
-          rowOrder="value_a_to_z"
+          :locales="locales"
+          :locale="locale"
         >
         </vue-pivottable> -->
         <!-- fix issue #14 -->
@@ -91,9 +85,7 @@
 <script>
 import tips from './tips'
 // import tips2 from './tips2'
-// import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
 import { VuePivottableUi, PivotUtilities, Renderer } from '../../../src'
-// import { VuePivottable, PivotUtilities, Renderer } from '../../../src'
 import '../../../src/assets/vue-pivottable.css'
 import { scaleLinear } from 'd3-scale'
 export default {
