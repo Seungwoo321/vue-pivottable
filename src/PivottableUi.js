@@ -266,7 +266,7 @@ export default {
       this.zIndices[attribute] = this.maxZIndex + 1
     },
     openFilterBox ({ attribute, open }) {
-      this.openStatus[attribute] = open
+      this.$set(this.openStatus, attribute, open)
     },
     closeFilterBox (event) {
       this.openStatus = {}
