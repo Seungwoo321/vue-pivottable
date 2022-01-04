@@ -80,10 +80,10 @@ export default {
 
 ## colGroup
 
-If you don't want the drag field to exceed `td.pvtAxisContainer` you can use.
+You can use this slot if you want the width of `td.pvtAxisContainer` to be fixed, or if you want the drag field to never exceed `td.pvtAxisContainer` .
 
 ::: tip
-But `td.pvtAxisContainer` has `overflow-x:auto;` property.
+`td.pvtAxisContainer` has **overflow-x:auto;** property.
 :::
 
 ```vue{13-16}
@@ -100,10 +100,17 @@ But `td.pvtAxisContainer` has `overflow-x:auto;` property.
       <div slot="rendererCell">Table</div>
       <div slot="aggregatorCell">Count</div>
       <template slot="colGroup">
-        <colGroup width="250px"></colGroup>
+        <colGroup :width="colGroupFirstWidth"></colGroup>
         <colGroup></colGroup>
       </template>
     </vue-pivottable-ui>
+    <div class="m-1">
+      <input
+        v-model="colGroupFirstWidth"
+        type="number"
+        value="colGroupFirstWidth"
+      />
+    </div>
   </div>
 </template>
 
@@ -113,6 +120,11 @@ import "vue-pivottable/dist/vue-pivottable.css";
 export default {
   components: {
     VuePivottableUi,
+  },
+  data() {
+    return {
+      colGroupFirstWidth: 250,
+    };
   },
 };
 </script>
