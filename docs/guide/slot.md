@@ -80,7 +80,7 @@ export default {
 
 ## colGroup
 
-You can use this slot if you want the width of `td.pvtAxisContainer` to be fixed, or if you want the drag field to never exceed `td.pvtAxisContainer` .
+You can use this slot if you want the width of `td.pvtAxisContainer` to be fixed, or if you want not the drag field to overflow `td.pvtAxisContainer` .
 
 ::: tip
 `td.pvtAxisContainer` has **overflow-x:auto;** property.
@@ -105,11 +105,8 @@ You can use this slot if you want the width of `td.pvtAxisContainer` to be fixed
       </template>
     </vue-pivottable-ui>
     <div class="m-1">
-      <input
-        v-model="colGroupFirstWidth"
-        type="number"
-        value="colGroupFirstWidth"
-      />
+      <label>colGroupFirstWidth: </label>
+      <input v-model="colGroupFirstWidth" type="number" />
     </div>
   </div>
 </template>
