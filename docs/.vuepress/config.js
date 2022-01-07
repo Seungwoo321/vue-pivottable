@@ -65,6 +65,7 @@ function getGuideSidebar(groupA, groupB) {
       children: [
         'locale',
         'slot',
+        'scoped-slot',
         'utilities'
       ]
     }
