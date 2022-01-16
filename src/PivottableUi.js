@@ -73,7 +73,18 @@ export default {
     appliedFilter () {
       return this.propsData.valueFilter
     },
+    tableRenderer () {
+      const makeRenderer = TableRenderer.makeRenderer
+      return {
+        Table: makeRenderer({ name: 'vue-table' }),
+        'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
+        'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
+        'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
+        'Export Table TSV': TableRenderer.TSVExportRenderer
+      }
+    },
     rendererItems () {
+      const TableRenderer = this.tableRenderer
       return (this.renderers) || Object.assign({}, TableRenderer, PlotlyRenderer)
     },
     aggregatorItems () {
@@ -550,7 +561,6 @@ export default {
         return this.computeError(h)
       }
     }
-    const limitOver = outputScopedSlot && this.colLimit > 0 && this.rowLimit > 0 && (pivotData.getColKeys().length > this.colLimit || pivotData.getRowKeys().length > this.rowLimit)
     const rendererCell = this.rendererCell(rendererName, h)
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
     const outputCell = this.outputCell(props, rendererName.indexOf('Chart') > -1, h)
@@ -581,7 +591,9 @@ export default {
         h('tr',
           [
             rowAttrsCell,
-            outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : limitOver ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData: new PivotData(props) })) : outputCell
+            outputSlot && !outputScopedSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : undefined,
+            outputScopedSlot && !outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData })) : undefined,
+            !outputSlot && !outputScopedSlot ? outputCell : undefined
           ]
         )
       ])
