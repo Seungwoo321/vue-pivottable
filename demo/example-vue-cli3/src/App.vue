@@ -18,7 +18,7 @@
       <div class="main-wrapper">
         <vue-pivottable-ui
           v-model="config"
-          :data="data"
+          :data="pivotData"
           :locale="locale"
           :locales="locales"
           :rendererName="rendererName"
@@ -38,19 +38,48 @@
           :tableOptions="tableOptions"
           @no:filterbox="noFilterbox"
         >
+          <!-- Slot ColGroup -->
           <colgroup slot="colGroup">
               <col :width="300">
               <col>
           </colgroup>
+
+          <!-- Slot Output -->
           <div v-if="loading" slot="output">
             loading...
           </div>
-          <template v-if="!loading" slot="output" slot-scope="{ pivotData }">
-            {{ pivotData }}
-          </template>
-          <template slot="pvtAttr" slot-scope="{ name }">
+
+          <!-- Scoped Slot PvtAttr -->
+          <template v-slot:pvtAttr="{ name }">
             {{ name }}
           </template>
+
+          <!-- Scoped Slot Output -->
+          <!-- <template v-if="!loading" v-slot:output="{ pivotData }">
+            <div v-if="!viewTable">
+              <button @click="viewTable = !viewTable">
+                View Table
+              </button>
+              <button @click="otherAction(pivotData)">
+                Other action
+              </button>
+            </div>
+            <template v-else>
+              <table-renderer
+                v-if="pivotData.props.rendererName === 'Table'"
+                :data="pivotData.props.data"
+                :props="pivotData.props"
+              >
+              </table-renderer>
+              <heatmap-renderer
+                v-if="pivotData.props.rendererName === 'Table Heatmap'"
+                :data="pivotData.props.data"
+                :props="pivotData.props"
+              >
+              </heatmap-renderer>
+            </template>
+          </template> -->
+
         </vue-pivottable-ui>
         <!-- <vue-pivottable
           :data="data"
@@ -64,13 +93,6 @@
           :locale="locale"
         >
         </vue-pivottable> -->
-        <!-- fix issue #14 -->
-        <!--
-        <div>
-          {{ Object.keys(config).length }}
-          {{ config }}
-        </div>
-        -->
         <textarea
           style="height: 500px; margin: 10px;"
           readonly
@@ -88,14 +110,22 @@ import tips from './tips'
 import { VuePivottableUi, PivotUtilities, Renderer } from '../../../src'
 import '../../../src/assets/vue-pivottable.css'
 import { scaleLinear } from 'd3-scale'
+// const HeatmapRenderer = Renderer.TableRenderer.makeRenderer({ heatmapMode: 'full' })
+// const TableRenderer = Renderer.TableRenderer.makeRenderer()
+
 export default {
   components: {
     VuePivottableUi
+    // TableRenderer,
+    // HeatmapRenderer
     // VuePivottable
   },
   name: 'app',
   data () {
     return {
+      viewTable: false,
+      colLimit: 10,
+      rowLimit: 10,
       // fix issue #27
       valueFilter: {
         Meal: {
@@ -104,7 +134,7 @@ export default {
       },
       config: {},
       filteredData: [],
-      data: [],
+      pivotData: tips,
       asyncFields: ['Unused 1'],
       attributes: ['Unused 1', 'Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
       rows: ['Payer Gender', 'Party Size'],
@@ -121,9 +151,7 @@ export default {
     }
   },
   created () {
-    setTimeout(() => {
-      this.data = tips
-    }, 1000)
+    this.data = tips
   },
   computed: {
     tableOptions () {
@@ -246,19 +274,14 @@ export default {
     },
     noFilterbox () {
       alert('no data')
+    },
+    otherAction (pivotData) {
+      alert(`All Total Count: ${pivotData.allTotal.count}`)
     }
   },
   watch: {
     config: {
       handler (value, oldValue) {
-        // const PivotData = PivotUtilities.PivotData
-        // if (value.cols.indexOf('Unused 1') > -1 || value.rows.indexOf('Unused 1') > -1) {
-        //   this.data = tips2
-        //   this.filteredData = new PivotData(value).getFilteredData()
-        // } else {
-        //   this.data = tips
-        //   this.filteredData = new PivotData(value).getFilteredData()
-        // }
         delete value.data
       },
       deep: true,
