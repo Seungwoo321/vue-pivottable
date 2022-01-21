@@ -13,6 +13,25 @@ module.exports = {
     //   description: 'It is a Vue port of the jQuery-based PivotTable.js',
     // },
   },
+  plugins: [
+    [
+      '@vuepress/back-to-top'
+    ],
+    [
+      '@vuepress/nprogress'
+    ],
+    [
+      '@vuepress/pwa', {
+        serviceWorker: true,
+        updatePopup: true
+      }
+    ],
+    [
+      '@vuepress/google-analytics', {
+        'ga': 'G-TN13CSYPZR'
+      }
+    ],
+  ],
   head: [
     ['meta', { name: 'application-name', content: 'VuePivottable' }],
     ['meta', { name: 'apple-mobile-web-app-title', content: 'VuePivottable' }],
