@@ -1,6 +1,6 @@
 # Etc
 package-lock.json
-
+docs
 # Logs
 logs
 *.log
