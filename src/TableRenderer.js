@@ -371,6 +371,9 @@ const TSVExportRenderer = {
 }
 
 export default {
-  makeRenderer,
-  TSVExportRenderer
+  Table: makeRenderer({ name: 'vue-table' }),
+  'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
+  'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
+  'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
+  'Export Table TSV': TSVExportRenderer
 }

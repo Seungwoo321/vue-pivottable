@@ -6,18 +6,7 @@ export default {
     defaultProps
   ],
   computed: {
-    tableRenderer () {
-      const makeRenderer = TableRenderer.makeRenderer
-      return {
-        Table: makeRenderer({ name: 'vue-table' }),
-        'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
-        'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
-        'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
-        'Export Table TSV': TableRenderer.TSVExportRenderer
-      }
-    },
     rendererItems () {
-      const TableRenderer = this.tableRenderer
       return this.renderers || Object.assign({}, TableRenderer)
     }
   },

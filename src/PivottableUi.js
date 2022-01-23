@@ -50,14 +50,6 @@ export default {
         return []
       }
     },
-    rowLimit: {
-      type: Number,
-      default: 0
-    },
-    colLimit: {
-      type: Number,
-      default: 0
-    },
     menuLimit: {
       type: Number,
       default: 500
@@ -73,18 +65,7 @@ export default {
     appliedFilter () {
       return this.propsData.valueFilter
     },
-    tableRenderer () {
-      const makeRenderer = TableRenderer.makeRenderer
-      return {
-        Table: makeRenderer({ name: 'vue-table' }),
-        'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
-        'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
-        'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),
-        'Export Table TSV': TableRenderer.TSVExportRenderer
-      }
-    },
     rendererItems () {
-      const TableRenderer = this.tableRenderer
       return (this.renderers) || Object.assign({}, TableRenderer, PlotlyRenderer)
     },
     aggregatorItems () {
@@ -215,8 +196,6 @@ export default {
           sortonlyFromDragDrop: this.sortonlyFromDragDrop,
           disabledFromDragDrop: this.disabledFromDragDrop,
           menuLimit: this.menuLimit,
-          rowLimit: this.rowLimit,
-          colLimit: this.colLimit,
           attributes: value.attributes,
           unusedAttrs: this.unusedAttrs,
           sorters: this.sorters,
