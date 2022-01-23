@@ -39,12 +39,18 @@
           @no:filterbox="noFilterbox"
         >
           <!-- Slot ColGroup -->
-          <colgroup slot="colGroup">
-              <col :width="300">
-              <col>
-          </colgroup>
-
+          <template v-slot:colGroup>
+            <colgroup >
+                <col :width="300">
+                <col>
+            </colgroup>
+          </template>
           <!-- Slot Output -->
+          <!-- <template v-slot:output>
+            <div v-if="loading">
+              loading...
+            </div>
+          </template> -->
           <div v-if="loading" slot="output">
             loading...
           </div>

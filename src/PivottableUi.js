@@ -591,7 +591,7 @@ export default {
         h('tr',
           [
             rowAttrsCell,
-            outputSlot && !outputScopedSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : undefined,
+            outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputSlot) : undefined,
             outputScopedSlot && !outputSlot ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData })) : undefined,
             !outputSlot && !outputScopedSlot ? outputCell : undefined
           ]
