@@ -116,8 +116,8 @@ import tips from './tips'
 import { VuePivottableUi, PivotUtilities, Renderer } from '../../../src'
 import '../../../src/assets/vue-pivottable.css'
 import { scaleLinear } from 'd3-scale'
-// const HeatmapRenderer = Renderer.TableRenderer.makeRenderer({ heatmapMode: 'full' })
-// const TableRenderer = Renderer.TableRenderer.makeRenderer()
+// const HeatmapRenderer = Renderer.TableRenderer['Table Heatmap']
+// const TableRenderer = Renderer.TableRenderer['Table']
 
 export default {
   components: {
@@ -130,8 +130,6 @@ export default {
   data () {
     return {
       viewTable: false,
-      colLimit: 10,
-      rowLimit: 10,
       // fix issue #27
       valueFilter: {
         Meal: {
