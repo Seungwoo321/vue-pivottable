@@ -443,10 +443,10 @@ export default {
             props
           })
           : h(Pivottable, {
-            props: {
-              ...props,
-              tableMaxWidth: this.tableMaxWidth
-            }
+            props: Object.assign({},
+              props,
+              {tableMaxWidth: this.tableMaxWidth}
+            )
           })
       ])
     }
@@ -517,8 +517,7 @@ export default {
       'pvtAxisContainer pvtVertList pvtRows',
       h
     )
-    const props = {
-      ...this.$props,
+    const props = Object.assign({},this.$props,{
       localeStrings: this.localeStrings,
       data: this.materializedInput,
       rowOrder: this.propsData.rowOrder,
@@ -530,7 +529,7 @@ export default {
       rendererName,
       aggregatorName,
       vals
-    }
+    })
     let pivotData = null
     try {
       pivotData = new PivotData(props)
