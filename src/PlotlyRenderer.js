@@ -94,11 +94,11 @@ function makeRenderer (opts = {}, traceOptions = {}, layoutOptions = {}, transpo
       return h(Plotly, {
         props: {
           data,
-          layout: {
-            ...layout,
-            ...layoutOptions,
-            ...this.$props.plotlyOptions
-          }
+          layout: Object.assign({},
+            layout,
+            layoutOptions,
+            this.$props.plotlyOptions
+          )
         }
       })
     }
@@ -148,10 +148,11 @@ function makeScatterRenderer (opts = {}) {
       return h(Plotly, {
         props: {
           data: [data],
-          layout: {
-            ...layout,
-            ...this.$props.plotlyOptions
-          }
+          
+          layout: Object.assign({},
+            layout,
+            this.$props.plotlyOptions
+          )
         }
       })
     }
