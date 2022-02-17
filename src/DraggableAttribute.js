@@ -78,9 +78,7 @@ export default {
       const valueFilter = values.reduce((r, v) => {
         r[v] = true
         return r
-      }, {
-        ...this.valueFilter
-      })
+      }, Object.assign({},this.valueFilter))
       this.$emit('update:filter', { attribute, valueFilter })
     },
     removeValuesFromFilter (attribute, values) {
@@ -89,9 +87,7 @@ export default {
           delete r[v]
         }
         return r
-      }, {
-        ...this.valueFilter
-      })
+      }, Object.assign({},this.valueFilter))
       this.$emit('update:filter', { attribute, valueFilter })
     },
     moveFilterBoxToTop (attribute) {
@@ -184,7 +180,8 @@ export default {
           staticClass: ['pvtCheckContainer']
         },
         [
-          ...shown.map(x => {
+          Object.assign({},
+          shown.map(x => {
             const checked = !(x in this.valueFilter)
             return h('p', {
               class: {
@@ -217,7 +214,7 @@ export default {
                 staticClass: ['pvtOnlySpacer']
               })
             ])
-          })
+          }))
         ])
       ])
     },
