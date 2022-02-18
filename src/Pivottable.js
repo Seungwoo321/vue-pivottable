@@ -12,12 +12,13 @@ export default {
   },
   methods: {
     createPivottable (h) {
-      const props = this.$props
+      const props = this.$props;
       return h(this.rendererItems[this.rendererName], {
-        props: Object.assign({},
-          props,
-          {localeStrings: props.locales[props.locale].localeStrings})
-      })
+        props: Object.assign(
+            props,
+            {localeStrings: props.locales[props.locale].localeStrings}
+          )
+      });
     },
     createWrapperContainer (h) {
       return h('div', {
@@ -29,13 +30,13 @@ export default {
         }
       }, [
         this.createPivottable(h)
-      ])
+      ]);
     }
   },
   render (h) {
-    return this.createWrapperContainer(h)
+    return this.createWrapperContainer(h);
   },
   renderError (h, error) {
-    return this.renderError(h)
+    return this.renderError(h);
   }
-}
+};
