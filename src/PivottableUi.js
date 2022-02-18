@@ -1,11 +1,11 @@
-import defaultProps from './helper/common'
-import DraggableAttribute from './DraggableAttribute'
-import Dropdown from './Dropdown'
-import Pivottable from './Pivottable'
-import TableRenderer from './TableRenderer'
-import PlotlyRenderer from './PlotlyRenderer'
-import { PivotData, getSort, sortAs, aggregators } from './helper/utils'
-import draggable from 'vuedraggable'
+import defaultProps from './helper/common';
+import DraggableAttribute from './DraggableAttribute';
+import Dropdown from './Dropdown';
+import Pivottable from './Pivottable';
+import TableRenderer from './TableRenderer';
+import PlotlyRenderer from './PlotlyRenderer';
+import { PivotData, getSort, sortAs, aggregators } from './helper/utils';
+import draggable from 'vuedraggable';
 export default {
   name: 'vue-pivottable-ui',
   mixins: [
@@ -23,31 +23,31 @@ export default {
     hiddenAttributes: {
       type: Array,
       default: function () {
-        return []
+        return [];
       }
     },
     hiddenFromAggregators: {
       type: Array,
       default: function () {
-        return []
+        return [];
       }
     },
     hiddenFromDragDrop: {
       type: Array,
       default: function () {
-        return []
+        return [];
       }
     },
     sortonlyFromDragDrop: {
       type: Array,
       default: function () {
-        return []
+        return [];
       }
     },
     disabledFromDragDrop: {
       type: Array,
       default: function () {
-        return []
+        return [];
       }
     },
     menuLimit: {
@@ -57,36 +57,36 @@ export default {
     config: {
       type: Object,
       default: function () {
-        return {}
+        return {};
       }
     }
   },
   computed: {
     appliedFilter () {
-      return this.propsData.valueFilter
+      return this.propsData.valueFilter;
     },
     rendererItems () {
-      return (this.renderers) || Object.assign({}, TableRenderer, PlotlyRenderer)
+      return (this.renderers) || Object.assign({}, TableRenderer, PlotlyRenderer);
     },
     aggregatorItems () {
-      return (this.aggregators) || aggregators
+      return (this.aggregators) || aggregators;
     },
     numValsAllowed () {
-      return this.aggregatorItems[this.propsData.aggregatorName]([])().numInputs || 0
+      return this.aggregatorItems[this.propsData.aggregatorName]([])().numInputs || 0;
     },
     rowAttrs () {
       return this.propsData.rows.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
           !this.hiddenFromDragDrop.includes(e)
-      )
+      );
     },
     colAttrs () {
       return this.propsData.cols.filter(
         e =>
           !this.hiddenAttributes.includes(e) &&
           !this.hiddenFromDragDrop.includes(e)
-      )
+      );
     },
     unusedAttrs () {
       return this.propsData.attributes.filter(
@@ -95,7 +95,7 @@ export default {
           !this.propsData.cols.includes(e) &&
           !this.hiddenAttributes.includes(e) &&
           !this.hiddenFromDragDrop.includes(e)
-      ).sort(sortAs(this.unusedOrder))
+      ).sort(sortAs(this.unusedOrder));
     }
   },
   data () {
@@ -137,57 +137,57 @@ export default {
           next: 'key_a_to_z'
         }
       }
-    }
+    };
   },
   beforeUpdated (nextProps) {
-    this.materializeInput(nextProps.data)
+    this.materializeInput(nextProps.data);
   },
   watch: {
     cols: {
       handler (value) {
-        this.propsData.cols = value
+        this.propsData.cols = value;
       }
     },
     rows: {
       handler (value) {
-        this.propsData.rows = value
+        this.propsData.rows = value;
       }
     },
     rendererName: {
       handler (value) {
-        this.propsData.rendererName = value
+        this.propsData.rendererName = value;
       }
     },
     appliedFilter: {
       handler (value, oldValue) {
-        this.$emit('update:valueFilter', value)
+        this.$emit('update:valueFilter', value);
       },
       immediate: true,
       deep: true
     },
     valueFilter: {
       handler (value) {
-        this.propsData.valueFilter = value
+        this.propsData.valueFilter = value;
       },
       immediate: true,
       deep: true
     },
     data: {
       handler (value) {
-        this.init()
+        this.init();
       },
       immediate: true,
       deep: true
     },
     attributes: {
       handler (value) {
-        this.propsData.attributes = value.length > 0 ? value : Object.keys(this.attrValues)
+        this.propsData.attributes = value.length > 0 ? value : Object.keys(this.attrValues);
       },
       deep: true
     },
     propsData: {
       handler (value) {
-        if (this.pivotData.length === 0) return
+        if (this.pivotData.length === 0) return;
         const props = {
           derivedAttributes: this.derivedAttributes,
           hiddenAttributes: this.hiddenAttributes,
@@ -209,8 +209,8 @@ export default {
           aggregatorName: value.aggregatorName,
           aggregators: this.aggregatorItems,
           vals: value.vals
-        }
-        this.$emit('onRefresh', props)
+        };
+        this.$emit('onRefresh', props);
       },
       immediate: false,
       deep: true
@@ -218,81 +218,81 @@ export default {
   },
   methods: {
     init () {
-      this.materializeInput(this.data)
-      this.propsData.vals = this.vals.slice()
-      this.propsData.rows = this.rows
-      this.propsData.cols = this.cols
-      this.propsData.rowOrder = this.rowOrder
-      this.propsData.colOrder = this.colOrder
-      this.propsData.rendererName = this.rendererName
-      this.propsData.aggregatorName = this.aggregatorName
+      this.materializeInput(this.data);
+      this.propsData.vals = this.vals.slice();
+      this.propsData.rows = this.rows;
+      this.propsData.cols = this.cols;
+      this.propsData.rowOrder = this.rowOrder;
+      this.propsData.colOrder = this.colOrder;
+      this.propsData.rendererName = this.rendererName;
+      this.propsData.aggregatorName = this.aggregatorName;
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
-      this.unusedOrder = this.unusedAttrs
+      this.unusedOrder = this.unusedAttrs;
       Object.keys(this.attrValues).forEach(key => {
-        let valueFilter = {}
-        const values = this.valueFilter && this.valueFilter[key]
+        let valueFilter = {};
+        const values = this.valueFilter && this.valueFilter[key];
         if (values && Object.keys(values).length) {
-          valueFilter = this.valueFilter[key]
+          valueFilter = this.valueFilter[key];
         }
         this.updateValueFilter({
           attribute: key,
           valueFilter
-        })
-      })
+        });
+      });
     },
     assignValue (field) {
-      this.$set(this.propsData.valueFilter, field, {})
+      this.$set(this.propsData.valueFilter, field, {});
     },
     propUpdater (key) {
       return value => {
-        this.propsData[key] = value
+        this.propsData[key] = value;
       }
     },
     updateValueFilter ({ attribute, valueFilter }) {
-      this.$set(this.propsData.valueFilter, attribute, valueFilter)
+      this.$set(this.propsData.valueFilter, attribute, valueFilter);
     },
     moveFilterBoxToTop ({ attribute }) {
-      this.maxZIndex += 1
-      this.zIndices[attribute] = this.maxZIndex + 1
+      this.maxZIndex += 1;
+      this.zIndices[attribute] = this.maxZIndex + 1;
     },
     openFilterBox ({ attribute, open }) {
-      this.$set(this.openStatus, attribute, open)
+      this.$set(this.openStatus, attribute, open);
     },
     closeFilterBox (event) {
-      this.openStatus = {}
+      this.openStatus = {};
     },
     materializeInput (nextData) {
       if (this.pivotData === nextData) {
-        return
+        return;
       }
-      this.pivotData = nextData
-      const attrValues = {}
-      const materializedInput = []
-      let recordsProcessed = 0
+      this.pivotData = nextData;
+      const attrValues = {};
+      const materializedInput = [];
+      let recordsProcessed = 0;
       PivotData.forEachRecord(this.pivotData, this.derivedAttributes, function (record) {
-        materializedInput.push(record)
+        materializedInput.push(record);
         for (const attr of Object.keys(record)) {
           if (!(attr in attrValues)) {
-            attrValues[attr] = {}
+            attrValues[attr] = {};
             if (recordsProcessed > 0) {
-              attrValues[attr].null = recordsProcessed
+              attrValues[attr].null = recordsProcessed;
             }
           }
         }
         for (const attr in attrValues) {
-          const value = attr in record ? record[attr] : 'null'
+          const value = attr in record ? record[attr] : 'null';
           if (!(value in attrValues[attr])) {
-            attrValues[attr][value] = 0
+            attrValues[attr][value] = 0;
           }
-          attrValues[attr][value]++
+          attrValues[attr][value]++;
         }
-        recordsProcessed++
-      })
-      this.materializedInput = materializedInput
-      this.attrValues = attrValues
+        recordsProcessed++;
+      });
+      this.materializedInput = materializedInput;
+      this.attrValues = attrValues;
     },
     makeDnDCell (items, onChange, classes, h) {
-      const scopedSlots = this.$scopedSlots.pvtAttr
+      const scopedSlots = this.$scopedSlots.pvtAttr;
       return h(draggable, {
         attrs: {
           draggable: 'li[data-id]',
@@ -339,9 +339,9 @@ export default {
               'open:filterbox': this.openFilterBox,
               'no:filterbox': () => this.$emit('no:filterbox')
             }
-          })
+          });
         })
-      ])
+      ]);
     },
     rendererCell (rendererName, h) {
       return this.$slots.rendererCell
@@ -364,7 +364,7 @@ export default {
               }
             }
           })
-        ])
+        ]);
     },
     aggregatorCell (aggregatorName, vals, h) {
       return this.$slots.aggregatorCell
@@ -390,7 +390,7 @@ export default {
                 // },
                 on: {
                   input: (value) => {
-                    this.propUpdater('aggregatorName')(value)
+                    this.propUpdater('aggregatorName')(value);
                   }
                 }
               }),
@@ -431,7 +431,7 @@ export default {
               })
             ])
             : undefined
-        ])
+        ]);
     },
     outputCell (props, isPlotlyRenderer, h) {
       return h('td', {
@@ -443,37 +443,37 @@ export default {
             props
           })
           : h(Pivottable, {
-            props: Object.assign({},
+            props: Object.assign(
               props,
               {tableMaxWidth: this.tableMaxWidth}
             )
           })
-      ])
+      ]);
     }
   },
   render (h) {
-    if (this.data.length < 1) return
-    const outputScopedSlot = this.$scopedSlots.output
-    const outputSlot = this.$slots.output
-    const rendererName = this.propsData.rendererName
-    const aggregatorName = this.propsData.aggregatorName
-    const vals = this.propsData.vals
+    if (this.data.length < 1) return;
+    const outputScopedSlot = this.$scopedSlots.output;
+    const outputSlot = this.$slots.output;
+    const rendererName = this.propsData.rendererName;
+    const aggregatorName = this.propsData.aggregatorName;
+    const vals = this.propsData.vals;
     const unusedAttrsCell = this.makeDnDCell(
       this.unusedAttrs,
       e => {
-        const item = e.item.getAttribute('data-id')
+        const item = e.item.getAttribute('data-id');
         if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtUnused') || !e.to.classList.contains('pvtUnused'))) {
-          return
+          return;
         }
         if (e.from.classList.contains('pvtUnused')) {
-          this.openFilterBox({ attribute: item, open: false })
-          this.unusedOrder.splice(e.oldIndex, 1)
-          this.$emit('dragged:unused', item)
+          this.openFilterBox({ attribute: item, open: false });
+          this.unusedOrder.splice(e.oldIndex, 1);
+          this.$emit('dragged:unused', item);
         }
         if (e.to.classList.contains('pvtUnused')) {
-          this.openFilterBox({ attribute: item, open: false })
-          this.unusedOrder.splice(e.newIndex, 0, item)
-          this.$emit('dropped:unused', item)
+          this.openFilterBox({ attribute: item, open: false });
+          this.unusedOrder.splice(e.newIndex, 0, item);
+          this.$emit('dropped:unused', item);
         }
       },
       `pvtAxisContainer pvtUnused pvtHorizList`,
@@ -482,17 +482,17 @@ export default {
     const colAttrsCell = this.makeDnDCell(
       this.colAttrs,
       e => {
-        const item = e.item.getAttribute('data-id')
+        const item = e.item.getAttribute('data-id');
         if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtCols') || !e.to.classList.contains('pvtCols'))) {
           return
         }
         if (e.from.classList.contains('pvtCols')) {
-          this.propsData.cols.splice(e.oldIndex, 1)
-          this.$emit('dragged:cols', item)
+          this.propsData.cols.splice(e.oldIndex, 1);
+          this.$emit('dragged:cols', item);
         }
         if (e.to.classList.contains('pvtCols')) {
-          this.propsData.cols.splice(e.newIndex, 0, item)
-          this.$emit('dropped:cols', item)
+          this.propsData.cols.splice(e.newIndex, 0, item);
+          this.$emit('dropped:cols', item);
         }
       },
       'pvtAxisContainer pvtHorizList pvtCols',
@@ -501,23 +501,24 @@ export default {
     const rowAttrsCell = this.makeDnDCell(
       this.rowAttrs,
       e => {
-        const item = e.item.getAttribute('data-id')
+        const item = e.item.getAttribute('data-id');
         if (this.sortonlyFromDragDrop.includes(item) && (!e.from.classList.contains('pvtRows') || !e.to.classList.contains('pvtRows'))) {
-          return
+          return;
         }
         if (e.from.classList.contains('pvtRows')) {
-          this.propsData.rows.splice(e.oldIndex, 1)
-          this.$emit('dragged:rows', item)
+          this.propsData.rows.splice(e.oldIndex, 1);
+          this.$emit('dragged:rows', item);
         }
         if (e.to.classList.contains('pvtRows')) {
-          this.propsData.rows.splice(e.newIndex, 0, item)
-          this.$emit('dropped:rows', item)
+          this.propsData.rows.splice(e.newIndex, 0, item);
+          this.$emit('dropped:rows', item);
         }
       },
       'pvtAxisContainer pvtVertList pvtRows',
       h
-    )
-    const props = Object.assign({},this.$props,{
+    );
+    
+    const props = Object.assign({}, this.$props, {
       localeStrings: this.localeStrings,
       data: this.materializedInput,
       rowOrder: this.propsData.rowOrder,
@@ -529,20 +530,21 @@ export default {
       rendererName,
       aggregatorName,
       vals
-    })
-    let pivotData = null
+    });
+
+    let pivotData = null;
     try {
-      pivotData = new PivotData(props)
+      pivotData = new PivotData(props);
     } catch (error) {
       // eslint-disable-next-line no-console
       if (console && console.error(error.stack)) {
-        return this.computeError(h)
+        return this.computeError(h);
       }
     }
-    const rendererCell = this.rendererCell(rendererName, h)
-    const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
-    const outputCell = this.outputCell(props, rendererName.indexOf('Chart') > -1, h)
-    const colGroupSlot = this.$slots.colGroup
+    const rendererCell = this.rendererCell(rendererName, h);
+    const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h);
+    const outputCell = this.outputCell(props, rendererName.indexOf('Chart') > -1, h);
+    const colGroupSlot = this.$slots.colGroup;
     return h('table', {
       staticClass: ['pvtUi']
     },
@@ -575,9 +577,9 @@ export default {
           ]
         )
       ])
-    ])
+    ]);
   },
   renderError (h, error) {
-    return this.uiRenderError(h)
+    return this.uiRenderError(h);
   }
-}
+};
