@@ -179,9 +179,7 @@ export default {
         showMenu && h('div', {
           staticClass: ['pvtCheckContainer']
         },
-        [
-          Object.assign({},
-          shown.map(x => {
+        shown.map(x => {
             const checked = !(x in this.valueFilter)
             return h('p', {
               class: {
@@ -214,9 +212,9 @@ export default {
                 staticClass: ['pvtOnlySpacer']
               })
             ])
-          }))
-        ])
-      ])
+          })
+        )
+      ]);
     },
     toggleFilterBox (event) {
       event.stopPropagation()
