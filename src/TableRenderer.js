@@ -82,10 +82,10 @@ function makeRenderer (opts = {}) {
     render (h) {
       let pivotData = null
       try {
-        const props = {
-          ...this.$props,
-          ...this.$attrs.props
-        }
+        const props = Object.assign({},
+          this.$props,
+          this.$attrs.props
+        );
         pivotData = new PivotData(props)
       } catch (error) {
         // eslint-disable-next-line no-console
