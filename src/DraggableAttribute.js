@@ -78,7 +78,7 @@ export default {
       const valueFilter = values.reduce((r, v) => {
         r[v] = true
         return r
-      }, Object.assign({},this.valueFilter))
+      }, Object.assign({}, this.valueFilter))
       this.$emit('update:filter', { attribute, valueFilter })
     },
     removeValuesFromFilter (attribute, values) {
@@ -87,7 +87,7 @@ export default {
           delete r[v]
         }
         return r
-      }, Object.assign({},this.valueFilter))
+      }, Object.assign({}, this.valueFilter))
       this.$emit('update:filter', { attribute, valueFilter })
     },
     moveFilterBoxToTop (attribute) {
@@ -180,41 +180,41 @@ export default {
           staticClass: ['pvtCheckContainer']
         },
         shown.map(x => {
-            const checked = !(x in this.valueFilter)
-            return h('p', {
-              class: {
-                selected: checked
-              },
-              attrs: {
-                key: x
-              },
-              on: {
-                'click': () => this.toggleValue(x)
-              }
+          const checked = !(x in this.valueFilter)
+          return h('p', {
+            class: {
+              selected: checked
             },
-            [
-              h('input', {
-                attrs: {
-                  type: 'checkbox'
-                },
-                domProps: {
-                  checked: checked
-                }
-              }),
-              x,
-              h('a', {
-                staticClass: ['pvtOnly'],
-                on: {
-                  click: e => this.selectOnly(e, x)
-                }
-              }, this.localeStrings.only),
-              h('a', {
-                staticClass: ['pvtOnlySpacer']
-              })
-            ])
-          })
+            attrs: {
+              key: x
+            },
+            on: {
+              'click': () => this.toggleValue(x)
+            }
+          },
+          [
+            h('input', {
+              attrs: {
+                type: 'checkbox'
+              },
+              domProps: {
+                checked: checked
+              }
+            }),
+            x,
+            h('a', {
+              staticClass: ['pvtOnly'],
+              on: {
+                click: e => this.selectOnly(e, x)
+              }
+            }, this.localeStrings.only),
+            h('a', {
+              staticClass: ['pvtOnlySpacer']
+            })
+          ])
+        })
         )
-      ]);
+      ])
     },
     toggleFilterBox (event) {
       event.stopPropagation()

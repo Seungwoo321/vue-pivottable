@@ -85,7 +85,7 @@ function makeRenderer (opts = {}) {
         const props = Object.assign({},
           this.$props,
           this.$attrs.props
-        );
+        )
         pivotData = new PivotData(props)
       } catch (error) {
         // eslint-disable-next-line no-console
