@@ -132,8 +132,8 @@ function makeScatterRenderer(opts = {}) {
    if (colKeys.length === 0) colKeys.push([])
 
    const data = { x: [], y: [], text: [], type: 'scatter', mode: 'markers' }
-   rowKeys.map((rowKey) => {
-    colKeys.map((colKey) => {
+   rowKeys.forEach((rowKey) => {
+    colKeys.forEach((colKey) => {
      const v = pivotData.getAggregator(rowKey, colKey).value()
      if (v !== null) {
       data.x.push(colKey.join('-'))
