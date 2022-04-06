@@ -510,10 +510,13 @@ export default {
   const outputScopedSlot = this.$scopedSlots.output
   const outputSlot = this.$slots.output
   const rendererName = this.propsData.rendererName
-  const aggregatorName = this.propsData.aggregatorName
+  const aggregationAttributes = this.propsData.selectedAggregators.map(
+   ([_, attr]) => attr
+  )
   const vals = this.propsData.vals
   const unusedAttrsCell = this.makeDnDCell(
-   this.unusedAttrs,
+   // Exclude aggregation filters from unused filter options
+   this.unusedAttrs.filter((a) => aggregationAttributes.indexOf(a) === -1),
    (e) => {
     const item = e.item.getAttribute('data-id')
     if (
@@ -595,7 +598,6 @@ export default {
    aggregators: this.aggregatorItems,
    selectedAggregators: this.propsData.selectedAggregators,
    rendererName,
-   aggregatorName,
    vals
   })
 
