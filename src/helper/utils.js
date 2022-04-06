@@ -503,12 +503,12 @@ class PivotData {
     this.aggregator = this.props.aggregators[this.props.aggregatorName](
       this.props.vals
     )
+    this.aggregators = this.buildAggregators()
     this.tree = {}
     this.rowKeys = []
     this.colKeys = []
     this.rowTotals = {}
     this.colTotals = {}
-    this.allTotal = this.aggregator(this, [], [])
     this.sorted = false
     this.filteredData = []
     // iterate through input, accumulating data for cells
@@ -523,6 +523,15 @@ class PivotData {
       }
     )
   }
+
+  buildAggregators () {
+    const aggs  = {}
+    this.props.selectedAggregators.forEach(
+        ([name, val]) => aggs[val] = {name, func: this.props.aggregators[name]([val]) }
+      )
+    return aggs
+  }
+
   filter (record) {
     for (const k in this.props.valueFilter) {
       if (record[k] in this.props.valueFilter[k]) {
@@ -623,49 +632,54 @@ class PivotData {
     for (const x of Array.from(this.props.rows)) {
       rowKey.push(x in record ? record[x] : 'null')
     }
-    const flatRowKey = rowKey.join(String.fromCharCode(0))
-    const flatColKey = colKey.join(String.fromCharCode(0))
 
-    this.allTotal.push(record)
+    Object.entries(this.aggregators).forEach(([aggregatorKey, agg]) => {
 
-    if (rowKey.length !== 0) {
-      if (!this.rowTotals[flatRowKey]) {
-        this.rowKeys.push(rowKey)
-        this.rowTotals[flatRowKey] = this.aggregator(this, rowKey, [])
-      }
-      this.rowTotals[flatRowKey].push(record)
-    }
+      const flatRowKey = rowKey.join(String.fromCharCode(0))
+      const flatColKey = colKey.join(String.fromCharCode(0)) + aggregatorKey
 
-    if (colKey.length !== 0) {
-      if (!this.colTotals[flatColKey]) {
-        this.colKeys.push(colKey)
-        this.colTotals[flatColKey] = this.aggregator(this, [], colKey)
-      }
-      this.colTotals[flatColKey].push(record)
-    }
+      if (rowKey.length !== 0) {
+        if (!this.rowTotals[flatRowKey]) {
 
-    if (colKey.length !== 0 && rowKey.length !== 0) {
-      if (!this.tree[flatRowKey]) {
-        this.tree[flatRowKey] = {}
+          if (this.rowKeys.indexOf(rowKey) === -1) {
+            this.rowKeys.push(rowKey)
+          }
+          this.rowTotals[flatRowKey] = agg.func(this, rowKey, [])
+        }
+        this.rowTotals[flatRowKey].push(record)
       }
-      if (!this.tree[flatRowKey][flatColKey]) {
-        this.tree[flatRowKey][flatColKey] = this.aggregator(
-          this,
-          rowKey,
-          colKey
-        )
+
+      if (colKey.length !== 0) {
+        if (!this.colTotals[flatColKey]) {
+          if (this.colKeys.indexOf(colKey) === -1) {
+            this.colKeys.push(colKey)
+          }
+          this.colTotals[flatColKey] = agg.func(this, [], colKey)
+        }
+        this.colTotals[flatColKey].push(record)
       }
-      this.tree[flatRowKey][flatColKey].push(record)
-    }
+
+      if (colKey.length !== 0 && rowKey.length !== 0) {
+        if (!this.tree[flatRowKey]) {
+          this.tree[flatRowKey] = {}
+        }
+        if (!this.tree[flatRowKey][flatColKey]) {
+          this.tree[flatRowKey][flatColKey] = agg.func(
+            this,
+            rowKey,
+            colKey
+          )
+        }
+        this.tree[flatRowKey][flatColKey].push(record)
+      }
+    })
   }
 
   getAggregator (rowKey, colKey) {
     let agg
     const flatRowKey = rowKey.join(String.fromCharCode(0))
     const flatColKey = colKey.join(String.fromCharCode(0))
-    if (rowKey.length === 0 && colKey.length === 0) {
-      agg = this.allTotal
-    } else if (rowKey.length === 0) {
+    if (rowKey.length === 0) {
       agg = this.colTotals[flatColKey]
     } else if (colKey.length === 0) {
       agg = this.rowTotals[flatRowKey]
@@ -682,6 +696,33 @@ class PivotData {
         }
       }
     )
+  }
+
+
+  getAggregators (rowKey, colKey) {
+    
+    return Object.keys(this.aggregators).map((aggregatorKey) => {
+      let agg
+      const flatRowKey = rowKey.join(String.fromCharCode(0))
+      const flatColKey = colKey.join(String.fromCharCode(0)) + aggregatorKey
+      if (rowKey.length === 0) {
+        agg = this.colTotals[flatColKey]
+      } else if (colKey.length === 0) {
+        agg = this.rowTotals[flatRowKey]
+      } else {
+        agg = this.tree[flatRowKey][flatColKey]
+      }
+      return (
+        agg || {
+          value () {
+            return null
+          },
+          format () {
+            return ''
+          }
+        }
+      )
+    })
   }
 }
 
@@ -742,6 +783,7 @@ PivotData.defaultProps = {
   cols: [],
   rows: [],
   vals: [],
+  selectedAggregators: [],
   aggregatorName: 'Count',
   sorters: {},
   valueFilter: {},

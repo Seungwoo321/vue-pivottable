@@ -12,6 +12,10 @@ export default {
         return aggregators
       }
     },
+    selectedAggregators: {
+      type: Array,
+      default: []
+    },
     aggregatorName: {
       type: String,
       default: 'Count'

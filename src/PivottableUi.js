@@ -101,6 +101,7 @@ export default {
   data () {
     return {
       propsData: {
+        selectedAggregators: [],
         aggregatorName: '',
         rendererName: '',
         rowOrder: 'key_a_to_z',
@@ -208,6 +209,7 @@ export default {
           rendererName: value.rendererName,
           aggregatorName: value.aggregatorName,
           aggregators: this.aggregatorItems,
+          selectedAggregators: value.selectedAggregators,
           vals: value.vals
         }
         this.$emit('onRefresh', props)
@@ -226,6 +228,7 @@ export default {
       this.propsData.colOrder = this.colOrder
       this.propsData.rendererName = this.rendererName
       this.propsData.aggregatorName = this.aggregatorName
+      this.propsData.selectedAggregators = this.selectedAggregators
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
       Object.keys(this.attrValues).forEach(key => {
@@ -247,6 +250,10 @@ export default {
       return value => {
         this.propsData[key] = value
       }
+    },
+    updateAgregator (field, aggregatorName) {
+      const index = this.propsData.selectedAggregators.findIndex(([, attribute]) => attribute === field)
+      this.$set(this.propsData.selectedAggregators, index, [aggregatorName, field])
     },
     updateValueFilter ({ attribute, valueFilter }) {
       this.$set(this.propsData.valueFilter, attribute, valueFilter)
@@ -366,54 +373,57 @@ export default {
           })
         ])
     },
-    aggregatorCell (aggregatorName, vals, h) {
+    aggregatorCell (selectedAggregators, h) {
+
       return this.$slots.aggregatorCell
         ? h('td', {
           staticClass: ['pvtVals pvtText']
         }, this.$slots.aggregatorCell)
-        : h('td', {
+        : h(draggable, { attrs: {
+          list: selectedAggregators,
+          tag: 'td'
+        }, 
           staticClass: ['pvtVals']
         },
         [
-          h('div',
-            [
-              h(Dropdown, {
-                style: {
-                  display: 'inline-block'
-                },
-                props: {
-                  values: Object.keys(this.aggregatorItems),
-                  value: aggregatorName
-                },
-                // domProps: {
-                //   value: aggregatorName
-                // },
-                on: {
-                  input: (value) => {
-                    this.propUpdater('aggregatorName')(value)
-                  }
+          selectedAggregators.map(([name, val]) => { 
+            return h('div',
+          [ 
+            h('span', val),
+            h(Dropdown, {
+              style: {
+                display: 'inline-block'
+              },
+              props: {
+                values: Object.keys(this.aggregatorItems),
+                value: name
+              },
+              on: {
+                input: (value) => {
+                  this.updateAgregator(val, value)
                 }
-              }),
-              h('a', {
-                staticClass: ['pvtRowOrder'],
-                attrs: {
-                  role: 'button'
-                },
-                on: {
-                  click: () => { this.propUpdater('rowOrder')(this.sortIcons[this.propsData.rowOrder].next) }
-                }
-              }, this.sortIcons[this.propsData.rowOrder].rowSymbol),
-              h('a', {
-                staticClass: ['pvtColOrder'],
-                attrs: {
-                  role: 'button'
-                },
-                on: {
-                  click: () => { this.propUpdater('colOrder')(this.sortIcons[this.propsData.colOrder].next) }
-                }
-              }, this.sortIcons[this.propsData.colOrder].colSymbol)
-            ]
-          ),
+              }
+            }),
+            h('a', {
+              staticClass: ['pvtRowOrder'],
+              attrs: {
+                role: 'button'
+              },
+              on: {
+                click: () => { this.propUpdater('rowOrder')(this.sortIcons[this.propsData.rowOrder].next) }
+              }
+            }, this.sortIcons[this.propsData.rowOrder].rowSymbol),
+            h('a', {
+              staticClass: ['pvtColOrder'],
+              attrs: {
+                role: 'button'
+              },
+              on: {
+                click: () => { this.propUpdater('colOrder')(this.sortIcons[this.propsData.colOrder].next) }
+              }
+            }, this.sortIcons[this.propsData.colOrder].colSymbol)
+          ]
+        )})/*
           this.numValsAllowed > 0
             ? new Array(this.numValsAllowed).fill().map((n, i) => [
               h(Dropdown, {
@@ -431,7 +441,9 @@ export default {
               })
             ])
             : undefined
+            */
         ])
+        
     },
     outputCell (props, isPlotlyRenderer, h) {
       return h('td', {
@@ -517,7 +529,7 @@ export default {
       'pvtAxisContainer pvtVertList pvtRows',
       h
     )
-
+    
     const props = Object.assign({}, this.$props, {
       localeStrings: this.localeStrings,
       data: this.materializedInput,
@@ -527,6 +539,7 @@ export default {
       rows: this.propsData.rows,
       cols: this.propsData.cols,
       aggregators: this.aggregatorItems,
+      selectedAggregators: this.propsData.selectedAggregators,
       rendererName,
       aggregatorName,
       vals
@@ -542,9 +555,10 @@ export default {
       }
     }
     const rendererCell = this.rendererCell(rendererName, h)
-    const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)
+    const aggregatorCell = this.aggregatorCell(this.propsData.selectedAggregators, h)
     const outputCell = this.outputCell(props, rendererName.indexOf('Chart') > -1, h)
     const colGroupSlot = this.$slots.colGroup
+
     return h('table', {
       staticClass: ['pvtUi']
     },
