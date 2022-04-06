@@ -92,7 +92,7 @@ function makeRenderer(opts = {}) {
    const rowAttrs = pivotData.props.rows
    const rowKeys = pivotData.getRowKeys()
    const colKeys = pivotData.getColKeys()
-   const grandTotalAggregator = pivotData.getAggregator([], [])
+   const grandTotalAggregators = pivotData.getAggregator([], [])
    // eslint-disable-next-line no-unused-vars
    let valueCellColors = () => {}
    // eslint-disable-next-line no-unused-vars
@@ -162,14 +162,18 @@ function makeRenderer(opts = {}) {
     }
    }
 
+   const aggregationAttributesCount = Object.keys(pivotData.aggregators).length
+
+   // Set the total number of AggregationFieldColumns to be created
    const totalColLength =
-    Object.keys(pivotData.aggregators).length > 0
+    aggregationAttributesCount > 0
      ? new Set(
         Object.entries(pivotData.tree).flatMap(([, value]) =>
          Object.keys(value)
         )
-       ).size / Object.keys(pivotData.aggregators).length
+       ).size
      : 0
+   console.log(pivotData.tree)
 
    return h(
     'table',
@@ -209,7 +213,7 @@ function makeRenderer(opts = {}) {
           if (x === -1) {
            return null
           } else {
-           x *= Object.keys(pivotData.aggregators).length
+           x *= aggregationAttributesCount
           }
 
           return h(
@@ -222,7 +226,7 @@ function makeRenderer(opts = {}) {
              rowSpan:
               j === colAttrs.length - 1 &&
               rowAttrs.length !== 0 &&
-              Object.keys(pivotData.aggregators).length === 1
+              aggregationAttributesCount === 1
                ? 2
                : 1
             }
@@ -236,7 +240,8 @@ function makeRenderer(opts = {}) {
              {
               staticClass: ['pvtTotalLabel'],
               attrs: {
-               rowSpan: colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
+               rowSpan: colAttrs.length,
+               colSpan: aggregationAttributesCount
               }
              },
              this.localeStrings.totals
@@ -271,20 +276,22 @@ function makeRenderer(opts = {}) {
            ? undefined
            : h('th', { staticClass: ['pvtTotalLabel'] }, null),
 
-          Array(totalColLength)
-           .fill()
-           .flatMap((_) =>
-            Object.entries(pivotData.aggregators).map(([k, v]) =>
-             h('th', { staticClass: ['pvtColLabel'] }, `${v.name} ${k}`)
-            )
-           )
+          aggregationAttributesCount > 1
+           ? Array(totalColLength + 1)
+              .fill()
+              .flatMap((_) =>
+               Object.entries(pivotData.aggregators).map(([attribute, _]) =>
+                h('th', { staticClass: ['pvtColLabel'] }, attribute)
+               )
+              )
+           : undefined
          ])
        : undefined
      ]),
 
      h('tbody', [
       rowKeys.map((rowKey, i) => {
-       const totalAggregator = pivotData.getAggregator(rowKey, [])
+       const rowTotalAggregators = pivotData.getAggregator(rowKey, [])
        return h(
         'tr',
         {
@@ -313,7 +320,9 @@ function makeRenderer(opts = {}) {
          }),
 
          colKeys.flatMap((colKey, j) => {
-          const aggregators = pivotData.getAggregators(rowKey, colKey)
+          const aggregators = pivotData.getAggregator(rowKey, colKey)
+          console.log(rowKey, colKey)
+          console.log(aggregators)
           return aggregators.map((agg) => {
            return h(
             'td',
@@ -335,18 +344,20 @@ function makeRenderer(opts = {}) {
          }),
 
          this.rowTotal
-          ? h(
-             'td',
-             {
-              staticClass: ['pvtTotal'],
-              style: colTotalColors(totalAggregator.value()),
-              on: this.tableOptions.clickCallback
-               ? {
-                  click: getClickHandler(totalAggregator.value(), rowKey, [])
-                 }
-               : {}
-             },
-             totalAggregator.format(totalAggregator.value())
+          ? rowTotalAggregators.map((totalAggregator) =>
+             h(
+              'td',
+              {
+               staticClass: ['pvtTotal'],
+               style: colTotalColors(totalAggregator.value()),
+               on: this.tableOptions.clickCallback
+                ? {
+                   click: getClickHandler(totalAggregator.value(), rowKey, [])
+                  }
+                : {}
+              },
+              totalAggregator.format(totalAggregator.value())
+             )
             )
           : undefined
         ]
@@ -368,39 +379,43 @@ function makeRenderer(opts = {}) {
         : undefined,
 
        this.colTotal
-        ? colKeys.map((colKey, i) => {
-           const totalAggregator = pivotData.getAggregator([], colKey)
-           return h(
-            'td',
-            {
-             staticClass: ['pvtTotal'],
-             style: rowTotalColors(totalAggregator.value()),
-             attrs: {
-              key: `total${i}`
+        ? colKeys.flatMap((colKey, i) => {
+           const columnTotalAggregators = pivotData.getAggregator([], colKey)
+           return columnTotalAggregators.map((totalAggregator) =>
+            h(
+             'td',
+             {
+              staticClass: ['pvtTotal'],
+              style: rowTotalColors(totalAggregator.value()),
+              attrs: {
+               key: `total${i}`
+              },
+              on: this.tableOptions.clickCallback
+               ? {
+                  click: getClickHandler(totalAggregator.value(), [], colKey)
+                 }
+               : {}
              },
-             on: this.tableOptions.clickCallback
-              ? {
-                 click: getClickHandler(totalAggregator.value(), [], colKey)
-                }
-              : {}
-            },
-            totalAggregator.format(totalAggregator.value())
+             totalAggregator.format(totalAggregator.value())
+            )
            )
           })
         : undefined,
 
        this.colTotal && this.rowTotal
-        ? h(
-           'td',
-           {
-            staticClass: ['pvtGrandTotal'],
-            on: this.tableOptions.clickCallback
-             ? {
-                click: getClickHandler(grandTotalAggregator.value(), [], [])
-               }
-             : {}
-           },
-           grandTotalAggregator.format(grandTotalAggregator.value())
+        ? grandTotalAggregators.map((grandTotalAggregator) =>
+           h(
+            'td',
+            {
+             staticClass: ['pvtGrandTotal'],
+             on: this.tableOptions.clickCallback
+              ? {
+                 click: getClickHandler(grandTotalAggregator.value(), [], [])
+                }
+              : {}
+            },
+            grandTotalAggregator.format(grandTotalAggregator.value())
+           )
           )
         : undefined
       ])
