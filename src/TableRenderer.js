@@ -119,7 +119,7 @@ function makeRenderer(opts = {}) {
      valueCellColors = (r, c, v) => colorScale(v)
     } else if (opts.heatmapMode === 'row') {
      const rowColorScales = {}
-     rowKeys.map((r) => {
+     rowKeys.forEach((r) => {
       const rowValues = colKeys.map((x) =>
        pivotData.getAggregator(r, x).value()
       )
@@ -128,7 +128,7 @@ function makeRenderer(opts = {}) {
      valueCellColors = (r, c, v) => rowColorScales[r](v)
     } else if (opts.heatmapMode === 'col') {
      const colColorScales = {}
-     colKeys.map((c) => {
+     colKeys.forEach((c) => {
       const colValues = rowKeys.map((x) =>
        pivotData.getAggregator(x, c).value()
       )
@@ -143,6 +143,7 @@ function makeRenderer(opts = {}) {
      const filters = {}
      let attr = {}
      for (const i in colAttrs) {
+      // eslint-disable-next-line no-prototype-builtins
       if (!colValues.hasOwnProperty(i)) continue
       attr = colAttrs[i]
       if (colValues[i] !== null) {
@@ -150,6 +151,7 @@ function makeRenderer(opts = {}) {
       }
      }
      for (const i in rowAttrs) {
+      // eslint-disable-next-line no-prototype-builtins
       if (!rowValues.hasOwnProperty(i)) continue
       attr = rowAttrs[i]
       if (rowValues[i] !== null) {
@@ -163,7 +165,7 @@ function makeRenderer(opts = {}) {
    const totalColLength =
     Object.keys(pivotData.aggregators).length > 0
      ? new Set(
-        Object.entries(pivotData.tree).flatMap(([_, value]) =>
+        Object.entries(pivotData.tree).flatMap(([, value]) =>
          Object.keys(value)
         )
        ).size / Object.keys(pivotData.aggregators).length
@@ -435,7 +437,7 @@ const TSVExportRenderer = {
 
   const result = rowKeys.map((r) => {
    const row = r.map((x) => x)
-   colKeys.map((c) => {
+   colKeys.forEach((c) => {
     const v = pivotData.getAggregator(r, c).value()
     row.push(v || '')
    })
