@@ -657,7 +657,6 @@ class PivotData {
    const flatRowKey = rowKey.join(String.fromCharCode(0))
    const flatColKey = colKey.join(String.fromCharCode(0))
 
-   console.log('Here!')
    this.allTotal[aggregatorKey].push(record)
 
    if (rowKey.length !== 0) {

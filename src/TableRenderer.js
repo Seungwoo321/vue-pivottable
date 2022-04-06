@@ -165,15 +165,7 @@ function makeRenderer(opts = {}) {
    const aggregationAttributesCount = Object.keys(pivotData.aggregators).length
 
    // Set the total number of AggregationFieldColumns to be created
-   const totalColLength =
-    aggregationAttributesCount > 0
-     ? new Set(
-        Object.entries(pivotData.tree).flatMap(([, value]) =>
-         Object.keys(value)
-        )
-       ).size
-     : 0
-   console.log(pivotData.tree)
+   const totalColLength = pivotData.colKeys.length
 
    return h(
     'table',
@@ -182,74 +174,106 @@ function makeRenderer(opts = {}) {
     },
     [
      h('thead', [
-      colAttrs.map((c, j) => {
-       return h(
-        'tr',
-        {
-         attrs: {
-          key: `colAttrs${j}`
-         }
-        },
-        [
-         j === 0 && rowAttrs.length !== 0
-          ? h('th', {
-             attrs: {
-              colSpan: rowAttrs.length,
-              rowSpan: colAttrs.length
-             }
-            })
-          : undefined,
-
-         h(
-          'th',
-          {
-           staticClass: ['pvtAxisLabel']
-          },
-          c
-         ),
-
-         colKeys.map((colKey, i) => {
-          let x = this.spanSize(colKeys, i, j)
-          if (x === -1) {
-           return null
-          } else {
-           x *= aggregationAttributesCount
-          }
-
+      colAttrs.length !== 0
+       ? colAttrs.map((c, j) => {
           return h(
-           'th',
+           'tr',
            {
-            staticClass: ['pvtColLabel'],
             attrs: {
-             key: `colKey${i}`,
-             colSpan: x,
-             rowSpan:
-              j === colAttrs.length - 1 &&
-              rowAttrs.length !== 0 &&
-              aggregationAttributesCount === 1
-               ? 2
-               : 1
+             key: `colAttrs${j}`
             }
            },
-           colKey[j]
-          )
-         }),
-         j === 0 && this.rowTotal
-          ? h(
+           [
+            j === 0 && rowAttrs.length !== 0
+             ? h('th', {
+                attrs: {
+                 colSpan: rowAttrs.length,
+                 rowSpan: colAttrs.length
+                }
+               })
+             : undefined,
+
+            h(
              'th',
              {
-              staticClass: ['pvtTotalLabel'],
-              attrs: {
-               rowSpan: colAttrs.length,
-               colSpan: aggregationAttributesCount
-              }
+              staticClass: ['pvtAxisLabel']
              },
-             this.localeStrings.totals
-            )
-          : undefined
-        ]
-       )
-      }),
+             c
+            ),
+
+            colKeys.map((colKey, i) => {
+             let x = this.spanSize(colKeys, i, j)
+             if (x === -1) {
+              return null
+             } else {
+              x *= aggregationAttributesCount
+             }
+
+             return h(
+              'th',
+              {
+               staticClass: ['pvtColLabel'],
+               attrs: {
+                key: `colKey${i}`,
+                colSpan: x,
+                rowSpan:
+                 j === colAttrs.length - 1 &&
+                 rowAttrs.length !== 0 &&
+                 aggregationAttributesCount === 1
+                  ? 2
+                  : 1
+               }
+              },
+              colKey[j]
+             )
+            }),
+            j === 0 && this.rowTotal
+             ? h(
+                'th',
+                {
+                 staticClass: ['pvtTotalLabel'],
+                 attrs: {
+                  rowSpan:
+                   aggregationAttributesCount > 1
+                    ? colAttrs.length
+                    : colAttrs.length + 1,
+                  colSpan: aggregationAttributesCount
+                 }
+                },
+                this.localeStrings.totals
+               )
+             : undefined
+           ]
+          )
+         })
+       : h(
+          'tr',
+          {
+           attrs: {
+            key: `colAttrs0`
+           }
+          },
+          [
+           h('th', {
+            attrs: {
+             colSpan: rowAttrs.length
+            }
+           }),
+           this.rowTotal
+            ? h(
+               'th',
+               {
+                staticClass: ['pvtTotalLabel'],
+                attrs: {
+                 colSpan: aggregationAttributesCount,
+                 rowSpan: aggregationAttributesCount > 1 ? 1 : 2
+                }
+               },
+               this.localeStrings.totals
+              )
+            : undefined
+          ]
+         ),
 
       rowAttrs.length !== 0
        ? h('tr', [
@@ -266,15 +290,9 @@ function makeRenderer(opts = {}) {
            )
           }),
 
-          this.rowTotal
-           ? h(
-              'th',
-              { staticClass: ['pvtTotalLabel'] },
-              colAttrs.length === 0 ? this.localeStrings.totals : null
-             )
-           : colAttrs.length === 0
-           ? undefined
-           : h('th', { staticClass: ['pvtTotalLabel'] }, null),
+          this.rowTotal && colAttrs.length !== 0
+           ? h('th', { staticClass: ['pvtTotalLabel'] }, null)
+           : undefined,
 
           aggregationAttributesCount > 1
            ? Array(totalColLength + 1)
@@ -286,7 +304,18 @@ function makeRenderer(opts = {}) {
               )
            : undefined
          ])
-       : undefined
+       : h('tr', [
+          h('th', { staticClass: ['pvtTotalLabel'] }, null),
+          aggregationAttributesCount > 1
+           ? Array(totalColLength + 1)
+              .fill()
+              .flatMap((_) =>
+               Object.entries(pivotData.aggregators).map(([attribute, _]) =>
+                h('th', { staticClass: ['pvtColLabel'] }, attribute)
+               )
+              )
+           : undefined
+         ])
      ]),
 
      h('tbody', [
@@ -321,8 +350,6 @@ function makeRenderer(opts = {}) {
 
          colKeys.flatMap((colKey, j) => {
           const aggregators = pivotData.getAggregator(rowKey, colKey)
-          console.log(rowKey, colKey)
-          console.log(aggregators)
           return aggregators.map((agg) => {
            return h(
             'td',
