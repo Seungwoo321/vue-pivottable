@@ -22,9 +22,6 @@ export default {
     'div',
     {
      style: {
-      display: 'block',
-      width: '100%',
-      'overflow-x': 'auto',
       'max-width': this.tableMaxWidth ? `${this.tableMaxWidth}px` : undefined
      }
     },

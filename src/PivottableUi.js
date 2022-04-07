@@ -326,10 +326,9 @@ export default {
      attrs: {
       draggable: 'li[data-id]',
       group: 'sharted',
-      ghostClass: '.pvtPlaceholder',
       filter: '.pvtFilterBox',
       preventOnFilter: false,
-      tag: 'td'
+      tag: 'div'
      },
      props: {
       value: items
@@ -378,55 +377,37 @@ export default {
   },
   rendererCell(rendererName, h) {
    return this.$slots.rendererCell
-    ? h(
-       'td',
-       {
-        staticClass: ['pvtRenderers pvtVals pvtText']
-       },
-       this.$slots.rendererCell
-      )
-    : h(
-       'td',
-       {
-        staticClass: ['pvtRenderers']
-       },
-       [
-        h(Dropdown, {
-         props: {
-          values: Object.keys(this.rendererItems),
-          value: rendererName
-         },
-         on: {
-          input: (value) => {
-           this.propUpdater('rendererName')(value)
-           this.propUpdater('renderer', this.rendererItems[this.rendererName])
-          }
+    ? h('div', this.$slots.rendererCell)
+    : h('div', { staticClass: ['pvtRenderContainer'] }, [
+       h(Dropdown, {
+        props: {
+         values: Object.keys(this.rendererItems),
+         value: rendererName
+        },
+        on: {
+         input: (value) => {
+          this.propUpdater('rendererName')(value)
+          this.propUpdater('renderer', this.rendererItems[this.rendererName])
          }
-        })
-       ]
-      )
+        }
+       })
+      ])
   },
   aggregatorCell(selectedAggregators, h) {
    return this.$slots.aggregatorCell
-    ? h(
-       'td',
-       {
-        staticClass: ['pvtVals pvtText']
-       },
-       this.$slots.aggregatorCell
-      )
+    ? h('div', this.$slots.aggregatorCell)
     : h(
        draggable,
        {
         attrs: {
          list: selectedAggregators,
-         tag: 'td'
+         tag: 'div'
         },
         staticClass: ['pvtVals']
        },
        [
         selectedAggregators.map(([aggregatorName, attribute]) => {
-         return h('div', [
+         return h('div', { staticClass: ['pvtValAttribute'] }, [
           h('span', attribute),
           h(Dropdown, {
            style: {
@@ -442,48 +423,50 @@ export default {
             }
            }
           }),
-          h(
-           'a',
-           {
-            staticClass: ['pvtRowOrder'],
-            attrs: {
-             role: 'button'
-            },
-            on: {
-             click: () => {
-              this.updateRowOrder(
-               attribute,
-               this.sortIcons[
-                this.propsData.rowOrder[attribute] ?? 'key_a_to_z'
-               ].next
-              )
+          h('div', [
+           h(
+            'a',
+            {
+             staticClass: ['pvtRowOrder'],
+             attrs: {
+              role: 'button'
+             },
+             on: {
+              click: () => {
+               this.updateRowOrder(
+                attribute,
+                this.sortIcons[
+                 this.propsData.rowOrder[attribute] ?? 'key_a_to_z'
+                ].next
+               )
+              }
              }
-            }
-           },
-           this.sortIcons[this.propsData.rowOrder[attribute] ?? 'key_a_to_z']
-            .rowSymbol
-          ),
-          h(
-           'a',
-           {
-            staticClass: ['pvtColOrder'],
-            attrs: {
-             role: 'button'
             },
-            on: {
-             click: () => {
-              this.updateColOrder(
-               attribute,
-               this.sortIcons[
-                this.propsData.colOrder[attribute] ?? 'key_a_to_z'
-               ].next
-              )
+            this.sortIcons[this.propsData.rowOrder[attribute] ?? 'key_a_to_z']
+             .rowSymbol
+           ),
+           h(
+            'a',
+            {
+             staticClass: ['pvtColOrder'],
+             attrs: {
+              role: 'button'
+             },
+             on: {
+              click: () => {
+               this.updateColOrder(
+                attribute,
+                this.sortIcons[
+                 this.propsData.colOrder[attribute] ?? 'key_a_to_z'
+                ].next
+               )
+              }
              }
-            }
-           },
-           this.sortIcons[this.propsData.colOrder[attribute] ?? 'key_a_to_z']
-            .colSymbol
-          )
+            },
+            this.sortIcons[this.propsData.colOrder[attribute] ?? 'key_a_to_z']
+             .colSymbol
+           )
+          ])
          ])
         }) /*
           this.numValsAllowed > 0
@@ -508,21 +491,15 @@ export default {
       )
   },
   outputCell(props, isPlotlyRenderer, h) {
-   return h(
-    'td',
-    {
-     staticClass: ['pvtOutput']
-    },
-    [
-     isPlotlyRenderer
-      ? h(PlotlyRenderer[props.rendererName], {
-         props
-        })
-      : h(Pivottable, {
-         props: Object.assign(props, { tableMaxWidth: this.tableMaxWidth })
-        })
-    ]
-   )
+   return h('div', { staticClass: ['pvtTableContainer'] }, [
+    isPlotlyRenderer
+     ? h(PlotlyRenderer[props.rendererName], {
+        props
+       })
+     : h(Pivottable, {
+        props: Object.assign(props, { tableMaxWidth: this.tableMaxWidth })
+       })
+   ])
   }
  },
  render(h) {
@@ -557,7 +534,7 @@ export default {
      this.$emit('dropped:unused', item)
     }
    },
-   `pvtAxisContainer pvtUnused pvtHorizList`,
+   `pvtAxisContainer pvtUnused pvtVertList`,
    h
   )
   const colAttrsCell = this.makeDnDCell(
@@ -580,7 +557,7 @@ export default {
      this.$emit('dropped:cols', item)
     }
    },
-   'pvtAxisContainer pvtHorizList pvtCols',
+   'pvtAxisContainer pvtCols',
    h
   )
   const rowAttrsCell = this.makeDnDCell(
@@ -642,37 +619,23 @@ export default {
   )
   const colGroupSlot = this.$slots.colGroup
 
-  return h(
-   'table',
-   {
-    staticClass: ['pvtUi']
-   },
-   [
-    colGroupSlot,
-    h(
-     'tbody',
-     {
-      on: {
-       click: this.closeFilterBox
-      }
-     },
-     [
-      h('tr', [rendererCell, unusedAttrsCell]),
-      h('tr', [aggregatorCell, colAttrsCell]),
-      h('tr', [
-       rowAttrsCell,
-       outputSlot
-        ? h('td', { staticClass: 'pvtOutput' }, outputSlot)
-        : undefined,
-       outputScopedSlot && !outputSlot
-        ? h('td', { staticClass: 'pvtOutput' }, outputScopedSlot({ pivotData }))
-        : undefined,
-       !outputSlot && !outputScopedSlot ? outputCell : undefined
-      ])
-     ]
-    )
-   ]
-  )
+  return h('div', { staticClass: ['pvtUIContainer'] }, [
+   colGroupSlot,
+   h('div', { staticClass: ['pvtUIRowContainer'] }, [rendererCell]),
+   h('div', { staticClass: ['pvtUIRowContainer'] }, [
+    aggregatorCell,
+    colAttrsCell
+   ]),
+   h('div', { staticClass: ['pvtUIRowContainer'] }, [
+    unusedAttrsCell,
+    rowAttrsCell,
+    outputSlot ? h('div', outputSlot) : undefined,
+    outputScopedSlot && !outputSlot
+     ? h('div', outputScopedSlot({ pivotData }))
+     : undefined,
+    !outputSlot && !outputScopedSlot ? outputCell : undefined
+   ])
+  ])
  },
  renderError(h, error) {
   return this.uiRenderError(h)

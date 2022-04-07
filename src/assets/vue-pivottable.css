@@ -9,7 +9,7 @@
     color: #2a3f5f;
     font-family: Verdana;
     border-collapse: collapse;
-} 
+}
 .pvtUi select {
     user-select: none;
     -webkit-user-select: none;
@@ -79,7 +79,7 @@ table.pvtTable tbody tr td {
 
 .pvtAxisContainer,
 .pvtVals {
-    border: 1px solid #a2b1c6;
+    border: 2px solid #a2b1c6;
     background: #fff;
     padding: 5px;
     min-width: 20px;
