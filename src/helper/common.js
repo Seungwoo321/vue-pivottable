@@ -96,17 +96,15 @@ export default {
    }
   },
   rowOrder: {
-   type: String,
-   default: 'key_a_to_z',
-   validator: function (value) {
-    return ['key_a_to_z', 'value_a_to_z', 'value_z_to_a'].indexOf(value) !== -1
+   type: Object,
+   default: function () {
+    return {}
    }
   },
   colOrder: {
-   type: String,
-   default: 'key_a_to_z',
-   validator: function (value) {
-    return ['key_a_to_z', 'value_a_to_z', 'value_z_to_a'].indexOf(value) !== -1
+   type: Object,
+   default: function () {
+    return {}
    }
   },
   tableMaxWidth: {

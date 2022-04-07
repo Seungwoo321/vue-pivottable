@@ -104,8 +104,8 @@ export default {
     selectedAggregators: [],
     aggregatorName: '',
     rendererName: '',
-    rowOrder: 'key_a_to_z',
-    colOrder: 'key_a_to_z',
+    rowOrder: {},
+    colOrder: {},
     vals: [],
     cols: [],
     rows: [],
@@ -221,6 +221,10 @@ export default {
  },
  methods: {
   init() {
+   // Set dynamic defaults
+   this.$set(this.rowOrder, this.selectedAggregators[0][1], 'key_a_to_z')
+   this.$set(this.colOrder, this.selectedAggregators[0][1], 'key_a_to_z')
+
    this.materializeInput(this.data)
    this.propsData.vals = this.vals.slice()
    this.propsData.rows = this.rows
@@ -252,6 +256,14 @@ export default {
    return (value) => {
     this.propsData[key] = value
    }
+  },
+  updateRowOrder(attribute, order) {
+   this.propsData.rowOrder = {}
+   this.$set(this.propsData.rowOrder, attribute, order)
+  },
+  updateColOrder(attribute, order) {
+   this.propsData.colOrder = {}
+   this.$set(this.propsData.colOrder, attribute, order)
   },
   updateAgregator(field, aggregatorName) {
    const index = this.propsData.selectedAggregators.findIndex(
@@ -413,20 +425,20 @@ export default {
         staticClass: ['pvtVals']
        },
        [
-        selectedAggregators.map(([name, val]) => {
+        selectedAggregators.map(([aggregatorName, attribute]) => {
          return h('div', [
-          h('span', val),
+          h('span', attribute),
           h(Dropdown, {
            style: {
             display: 'inline-block'
            },
            props: {
             values: Object.keys(this.aggregatorItems),
-            value: name
+            value: aggregatorName
            },
            on: {
-            input: (value) => {
-             this.updateAgregator(val, value)
+            input: (selectedAggregatorName) => {
+             this.updateAgregator(attribute, selectedAggregatorName)
             }
            }
           }),
@@ -439,13 +451,17 @@ export default {
             },
             on: {
              click: () => {
-              this.propUpdater('rowOrder')(
-               this.sortIcons[this.propsData.rowOrder].next
+              this.updateRowOrder(
+               attribute,
+               this.sortIcons[
+                this.propsData.rowOrder[attribute] ?? 'key_a_to_z'
+               ].next
               )
              }
             }
            },
-           this.sortIcons[this.propsData.rowOrder].rowSymbol
+           this.sortIcons[this.propsData.rowOrder[attribute] ?? 'key_a_to_z']
+            .rowSymbol
           ),
           h(
            'a',
@@ -456,13 +472,17 @@ export default {
             },
             on: {
              click: () => {
-              this.propUpdater('colOrder')(
-               this.sortIcons[this.propsData.colOrder].next
+              this.updateColOrder(
+               attribute,
+               this.sortIcons[
+                this.propsData.colOrder[attribute] ?? 'key_a_to_z'
+               ].next
               )
              }
             }
            },
-           this.sortIcons[this.propsData.colOrder].colSymbol
+           this.sortIcons[this.propsData.colOrder[attribute] ?? 'key_a_to_z']
+            .colSymbol
           )
          ])
         }) /*

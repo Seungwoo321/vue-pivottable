@@ -604,23 +604,35 @@ class PivotData {
  sortKeys() {
   if (!this.sorted) {
    this.sorted = true
-   const v = (r, c) => this.getAggregator(r, c).value()
-   switch (this.props.rowOrder) {
+   const v = (a, r, c) => this.getAggregatorByAttribute(a, r, c).value()
+
+   const [rowAttribute, rowOrder] = Object.entries(this.props.rowOrder)[0]
+   switch (rowOrder) {
     case 'value_a_to_z':
-     this.rowKeys.sort((a, b) => naturalSort(v(a, []), v(b, [])))
+     this.rowKeys.sort((a, b) =>
+      naturalSort(v(rowAttribute, a, []), v(rowAttribute, b, []))
+     )
      break
     case 'value_z_to_a':
-     this.rowKeys.sort((a, b) => -naturalSort(v(a, []), v(b, [])))
+     this.rowKeys.sort(
+      (a, b) => -naturalSort(v(rowAttribute, a, []), v(rowAttribute, b, []))
+     )
      break
     default:
      this.rowKeys.sort(this.arrSort(this.props.rows))
    }
-   switch (this.props.colOrder) {
+
+   const [colAttribute, colOrder] = Object.entries(this.props.colOrder)[0]
+   switch (colOrder) {
     case 'value_a_to_z':
-     this.colKeys.sort((a, b) => naturalSort(v([], a), v([], b)))
+     this.colKeys.sort((a, b) =>
+      naturalSort(v(colAttribute, [], a), v(colAttribute, [], b))
+     )
      break
     case 'value_z_to_a':
-     this.colKeys.sort((a, b) => -naturalSort(v([], a), v([], b)))
+     this.colKeys.sort(
+      (a, b) => -naturalSort(v(colAttribute, [], a), v(colAttribute, [], b))
+     )
      break
     default:
      this.colKeys.sort(this.arrSort(this.props.cols))
@@ -737,6 +749,44 @@ class PivotData {
   }
  }
 
+ getAggregatorByAttribute(attribute, rowKey, colKey) {
+  let agg
+  const flatRowKey = rowKey.join(String.fromCharCode(0))
+  const flatColKey = colKey.join(String.fromCharCode(0))
+  if (rowKey.length === 0 && colKey.length === 0) {
+   agg = this.allTotal
+  } else if (rowKey.length === 0) {
+   agg = this.colTotals[flatColKey]
+  } else if (colKey.length === 0) {
+   agg = this.rowTotals[flatRowKey]
+  } else {
+   agg = this.tree[flatRowKey][flatColKey]
+  }
+
+  let result
+
+  if (agg === undefined) {
+   result = {
+    value() {
+     return null
+    },
+    format() {
+     return ''
+    }
+   }
+  } else {
+   result = Object.entries(agg).find(([key, _]) => key === attribute)[1] ?? {
+    value() {
+     return null
+    },
+    format() {
+     return ''
+    }
+   }
+  }
+  return result
+ }
+
  getAggregators(rowKey, colKey) {
   return Object.keys(this.aggregators).map((aggregatorKey) => {
    let agg
@@ -824,8 +874,8 @@ PivotData.defaultProps = {
  aggregatorName: 'Count',
  sorters: {},
  valueFilter: {},
- rowOrder: 'key_a_to_z',
- colOrder: 'key_a_to_z',
+ rowOrder: {},
+ colOrder: {},
  derivedAttributes: {}
 }
 
