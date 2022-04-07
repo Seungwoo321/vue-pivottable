@@ -318,60 +318,69 @@ export default {
    this.materializedInput = materializedInput
    this.attrValues = attrValues
   },
-  makeDnDCell(items, onChange, classes, h) {
+  makeDnDCell(items, label, onChange, classes, h, maxWidth = false) {
    const scopedSlots = this.$scopedSlots.pvtAttr
    return h(
-    draggable,
+    'div',
     {
-     attrs: {
-      draggable: 'li[data-id]',
-      group: 'sharted',
-      filter: '.pvtFilterBox',
-      preventOnFilter: false,
-      tag: 'div'
-     },
-     props: {
-      value: items
-     },
-     staticClass: classes,
-     on: {
-      sort: onChange.bind(this)
-     }
+     staticClass: [`pvtAxisContainerWrapper ${maxWidth ? 'pvtVertList' : ''}`]
     },
     [
-     items.map((x) => {
-      return h(DraggableAttribute, {
-       [scopedSlots ? 'scopedSlots' : undefined]: {
-        pvtAttr: (props) => h('slot', scopedSlots(props))
+     h('span', label),
+     h(
+      draggable,
+      {
+       attrs: {
+        draggable: 'li[data-id]',
+        group: 'sharted',
+        filter: '.pvtFilterBox',
+        preventOnFilter: false,
+        tag: 'div'
        },
        props: {
-        sortable:
-         this.sortonlyFromDragDrop.includes(x) ||
-         !this.disabledFromDragDrop.includes(x),
-        draggable:
-         !this.sortonlyFromDragDrop.includes(x) &&
-         !this.disabledFromDragDrop.includes(x),
-        name: x,
-        key: x,
-        attrValues: this.attrValues[x],
-        sorter: getSort(this.sorters, x),
-        menuLimit: this.menuLimit,
-        zIndex: this.zIndices[x] || this.maxZIndex,
-        valueFilter: this.propsData.valueFilter[x],
-        open: this.openStatus[x],
-        async: this.async,
-        unused: this.unusedAttrs.includes(x),
-        localeStrings: this.locales[this.locale].localeStrings
+        value: items
        },
-       domProps: {},
+       staticClass: classes,
        on: {
-        'update:filter': this.updateValueFilter,
-        'moveToTop:filterbox': this.moveFilterBoxToTop,
-        'open:filterbox': this.openFilterBox,
-        'no:filterbox': () => this.$emit('no:filterbox')
+        sort: onChange.bind(this)
        }
-      })
-     })
+      },
+      [
+       items.map((x) => {
+        return h(DraggableAttribute, {
+         [scopedSlots ? 'scopedSlots' : undefined]: {
+          pvtAttr: (props) => h('slot', scopedSlots(props))
+         },
+         props: {
+          sortable:
+           this.sortonlyFromDragDrop.includes(x) ||
+           !this.disabledFromDragDrop.includes(x),
+          draggable:
+           !this.sortonlyFromDragDrop.includes(x) &&
+           !this.disabledFromDragDrop.includes(x),
+          name: x,
+          key: x,
+          attrValues: this.attrValues[x],
+          sorter: getSort(this.sorters, x),
+          menuLimit: this.menuLimit,
+          zIndex: this.zIndices[x] || this.maxZIndex,
+          valueFilter: this.propsData.valueFilter[x],
+          open: this.openStatus[x],
+          async: this.async,
+          unused: this.unusedAttrs.includes(x),
+          localeStrings: this.locales[this.locale].localeStrings
+         },
+         domProps: {},
+         on: {
+          'update:filter': this.updateValueFilter,
+          'moveToTop:filterbox': this.moveFilterBoxToTop,
+          'open:filterbox': this.openFilterBox,
+          'no:filterbox': () => this.$emit('no:filterbox')
+         }
+        })
+       })
+      ]
+     )
     ]
    )
   },
@@ -396,79 +405,81 @@ export default {
   aggregatorCell(selectedAggregators, h) {
    return this.$slots.aggregatorCell
     ? h('div', this.$slots.aggregatorCell)
-    : h(
-       draggable,
-       {
-        attrs: {
-         list: selectedAggregators,
-         tag: 'div'
+    : h('div', { staticClass: ['pvtValuesWrapper'] }, [
+       h('span', 'KPIs'), // TODO set in localization
+       h(
+        draggable,
+        {
+         attrs: {
+          list: selectedAggregators,
+          tag: 'div'
+         },
+         staticClass: ['pvtVals']
         },
-        staticClass: ['pvtVals']
-       },
-       [
-        selectedAggregators.map(([aggregatorName, attribute]) => {
-         return h('div', { staticClass: ['pvtValAttribute'] }, [
-          h('span', attribute),
-          h(Dropdown, {
-           style: {
-            display: 'inline-block'
-           },
-           props: {
-            values: Object.keys(this.aggregatorItems),
-            value: aggregatorName
-           },
-           on: {
-            input: (selectedAggregatorName) => {
-             this.updateAgregator(attribute, selectedAggregatorName)
+        [
+         selectedAggregators.map(([aggregatorName, attribute]) => {
+          return h('div', { staticClass: ['pvtValAttribute'] }, [
+           h('span', attribute),
+           h(Dropdown, {
+            style: {
+             display: 'inline-block'
+            },
+            props: {
+             values: Object.keys(this.aggregatorItems),
+             value: aggregatorName
+            },
+            on: {
+             input: (selectedAggregatorName) => {
+              this.updateAgregator(attribute, selectedAggregatorName)
+             }
             }
-           }
-          }),
-          h('div', [
-           h(
-            'a',
-            {
-             staticClass: ['pvtRowOrder'],
-             attrs: {
-              role: 'button'
-             },
-             on: {
-              click: () => {
-               this.updateRowOrder(
-                attribute,
-                this.sortIcons[
-                 this.propsData.rowOrder[attribute] ?? 'key_a_to_z'
-                ].next
-               )
+           }),
+           h('div', [
+            h(
+             'a',
+             {
+              staticClass: ['pvtRowOrder'],
+              attrs: {
+               role: 'button'
+              },
+              on: {
+               click: () => {
+                this.updateRowOrder(
+                 attribute,
+                 this.sortIcons[
+                  this.propsData.rowOrder[attribute] ?? 'key_a_to_z'
+                 ].next
+                )
+               }
               }
-             }
-            },
-            this.sortIcons[this.propsData.rowOrder[attribute] ?? 'key_a_to_z']
-             .rowSymbol
-           ),
-           h(
-            'a',
-            {
-             staticClass: ['pvtColOrder'],
-             attrs: {
-              role: 'button'
              },
-             on: {
-              click: () => {
-               this.updateColOrder(
-                attribute,
-                this.sortIcons[
-                 this.propsData.colOrder[attribute] ?? 'key_a_to_z'
-                ].next
-               )
+             this.sortIcons[this.propsData.rowOrder[attribute] ?? 'key_a_to_z']
+              .rowSymbol
+            ),
+            h(
+             'a',
+             {
+              staticClass: ['pvtColOrder'],
+              attrs: {
+               role: 'button'
+              },
+              on: {
+               click: () => {
+                this.updateColOrder(
+                 attribute,
+                 this.sortIcons[
+                  this.propsData.colOrder[attribute] ?? 'key_a_to_z'
+                 ].next
+                )
+               }
               }
-             }
-            },
-            this.sortIcons[this.propsData.colOrder[attribute] ?? 'key_a_to_z']
-             .colSymbol
-           )
+             },
+             this.sortIcons[this.propsData.colOrder[attribute] ?? 'key_a_to_z']
+              .colSymbol
+            )
+           ])
           ])
-         ])
-        }) /*
+         }) /*
           this.numValsAllowed > 0
             ? new Array(this.numValsAllowed).fill().map((n, i) => [
               h(Dropdown, {
@@ -487,8 +498,9 @@ export default {
             ])
             : undefined
             */
-       ]
-      )
+        ]
+       )
+      ])
   },
   outputCell(props, isPlotlyRenderer, h) {
    return h('div', { staticClass: ['pvtTableContainer'] }, [
@@ -514,6 +526,8 @@ export default {
   const unusedAttrsCell = this.makeDnDCell(
    // Exclude aggregation filters from unused filter options
    this.unusedAttrs.filter((a) => aggregationAttributes.indexOf(a) === -1),
+   // TODO set in localization
+   'Available Fields',
    (e) => {
     const item = e.item.getAttribute('data-id')
     if (
@@ -535,10 +549,12 @@ export default {
     }
    },
    `pvtAxisContainer pvtUnused pvtVertList`,
-   h
+   h,
+   true
   )
   const colAttrsCell = this.makeDnDCell(
    this.colAttrs,
+   'Columns', // TODO set in localization
    (e) => {
     const item = e.item.getAttribute('data-id')
     if (
@@ -562,6 +578,7 @@ export default {
   )
   const rowAttrsCell = this.makeDnDCell(
    this.rowAttrs,
+   'Rows', // Set in localization
    (e) => {
     const item = e.item.getAttribute('data-id')
     if (
@@ -581,7 +598,8 @@ export default {
     }
    },
    'pvtAxisContainer pvtVertList pvtRows',
-   h
+   h,
+   true
   )
 
   const props = Object.assign({}, this.$props, {
@@ -622,11 +640,11 @@ export default {
   return h('div', { staticClass: ['pvtUIContainer'] }, [
    colGroupSlot,
    h('div', { staticClass: ['pvtUIRowContainer'] }, [rendererCell]),
-   h('div', { staticClass: ['pvtUIRowContainer'] }, [
+   h('div', { staticClass: ['pvtUIRowTopContainer'] }, [
     aggregatorCell,
     colAttrsCell
    ]),
-   h('div', { staticClass: ['pvtUIRowContainer'] }, [
+   h('div', { staticClass: ['pvtUIRowBottomContainer'] }, [
     unusedAttrsCell,
     rowAttrsCell,
     outputSlot ? h('div', outputSlot) : undefined,

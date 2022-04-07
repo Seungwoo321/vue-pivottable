@@ -82,13 +82,10 @@ table.pvtTable tbody tr td {
     display: flex;
     flex: 1 1 auto;
     flex-wrap: wrap;
-    border: 1px solid #C3CFD9;
-    background: #fff;
-    padding: 5px;
-    margin: 5px;
-    min-width: 20px;
-    min-height: 20px;
+    padding: 2px;
+    margin: 2px;
 }
+
 .pvtVals.pvtText {
     vertical-align: middle;
     font-size: 15px;
@@ -139,7 +136,6 @@ table.pvtTable tbody tr td {
 .pvtVals {
     display: flex;
     gap: 5px;
-    max-width: 600px;
     white-space: nowrap;
     vertical-align: top;
     padding-bottom: 12px;
@@ -194,7 +190,8 @@ table.pvtTable tbody tr td {
 }
 
 .pvtVertList {
-    max-width: 200px;
+    max-width: 295px;
+    min-width: 100px;
 }
 
 .pvtFilteredAttribute {
@@ -351,6 +348,43 @@ table.pvtTable tbody tr td {
     justify-content: space-between;
 }
 
+.pvtUIRowTopContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.pvtUIRowBottomContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.pvtAxisContainerWrapper {
+    flex: 1 1 auto;
+    border: 1px solid #C3CFD9;
+    background: #fff;
+    padding: 5px;
+    margin: 5px;
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.pvtValuesWrapper {
+    flex: 1 1 auto;
+    border: 1px solid #C3CFD9;
+    background: #fff;
+    padding: 5px;
+    margin: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 600px;
+}
+
 .pvtRenderContainer {
     display: flex;
     padding: 5px;
@@ -379,10 +413,8 @@ table.pvtTable tbody tr td {
 .pvtTableContainer {
     flex: 1 1 auto;
     overflow: auto;
-    padding: 5px;
     margin: 5px;
 }
-
 
 .pvtValAttribute {
     cursor: move;
