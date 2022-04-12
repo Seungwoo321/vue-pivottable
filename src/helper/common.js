@@ -14,7 +14,9 @@ export default {
   },
   selectedAggregators: {
    type: Array,
-   default: []
+   default: function () {
+    return []
+   }
   },
   aggregatorName: {
    type: String,
