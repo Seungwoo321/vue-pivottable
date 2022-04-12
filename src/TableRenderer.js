@@ -92,49 +92,64 @@ function makeRenderer(opts = {}) {
    const rowAttrs = pivotData.props.rows
    const rowKeys = pivotData.getRowKeys()
    const colKeys = pivotData.getColKeys()
-   const grandTotalAggregators = pivotData.getAggregator([], [])
+   const grandTotalAggregators = pivotData.getAggregators([], [])
    // eslint-disable-next-line no-unused-vars
-   let valueCellColors = () => {}
+   let valueCellColors = new Array(Object.keys(pivotData.aggregators).length)
+    .fill()
+    .map((_) => () => {})
    // eslint-disable-next-line no-unused-vars
-   let rowTotalColors = () => {}
+   let rowTotalColors = new Array(Object.keys(pivotData.aggregators).length)
+    .fill()
+    .map((_) => () => {})
    // eslint-disable-next-line no-unused-vars
-   let colTotalColors = () => {}
+   let colTotalColors = new Array(Object.keys(pivotData.aggregators).length)
+    .fill()
+    .map((_) => () => {})
    if (opts.heatmapMode) {
     const colorScaleGenerator = this.tableColorScaleGenerator
-    const rowTotalValues = colKeys.map((x) =>
-     pivotData.getAggregator([], x).value()
+    const rowTotalValues = rowTotalColors.map((_, index) =>
+     colKeys.map((x) => pivotData.getAggregatorByIndex(index, [], x).value())
     )
-    rowTotalColors = colorScaleGenerator(rowTotalValues)
-    const colTotalValues = rowKeys.map((x) =>
-     pivotData.getAggregator(x, []).value()
+    rowTotalColors = rowTotalValues.map((r) => colorScaleGenerator(r))
+
+    const colTotalValues = rowTotalColors.map((_, index) =>
+     rowKeys.map((x) => pivotData.getAggregatorByIndex(index, x, []).value())
     )
-    colTotalColors = colorScaleGenerator(colTotalValues)
+    colTotalColors = colTotalValues.map((r) => colorScaleGenerator(r))
 
     if (opts.heatmapMode === 'full') {
-     const allValues = []
-     rowKeys.map((r) =>
-      colKeys.map((c) => allValues.push(pivotData.getAggregator(r, c).value()))
-     )
-     const colorScale = colorScaleGenerator(allValues)
-     valueCellColors = (r, c, v) => colorScale(v)
+     valueCellColors = valueCellColors.map((_, index) => {
+      const allValues = []
+      rowKeys.map((r) =>
+       colKeys.map((c) =>
+        allValues.push(pivotData.getAggregatorByIndex(index, r, c).value())
+       )
+      )
+      const colorScale = colorScaleGenerator(allValues)
+      return (r, c, v) => colorScale(v)
+     })
     } else if (opts.heatmapMode === 'row') {
-     const rowColorScales = {}
-     rowKeys.forEach((r) => {
-      const rowValues = colKeys.map((x) =>
-       pivotData.getAggregator(r, x).value()
-      )
-      rowColorScales[r] = colorScaleGenerator(rowValues)
+     valueCellColors = valueCellColors.map((_, index) => {
+      const rowColorScales = {}
+      rowKeys.forEach((r) => {
+       const rowValues = colKeys.map((x) =>
+        pivotData.getAggregatorByIndex(index, r, x).value()
+       )
+       rowColorScales[r] = colorScaleGenerator(rowValues)
+      })
+      return (r, c, v) => rowColorScales[r](v)
      })
-     valueCellColors = (r, c, v) => rowColorScales[r](v)
     } else if (opts.heatmapMode === 'col') {
-     const colColorScales = {}
-     colKeys.forEach((c) => {
-      const colValues = rowKeys.map((x) =>
-       pivotData.getAggregator(x, c).value()
-      )
-      colColorScales[c] = colorScaleGenerator(colValues)
+     valueCellColors = valueCellColors.map((_, index) => {
+      const colColorScales = {}
+      colKeys.forEach((c) => {
+       const colValues = rowKeys.map((x) =>
+        pivotData.getAggregatorByIndex(index, x, c).value()
+       )
+       colColorScales[c] = colorScaleGenerator(colValues)
+      })
+      return (r, c, v) => colColorScales[c](v)
      })
-     valueCellColors = (r, c, v) => colColorScales[c](v)
     }
    }
    const getClickHandler = (value, rowValues, colValues) => {
@@ -320,7 +335,7 @@ function makeRenderer(opts = {}) {
 
      h('tbody', [
       rowKeys.map((rowKey, i) => {
-       const rowTotalAggregators = pivotData.getAggregator(rowKey, [])
+       const rowTotalAggregators = pivotData.getAggregators(rowKey, [])
        return h(
         'tr',
         {
@@ -349,13 +364,13 @@ function makeRenderer(opts = {}) {
          }),
 
          colKeys.flatMap((colKey, j) => {
-          const aggregators = pivotData.getAggregator(rowKey, colKey)
-          return aggregators.map((agg) => {
+          const aggregators = pivotData.getAggregators(rowKey, colKey)
+          return aggregators.map((agg, index) => {
            return h(
             'td',
             {
              staticClass: ['pvVal'],
-             style: valueCellColors(rowKey, colKey, agg.value()),
+             style: valueCellColors[index](rowKey, colKey, agg.value()),
              attrs: {
               key: `pvtVal${i}-${j}`
              },
@@ -371,12 +386,12 @@ function makeRenderer(opts = {}) {
          }),
 
          this.rowTotal
-          ? rowTotalAggregators.map((totalAggregator) =>
+          ? rowTotalAggregators.map((totalAggregator, index) =>
              h(
               'td',
               {
                staticClass: ['pvtTotal'],
-               style: colTotalColors(totalAggregator.value()),
+               style: colTotalColors[index](totalAggregator.value()),
                on: this.tableOptions.clickCallback
                 ? {
                    click: getClickHandler(totalAggregator.value(), rowKey, [])
@@ -407,13 +422,13 @@ function makeRenderer(opts = {}) {
 
        this.colTotal
         ? colKeys.flatMap((colKey, i) => {
-           const columnTotalAggregators = pivotData.getAggregator([], colKey)
-           return columnTotalAggregators.map((totalAggregator) =>
+           const columnTotalAggregators = pivotData.getAggregators([], colKey)
+           return columnTotalAggregators.map((totalAggregator, index) =>
             h(
              'td',
              {
               staticClass: ['pvtTotal'],
-              style: rowTotalColors(totalAggregator.value()),
+              style: rowTotalColors[index](totalAggregator.value()),
               attrs: {
                key: `total${i}`
               },
