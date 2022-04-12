@@ -194,7 +194,15 @@ table.pvtTable tbody tr td {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    min-width: 278px;
+    width: 295px;
+}
+
+.pvtAxisContainerWrapper.pvtVertList {
+    flex: 0 0 auto;
+}
+
+.pvtAxisContainerWrapper.pvtAvailableFields {
+    order: 0
 }
 
 .pvtFilteredAttribute {
@@ -362,7 +370,6 @@ table.pvtTable tbody tr td {
 .pvtUIRowBottomContainer {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
 }
@@ -414,6 +421,7 @@ table.pvtTable tbody tr td {
 }
 
 .pvtTableContainer {
+    order: 99;
     flex: 4 1 auto;
     overflow: auto;
     margin: 5px;
@@ -436,3 +444,22 @@ table.pvtTable tbody tr td {
     -khtml-user-select: none;
     -ms-user-select: none;
 }
+
+
+@media only screen and (max-width: 1280px) {
+    .pvtUIRowBottomContainer {
+        flex-wrap: wrap;
+    }
+
+    .pvtAxisContainerWrapper.pvtVertList {
+        flex: 1 0 auto;
+    }
+
+  }
+
+  @media only screen and (max-width: 690px) {
+    .pvtAxisContainerWrapper.pvtAvailableFields {
+        order: 1
+    }
+
+  }

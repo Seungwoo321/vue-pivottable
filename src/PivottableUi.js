@@ -233,6 +233,8 @@ export default {
     this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
    this.unusedOrder = this.unusedAttrs
 
+   this.localeStrings = this.locales[this.locale].localeStrings
+
    Object.keys(this.attrValues).forEach((key) => {
     let valueFilter = {}
     const values = this.valueFilter && this.valueFilter[key]
@@ -320,15 +322,27 @@ export default {
    this.materializedInput = materializedInput
    this.attrValues = attrValues
   },
-  makeDnDCell(items, label, onChange, classes, h, maxWidth = false) {
+  makeDnDCell(
+   items,
+   label,
+   onChange,
+   classes,
+   h,
+   maxWidth = false,
+   available = false
+  ) {
    const scopedSlots = this.$scopedSlots.pvtAttr
    return h(
     'div',
     {
-     staticClass: [`pvtAxisContainerWrapper ${maxWidth ? 'pvtVertList' : ''}`]
+     staticClass: [
+      `pvtAxisContainerWrapper ${maxWidth ? 'pvtVertList' : ''} ${
+       available ? 'pvtAvailableFields' : ''
+      }`
+     ]
     },
     [
-     h('span', label),
+     this.labels ? h('span', label) : undefined,
      h(
       draggable,
       {
@@ -370,7 +384,7 @@ export default {
           open: this.openStatus[x],
           async: this.async,
           unused: this.unusedAttrs.includes(x),
-          localeStrings: this.locales[this.locale].localeStrings
+          localeStrings: this.localeStrings
          },
          domProps: {},
          on: {
@@ -408,19 +422,7 @@ export default {
    return this.$slots.aggregatorCell
     ? h('div', this.$slots.aggregatorCell)
     : h('div', { staticClass: ['pvtValuesWrapper'] }, [
-       h('span', 'Values'), // TODO set in localization
-       h(
-        'button',
-        {
-         type: 'button',
-         on: {
-          click: () => {
-           this.addAggregator()
-          }
-         }
-        },
-        'Add'
-       ),
+       this.labels ? h('span', this.localeStrings.values) : undefined, // TODO set in localization
        h(
         draggable,
         {
@@ -533,6 +535,7 @@ export default {
             h(
              'button',
              {
+              staticClass: ['pvtButton'],
               type: 'button',
               on: {
                click: () => {
@@ -546,6 +549,19 @@ export default {
           }
          )
         ]
+       ),
+       h(
+        'button',
+        {
+         staticClass: ['pvtButton'],
+         type: 'button',
+         on: {
+          click: () => {
+           this.addAggregator()
+          }
+         }
+        },
+        'Add'
        )
       ])
   },
@@ -573,8 +589,7 @@ export default {
   const unusedAttrsCell = this.makeDnDCell(
    // Exclude aggregation filters from unused filter options
    this.unusedAttrs.filter((a) => aggregationAttributes.indexOf(a) === -1),
-   // TODO set in localization
-   'Available Fields',
+   this.localeStrings.unused,
    (e) => {
     const item = e.item.getAttribute('data-id')
     if (
@@ -597,11 +612,12 @@ export default {
    },
    `pvtAxisContainer pvtUnused pvtVertList`,
    h,
+   true,
    true
   )
   const colAttrsCell = this.makeDnDCell(
    this.colAttrs,
-   'Columns', // TODO set in localization
+   this.localeStrings.columns,
    (e) => {
     const item = e.item.getAttribute('data-id')
     if (
@@ -625,7 +641,7 @@ export default {
   )
   const rowAttrsCell = this.makeDnDCell(
    this.rowAttrs,
-   'Rows', // Set in localization
+   this.localeStrings.rows, // Set in localization
    (e) => {
     const item = e.item.getAttribute('data-id')
     if (

@@ -436,7 +436,11 @@ const locales = {
    filterResults: 'Filter values',
    totals: 'Totals',
    vs: 'vs',
-   by: 'by'
+   by: 'by',
+   values: 'Values',
+   unused: 'Available Fields',
+   rows: 'Rows',
+   columns: 'Columns'
   }
  }
 }

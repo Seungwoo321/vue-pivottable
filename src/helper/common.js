@@ -45,6 +45,10 @@ export default {
     return locales
    }
   },
+  labels: {
+   type: Boolean,
+   default: true
+  },
   rowTotal: {
    type: Boolean,
    default: true
