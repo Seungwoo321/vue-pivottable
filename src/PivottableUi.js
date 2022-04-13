@@ -418,7 +418,7 @@ export default {
        })
       ])
   },
-  aggregatorCell(selectedAggregators, h) {
+  aggregatorCell(selectedAggregators, isPlot, h) {
    return this.$slots.aggregatorCell
     ? h('div', this.$slots.aggregatorCell)
     : h('div', { staticClass: ['pvtValuesWrapper'] }, [
@@ -435,117 +435,129 @@ export default {
         [
          selectedAggregators.map(
           ({ name: aggregatorName, vals: attributes }, index) => {
-           return h('div', { staticClass: ['pvtValAttribute'] }, [
-            h(Dropdown, {
-             style: {
-              display: 'inline-block'
-             },
-             props: {
-              values: Object.keys(this.aggregatorItems),
-              value: aggregatorName
-             },
-             on: {
-              input: (selectedAggregatorName) => {
-               const valsAllowed = this.numValsAllowed(selectedAggregatorName)
-               if (attributes.length !== valsAllowed) {
-                attributes = new Array(valsAllowed)
-                 .fill()
-                 .map(
-                  (_, i) =>
-                   Object.keys(this.attrValues).filter(
-                    (e) =>
-                     !this.hiddenAttributes.includes(e) &&
-                     !this.hiddenFromAggregators.includes(e)
-                   )[i]
-                 )
-               }
-               this.updateAggregator(index, selectedAggregatorName, attributes)
-              }
-             }
-            }),
-            this.numValsAllowed(aggregatorName) > 0
-             ? new Array(this.numValsAllowed(aggregatorName))
-                .fill()
-                .map((_, i) => [
-                 h(Dropdown, {
-                  props: {
-                   values: Object.keys(this.attrValues).filter(
-                    (e) =>
-                     !this.hiddenAttributes.includes(e) &&
-                     !this.hiddenFromAggregators.includes(e)
-                   ),
-                   value: attributes[i]
-                  },
-                  on: {
-                   input: (value) => {
-                    if (attributes.length === 0) {
-                     attributes = [value]
-                    } else {
-                     attributes.splice(i, 1, value)
-                    }
-
-                    this.updateAggregator(index, aggregatorName, attributes)
-                   }
-                  }
-                 })
-                ])
-             : undefined,
-            h('div', [
-             h(
-              'a',
-              {
-               staticClass: ['pvtRowOrder'],
-               attrs: {
-                role: 'button'
-               },
-               on: {
-                click: () => {
-                 this.updateRowOrder(
-                  index,
-                  this.sortIcons[this.propsData.rowOrder[index] ?? 'key_a_to_z']
-                   .next
-                 )
-                }
-               }
+           return h(
+            'div',
+            {
+             staticClass: [
+              `pvtValAttribute ${
+               index > 0 && isPlot ? 'pvtValAttributeInactive' : ''
+              }`
+             ]
+            },
+            [
+             h(Dropdown, {
+              style: {
+               display: 'inline-block'
               },
-              this.sortIcons[this.propsData.rowOrder[index] ?? 'key_a_to_z']
-               .rowSymbol
-             ),
-             h(
-              'a',
-              {
-               staticClass: ['pvtColOrder'],
-               attrs: {
-                role: 'button'
-               },
-               on: {
-                click: () => {
-                 this.updateColOrder(
-                  index,
-                  this.sortIcons[this.propsData.colOrder[index] ?? 'key_a_to_z']
-                   .next
-                 )
-                }
-               }
+              props: {
+               values: Object.keys(this.aggregatorItems),
+               value: aggregatorName
               },
-              this.sortIcons[this.propsData.colOrder[index] ?? 'key_a_to_z']
-               .colSymbol
-             )
-            ]),
-            h(
-             'button',
-             {
-              staticClass: ['pvtButton'],
-              type: 'button',
               on: {
-               click: () => {
-                this.removeAggregator(index)
+               input: (selectedAggregatorName) => {
+                const valsAllowed = this.numValsAllowed(selectedAggregatorName)
+                if (attributes.length !== valsAllowed) {
+                 attributes = new Array(valsAllowed)
+                  .fill()
+                  .map(
+                   (_, i) =>
+                    Object.keys(this.attrValues).filter(
+                     (e) =>
+                      !this.hiddenAttributes.includes(e) &&
+                      !this.hiddenFromAggregators.includes(e)
+                    )[i]
+                  )
+                }
+                this.updateAggregator(index, selectedAggregatorName, attributes)
                }
               }
-             },
-             'Remove'
-            )
-           ])
+             }),
+             this.numValsAllowed(aggregatorName) > 0
+              ? new Array(this.numValsAllowed(aggregatorName))
+                 .fill()
+                 .map((_, i) => [
+                  h(Dropdown, {
+                   props: {
+                    values: Object.keys(this.attrValues).filter(
+                     (e) =>
+                      !this.hiddenAttributes.includes(e) &&
+                      !this.hiddenFromAggregators.includes(e)
+                    ),
+                    value: attributes[i]
+                   },
+                   on: {
+                    input: (value) => {
+                     if (attributes.length === 0) {
+                      attributes = [value]
+                     } else {
+                      attributes.splice(i, 1, value)
+                     }
+
+                     this.updateAggregator(index, aggregatorName, attributes)
+                    }
+                   }
+                  })
+                 ])
+              : undefined,
+             h('div', [
+              h(
+               'a',
+               {
+                staticClass: ['pvtRowOrder'],
+                attrs: {
+                 role: 'button'
+                },
+                on: {
+                 click: () => {
+                  this.updateRowOrder(
+                   index,
+                   this.sortIcons[
+                    this.propsData.rowOrder[index] ?? 'key_a_to_z'
+                   ].next
+                  )
+                 }
+                }
+               },
+               this.sortIcons[this.propsData.rowOrder[index] ?? 'key_a_to_z']
+                .rowSymbol
+              ),
+              h(
+               'a',
+               {
+                staticClass: ['pvtColOrder'],
+                attrs: {
+                 role: 'button'
+                },
+                on: {
+                 click: () => {
+                  this.updateColOrder(
+                   index,
+                   this.sortIcons[
+                    this.propsData.colOrder[index] ?? 'key_a_to_z'
+                   ].next
+                  )
+                 }
+                }
+               },
+               this.sortIcons[this.propsData.colOrder[index] ?? 'key_a_to_z']
+                .colSymbol
+              )
+             ]),
+             h(
+              'button',
+              {
+               staticClass: ['pvtButton'],
+               type: 'button',
+               on: {
+                click: () => {
+                 this.removeAggregator(index)
+                }
+               }
+              },
+              'Remove'
+             )
+            ]
+           )
           }
          )
         ]
@@ -692,25 +704,25 @@ export default {
    }
   }
 
+  const isPlot = rendererName.indexOf('Chart') > -1
+
+  console.log('IS PLOT?', isPlot)
+
   const rendererCell = this.rendererCell(rendererName, h)
   const aggregatorCell = this.aggregatorCell(
    this.propsData.selectedAggregators,
+   isPlot,
    h
   )
-  const outputCell = this.outputCell(
-   props,
-   rendererName.indexOf('Chart') > -1,
-   h
-  )
+
+  const outputCell = this.outputCell(props, isPlot, h)
   const colGroupSlot = this.$slots.colGroup
 
   return h('div', { staticClass: ['pvtUIContainer'] }, [
    colGroupSlot,
    h('div', { staticClass: ['pvtUIRowContainer'] }, [rendererCell]),
-   h('div', { staticClass: ['pvtUIRowTopContainer'] }, [
-    aggregatorCell,
-    colAttrsCell
-   ]),
+   h('div', { staticClass: ['pvtUIRowContainer'] }, [aggregatorCell]),
+   h('div', { staticClass: ['pvtUIRowTopContainer'] }, [colAttrsCell]),
    h('div', { staticClass: ['pvtUIRowBottomContainer'] }, [
     unusedAttrsCell,
     rowAttrsCell,

@@ -392,7 +392,6 @@ table.pvtTable tbody tr td {
     margin: 5px;
     min-width: 20px;
     min-height: 20px;
-    max-width: 600px;
 }
 
 .pvtRenderContainer {
@@ -410,6 +409,10 @@ table.pvtTable tbody tr td {
     align-items: flex-start;
     flex-wrap: wrap;
     flex: 1 1 auto;
+}
+
+.pvtValAttribute.pvtValAttributeInactive{
+    opacity: 0.5;
 }
 
 .pvtValAttribute span {

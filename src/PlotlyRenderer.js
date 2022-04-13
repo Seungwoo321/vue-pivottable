@@ -19,6 +19,7 @@ function makeRenderer(
    }
   },
   render(h) {
+   if (this.$props.selectedAggregators.length === 0) return
    const pivotData = new PivotData(this.$props)
    const rowKeys = pivotData.getRowKeys()
    const colKeys = pivotData.getColKeys()
@@ -27,10 +28,12 @@ function makeRenderer(
    const datumKeys = transpose ? rowKeys : colKeys
    if (datumKeys.length === 0) datumKeys.push([])
 
-   let fullAggName = this.$props.aggregatorName
+   // Only plots first aggregator
+   const aggregator = this.$props.selectedAggregators[0]
+   let fullAggName = aggregator.name
    const numInputs = this.$props.aggregators[fullAggName]([])().numInputs || 0
    if (numInputs !== 0) {
-    fullAggName += ` of ${this.$props.vals.slice(0, numInputs).join(', ')}`
+    fullAggName += ` of ${aggregator.vals.slice(0, numInputs).join(', ')}`
    }
    const data = traceKeys.map((traceKey) => {
     const values = []
