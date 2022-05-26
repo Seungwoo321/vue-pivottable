@@ -73,4 +73,4 @@ typings/
 docs/.vuepress/dist
 
 #build
-dist/
+dist
