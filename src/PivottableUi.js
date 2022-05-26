@@ -705,9 +705,6 @@ export default {
   }
 
   const isPlot = rendererName.indexOf('Chart') > -1
-
-  console.log('IS PLOT?', isPlot)
-
   const rendererCell = this.rendererCell(rendererName, h)
   const aggregatorCell = this.aggregatorCell(
    this.propsData.selectedAggregators,

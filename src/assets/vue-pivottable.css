@@ -411,8 +411,7 @@ table.pvtTable tbody tr td {
     flex: 1 1 auto;
 }
 
-.pvtValAttribute
-.pvtValAttributeInactive{
+.pvtValAttribute.pvtValAttributeInactive{
     opacity: 0.5;
 }
 

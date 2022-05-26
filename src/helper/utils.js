@@ -366,7 +366,6 @@ const aggregatorTemplates = {
      },
      format: formatter,
      value() {
-      console.log(index)
       return (
        this.inner.value() /
        data

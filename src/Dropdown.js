@@ -9,8 +9,6 @@ export default {
  },
  methods: {
   handleChange(e) {
-   console.log(`change triggered: ${e}`)
-
    this.$emit('input', e.target.value)
   }
  },
