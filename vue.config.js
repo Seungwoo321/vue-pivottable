@@ -9,14 +9,17 @@ module.exports = {
   output: {
    libraryExport: 'default'
   },
+  entry: './src/index.js',
   plugins: [
-   new CopyWebpackPlugin([
-    {
-     from: path.join(__dirname, 'src/assets'),
-     to: path.join(__dirname, 'dist'),
-     toType: 'dir'
-    }
-   ]),
+   new CopyWebpackPlugin({
+    patterns: [
+     {
+      from: path.join(__dirname, 'src/assets'),
+      to: path.join(__dirname, 'dist'),
+      toType: 'dir'
+     }
+    ]
+   }),
    new BundleAnalyzerPlugin()
   ]
  }
