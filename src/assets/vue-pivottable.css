@@ -9,7 +9,7 @@
     color: #2a3f5f;
     font-family: Verdana;
     border-collapse: collapse;
-} 
+}
 .pvtUi select {
     user-select: none;
     -webkit-user-select: none;
@@ -23,7 +23,7 @@
 .pvtUi td.pvtOutput {
     padding: 6px;
     vertical-align: top;
-    border: 1px solid #a2b1c6;
+    border: 1px solid #C3CFD9;
     overflow-x: auto;
 }
 
@@ -36,7 +36,7 @@ table.pvtTable {
 
 table.pvtTable thead tr th,
 table.pvtTable tbody tr th {
-    background-color: #ebf0f8;
+    background-color: #DFE6ED;
     border: 1px solid #c8d4e3;
     font-size: 8pt;
     padding: 5px;
@@ -79,12 +79,13 @@ table.pvtTable tbody tr td {
 
 .pvtAxisContainer,
 .pvtVals {
-    border: 1px solid #a2b1c6;
-    background: #fff;
-    padding: 5px;
-    min-width: 20px;
-    min-height: 20px;
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    padding: 2px;
+    margin: 2px;
 }
+
 .pvtVals.pvtText {
     vertical-align: middle;
     font-size: 15px;
@@ -96,12 +97,12 @@ table.pvtTable tbody tr td {
 }
 
 .pvtRenderers {
-    border: 1px solid #a2b1c6;
+    border: 1px solid #C3CFD9;
     user-select: none;
 }
 
 .pvtDropdown {
-    border: 1px solid #a2b1c6;
+    border: 1px solid #C3CFD9;
     align-items: center;
     display: block;
     background-color: transparent;
@@ -133,13 +134,15 @@ table.pvtTable tbody tr td {
 }
 
 .pvtVals {
+    display: flex;
+    gap: 5px;
     white-space: nowrap;
     vertical-align: top;
     padding-bottom: 12px;
 }
 
 .pvtRows {
-    height: 35px;
+    height: auto;
 }
 
 .pvtAxisContainer li {
@@ -152,7 +155,7 @@ table.pvtTable tbody tr td {
     padding: 3px 15px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    border: 1px dashed #a2b1c6;
+    border: 1px dashed #C3CFD9;
 }
 .pvtAxisContainer li.pvtPlaceholder span.pvtAttr {
     display: none;
@@ -186,11 +189,20 @@ table.pvtTable tbody tr td {
     color: #506784;
 }
 
-.pvtHorizList li {
-    display: inline-block;
-}
 .pvtVertList {
-    vertical-align: top;
+    /* max-width: 295px; */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 295px;
+}
+
+.pvtAxisContainerWrapper.pvtVertList {
+    flex: 0 0 auto;
+}
+
+.pvtAxisContainerWrapper.pvtAvailableFields {
+    order: 0
 }
 
 .pvtFilteredAttribute {
@@ -216,7 +228,7 @@ table.pvtTable tbody tr td {
     top: 5px;
     font-size: 18px;
     cursor: move;
-    color: #a2b1c6;
+    color: #C3CFD9;
 } */
 
 .pvtButton {
@@ -235,7 +247,7 @@ table.pvtTable tbody tr td {
 
 .pvtButton:hover {
     background: #e2e8f0;
-    border-color: #a2b1c6;
+    border-color: #C3CFD9;
 }
 
 .pvtButton:active {
@@ -302,7 +314,7 @@ table.pvtTable tbody tr td {
 }
 
 .pvtCheckContainer p.selected {
-    background: #ebf0f8;
+    background: #DFE6ED;
     min-width: 100%;
     width: max-content;
 }
@@ -332,3 +344,125 @@ table.pvtTable tbody tr td {
 .pvtRendererArea {
     padding: 5px;
 }
+
+.pvtUIContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.pvtUIRowContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.pvtUIRowTopContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.pvtUIRowBottomContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.pvtAxisContainerWrapper {
+    flex: 1 1 auto;
+    border: 1px solid #C3CFD9;
+    background: #fff;
+    padding: 5px;
+    margin: 5px;
+    /* min-width: 20px; */
+    min-height: 84px;
+}
+
+.pvtValuesWrapper {
+    flex: 1 1 auto;
+    border: 1px solid #C3CFD9;
+    background: #fff;
+    padding: 5px;
+    margin: 5px;
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.pvtRenderContainer {
+    display: flex;
+    padding: 5px;
+    margin: 5px;
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.pvtValAttribute {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+}
+
+.pvtValAttribute.pvtValAttributeInactive{
+    opacity: 0.5;
+}
+
+.pvtValAttribute span {
+    padding: 10px;
+}
+
+.pvtValAttribute div {
+    padding: 10px;
+}
+
+.pvtTableContainer {
+    order: 99;
+    flex: 4 1 auto;
+    overflow: auto;
+    margin: 5px;
+}
+
+.pvtValAttribute {
+    cursor: move;
+    max-width: 300px;
+    -webkit-text-size-adjust: 100%;
+    background: #f3f6fa;
+    border: 2px dashed #c8d4e3;
+    padding: 4px 7px;
+    white-space: nowrap;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+
+@media only screen and (max-width: 1280px) {
+    .pvtUIRowBottomContainer {
+        flex-wrap: wrap;
+    }
+
+    .pvtAxisContainerWrapper.pvtVertList {
+        flex: 1 0 auto;
+    }
+
+  }
+
+  @media only screen and (max-width: 690px) {
+    .pvtAxisContainerWrapper.pvtAvailableFields {
+        order: 1
+    }
+
+  }

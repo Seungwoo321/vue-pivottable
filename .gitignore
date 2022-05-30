@@ -71,3 +71,6 @@ typings/
 #vuepress
 .temp
 docs/.vuepress/dist
+
+#build
+dist

@@ -1,7 +1,7 @@
 {
   "name": "vue-pivottable",
   "version": "0.4.2",
-  "main": "src/index.js",
+  "main": "dist/vue-pivottable.umd.min.js",
   "files": [
     "dist",
     "src"
@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git://github.com/Seungwoo321/vue-pivottable.git"
   },
+  "types": "src/index.d.ts",
   "keywords": [
     "vue",
     "pivot",
@@ -21,31 +22,43 @@
   "license": "MIT",
   "scripts": {
     "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
+    "prepare": "yarn build",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:deploy": "sh deploy.sh"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
+    "core-js": "^3.22.7",
     "vue": "^2.6.10",
     "vue-plotly": "^1.1.0",
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.10.0",
-    "@vue/cli-plugin-eslint": "^4.2.3",
-    "@vue/cli-service": "^4.2.3",
-    "@vue/eslint-config-standard": "^4.0.0",
+    "@babel/core": "^7.4.5",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-typescript": "^7.17.12",
+    "@vue/cli-plugin-babel": "^5.0.4",
+    "@vue/cli-plugin-eslint": "^5.0.4",
+    "@vue/cli-plugin-typescript": "^5.0.4",
+    "@vue/cli-service": "^5.0.4",
+    "@vue/eslint-config-standard": "^6.1.0",
     "@vuepress/plugin-back-to-top": "^1.9.7",
     "@vuepress/plugin-google-analytics": "^1.9.7",
     "@vuepress/plugin-nprogress": "^1.9.7",
     "@vuepress/plugin-pwa": "^1.9.7",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^8.6.0",
+    "typescript": "^4.7.2",
     "vue-template-compiler": "^2.6.10",
     "vuepress": "^1.8.2",
-    "webpack-bundle-analyzer": "^3.6.0"
+    "webpack": "^5.72.0"
   }
 }
