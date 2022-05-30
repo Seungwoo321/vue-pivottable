@@ -4,10 +4,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
  productionSourceMap: false,
  configureWebpack: {
-  output: {
-   libraryExport: 'default'
-  },
-  entry: './src/index.js',
   plugins: [
    new CopyWebpackPlugin({
     patterns: [
