@@ -1,7 +1,7 @@
 {
   "name": "vue-pivottable",
   "version": "0.4.2",
-  "main": "src/index.js",
+  "main": "dist/vue-pivottable.umd.min.js",
   "files": [
     "dist",
     "src"
