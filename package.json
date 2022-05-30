@@ -21,6 +21,7 @@
   "license": "MIT",
   "scripts": {
     "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
+    "prepare": "yarn build",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
