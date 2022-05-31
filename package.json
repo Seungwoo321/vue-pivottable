@@ -22,15 +22,17 @@
   "license": "MIT",
   "scripts": {
     "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
-    "prepare": "yarn build",
+    "prepare": "npm run build",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:deploy": "sh deploy.sh"
   },
+  "peerDependencies": {
+    "vue": "^2.6.10"
+  },
   "dependencies": {
     "core-js": "^3.22.7",
-    "vue": "^2.6.10",
     "vue-plotly": "^1.1.0",
     "vuedraggable": "^2.23.0"
   },
@@ -43,7 +45,7 @@
     "@vue/cli-plugin-eslint": "^5.0.4",
     "@vue/cli-plugin-typescript": "^5.0.4",
     "@vue/cli-service": "^5.0.4",
-    "@vue/eslint-config-standard": "^6.1.0",
+    "@vue/eslint-config-standard": "^7.0.0",
     "@vuepress/plugin-back-to-top": "^1.9.7",
     "@vuepress/plugin-google-analytics": "^1.9.7",
     "@vuepress/plugin-nprogress": "^1.9.7",
