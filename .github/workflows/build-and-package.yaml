@@ -13,8 +13,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: https://npm.pkg.github.com/
-          scope: "@SoftwareAngelsDev "
+          registry-url: https://npm.pkg.github.com/SoftwareAngelsDev
+          scope: "@SoftwareAngelsDev"
       - name: Build and Publish
         run: |
           npm install
