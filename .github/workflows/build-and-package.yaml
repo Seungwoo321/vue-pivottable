@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: "SoftwareAngelsDev "
+          scope: "@SoftwareAngelsDev "
       - name: Build and Publish
         run: |
           npm install
