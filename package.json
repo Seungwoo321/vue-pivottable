@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://https://github.com/SoftwareAngelsDev/vue-pivottable.git"
+    "url": "git://github.com/SoftwareAngelsDev/vue-pivottable.git"
   },
   "types": "src/index.d.ts",
   "publishConfig": {
