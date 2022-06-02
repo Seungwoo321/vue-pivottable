@@ -12,7 +12,7 @@
   },
   "types": "src/index.d.ts",
   "publishConfig": {
-    "@SoftwareAngelsDev:registry": "https://npm.pkg.github.com"
+    "@software-angels-dev:registry": "https://npm.pkg.github.com"
   },
   "release": {
     "branches": [
