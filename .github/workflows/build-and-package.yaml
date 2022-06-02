@@ -19,7 +19,7 @@ jobs:
         run: |
           echo @lexacode:https://npm.pkg.github.com/SoftwareAngelsDev > .npmrc
           echo '//npm.pkg.github.com/SoftwareAngelsDev:_authToken=${NPM_TOKEN}' >> .npmrc
-          npm install
+          npm install --ignore-scripts
           npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
