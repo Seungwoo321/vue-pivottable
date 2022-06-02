@@ -16,8 +16,14 @@
   },
   "release": {
     "branches": [
-      { "name": "master" },
-      { "name": "develop", "channel": "beta", "prerelease": "beta" }
+      {
+        "name": "master"
+      },
+      {
+        "name": "develop",
+        "channel": "beta",
+        "prerelease": "beta"
+      }
     ]
   },
   "keywords": [
@@ -73,6 +79,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^8.6.0",
     "husky": "^8.0.1",
+    "semantic-release": "^19.0.2",
     "typescript": "^4.7.2",
     "vue-template-compiler": "^2.6.10",
     "vuepress": "^1.8.2",
