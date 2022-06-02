@@ -17,8 +17,8 @@ jobs:
           scope: "@SoftwareAngelsDev"
       - name: Build and Publish
         run: |
-          echo @lexacode:https://npm.pkg.github.com/SoftwareAngelsDev > build/.npmrc
-          echo '//npm.pkg.github.com/SoftwareAngelsDev:_authToken=${NPM_TOKEN}' >> build/.npmrc
+          echo @lexacode:https://npm.pkg.github.com/SoftwareAngelsDev > .npmrc
+          echo '//npm.pkg.github.com/SoftwareAngelsDev:_authToken=${NPM_TOKEN}' >> .npmrc
           npm install
           npm run semantic-release
         env:
