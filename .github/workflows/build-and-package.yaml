@@ -17,7 +17,7 @@ jobs:
           scope: "SoftwareAngelsDev "
       - name: Build and Publish
         run: |
-          npm run semantic-release
+          npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
