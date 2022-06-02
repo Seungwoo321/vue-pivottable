@@ -17,6 +17,7 @@ jobs:
           scope: "@SoftwareAngelsDev"
       - name: Build and Publish
         run: |
+          npm adduser
           npm install
           npm run semantic-release
         env:
