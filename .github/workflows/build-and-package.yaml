@@ -17,9 +17,9 @@ jobs:
           scope: "@SoftwareAngelsDev"
       - name: Build and Publish
         run: |
+          npm install --ignore-scripts
           echo registry=https://npm.pkg.github.com/SoftwareAngelsDev > .npmrc
           echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> .npmrc
-          npm install --ignore-scripts
           npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
