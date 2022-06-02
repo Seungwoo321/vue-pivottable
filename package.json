@@ -11,18 +11,10 @@
     "url": "git://github.com/SoftwareAngelsDev/vue-pivottable.git"
   },
   "types": "src/index.d.ts",
-  "publishConfig": {
-    "@software-angels-dev:registry": "https://npm.pkg.github.com"
-  },
   "release": {
     "branches": [
       {
         "name": "master"
-      },
-      {
-        "name": "develop",
-        "channel": "beta",
-        "prerelease": "beta"
       }
     ]
   },
