@@ -98,3 +98,45 @@ export default {
 ## License
 
 MIT
+
+## Creating releases
+
+Releases are created by GitHub with `semantic-release`, which checks all the commit messages since the last release to determine what the new version number should be.
+
+### Commit messages
+
+To trigger a release, your commits need to follow the [Angular Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines), meaning they need to be written in this pattern:
+
+```
+type(context): message
+```
+
+#### Type
+
+Commits using the types `feat`, `fix` or `perf` will appear in the changelogs. However, any commit with `BREAKING CHANGE` in the body will also appear in the changelog, regardless of the type.
+
+The type should be one of the following:
+
+- **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+- **ci**: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)
+- **docs**: Documentation only changes
+- **feat**: A new feature
+- **fix**: A bug fix
+- **perf**: A code change that improves performance
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **style**: Changes that do not affect the meaning of the code (white-space, formatting, adding commas, removing semi-colons, etc)
+- **test**: Adding missing tests or correcting existing tests
+
+#### Context
+
+For the context, we add the Jira ticket number. It's optional but good to have since the release logs are generated from the commits.
+
+#### Examples
+
+| Commit message                                                                                                                                                                                                | Release type               |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| `fix(DR-4567): stop graphite breaking when too much pressure applied to Pencil`                                                                                                                               | Patch Release              |
+| `feat(DR-4567): add 'graphiteWidth' option to Pencil`                                                                                                                                                         | ~~Minor~~ Feature Release  |
+| `perf(DR-4567): remove graphiteWidth option from Pencil`<br><br>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br>`The default graphite width of 10mm is always used for performance reasons.` | ~~Major~~ Breaking Release |
+
+💡 To add a body to your commit message, you can use `git commit -m "TITLE" -m "BODY"`
