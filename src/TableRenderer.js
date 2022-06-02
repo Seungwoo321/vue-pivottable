@@ -9,6 +9,7 @@ function redColorScaleGenerator(values) {
   return { backgroundColor: `rgb(255,${nonRed},${nonRed})` }
  }
 }
+
 function makeRenderer(opts = {}) {
  const TableRenderer = {
   name: opts.name,
