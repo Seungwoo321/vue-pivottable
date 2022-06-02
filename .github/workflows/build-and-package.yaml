@@ -17,8 +17,8 @@ jobs:
           scope: "@SoftwareAngelsDev"
       - name: Build and Publish
         run: |
-          echo @lexacode:https://npm.pkg.github.com/SoftwareAngelsDev > .npmrc
-          echo '//npm.pkg.github.com/SoftwareAngelsDev:_authToken=${NPM_TOKEN}' >> .npmrc
+          echo registry:https://npm.pkg.github.com/SoftwareAngelsDev > .npmrc
+          echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> .npmrc
           npm install --ignore-scripts
           npm run semantic-release
         env:
