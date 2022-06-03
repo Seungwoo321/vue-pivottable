@@ -142,11 +142,13 @@ export default {
   cols: {
    handler(value) {
     this.propsData.cols = value
+    this.$emit('update:cols', value)
    }
   },
   rows: {
    handler(value) {
     this.propsData.rows = value
+    this.$emit('update:rows', value)
    }
   },
   rendererName: {
@@ -595,7 +597,7 @@ export default {
   const outputSlot = this.$slots.output
   const rendererName = this.propsData.rendererName
   const aggregationAttributes = this.propsData.selectedAggregators.flatMap(
-   ({ _, attr }) => attr
+   ({ _, vals }) => vals
   )
   const vals = this.propsData.vals
   const unusedAttrsCell = this.makeDnDCell(
@@ -622,7 +624,7 @@ export default {
      this.$emit('dropped:unused', item)
     }
    },
-   `pvtAxisContainer pvtUnused pvtVertList`,
+   `pvtAxisContainer pvtUnused pvtVertList pvtVertDraggable`,
    h,
    true,
    true
@@ -648,7 +650,7 @@ export default {
      this.$emit('dropped:cols', item)
     }
    },
-   'pvtAxisContainer pvtCols',
+   'pvtAxisContainer pvtCols pvtHorizontalDraggable',
    h
   )
   const rowAttrsCell = this.makeDnDCell(
@@ -672,9 +674,8 @@ export default {
      this.$emit('dropped:rows', item)
     }
    },
-   'pvtAxisContainer pvtVertList pvtRows',
-   h,
-   true
+   'pvtAxisContainer pvtRows pvtHorizontalDraggable',
+   h
   )
 
   const props = Object.assign({}, this.$props, {
@@ -717,12 +718,16 @@ export default {
 
   return h('div', { staticClass: ['pvtUIContainer'] }, [
    colGroupSlot,
-   h('div', { staticClass: ['pvtUIRowContainer'] }, [rendererCell]),
-   h('div', { staticClass: ['pvtUIRowContainer'] }, [aggregatorCell]),
-   h('div', { staticClass: ['pvtUIRowTopContainer'] }, [colAttrsCell]),
-   h('div', { staticClass: ['pvtUIRowBottomContainer'] }, [
+   rendererCell,
+   h('div', { staticClass: ['pvtUIRowContainer'] }, [
     unusedAttrsCell,
-    rowAttrsCell,
+    aggregatorCell
+   ]),
+   h('div', { staticClass: ['pvtUIRowTopContainer'] }, [
+    colAttrsCell,
+    rowAttrsCell
+   ]),
+   h('div', { staticClass: ['pvtUIRowBottomContainer'] }, [
     outputSlot ? h('div', outputSlot) : undefined,
     outputScopedSlot && !outputSlot
      ? h('div', outputScopedSlot({ pivotData }))
