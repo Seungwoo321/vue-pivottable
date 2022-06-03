@@ -193,8 +193,19 @@ table.pvtTable tbody tr td {
     /* max-width: 295px; */
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: start;
     width: 295px;
+}
+
+.pvtVertDraggable {
+    height: 90%;
+    width: 100%;
+}
+
+.pvtHorizontalDraggable {
+    height: 100%;
+    width: 100%;
+    min-height: 45px;
 }
 
 .pvtAxisContainerWrapper.pvtVertList {
@@ -460,7 +471,7 @@ table.pvtTable tbody tr td {
 
   }
 
-  @media only screen and (max-width: 690px) {
+  @media only screen and (max-width: 640px) {
     .pvtAxisContainerWrapper.pvtAvailableFields {
         order: 1
     }
