@@ -66,6 +66,9 @@ export default {
   }
  },
  methods: {
+  onClickOutside() {
+   this.$emit('open:filterbox', { attribute: this.name, open: !this.open })
+  },
   setValuesInFilter(attribute, values) {
    const valueFilter = values.reduce((r, v) => {
     r[v] = true
@@ -114,6 +117,7 @@ export default {
    const showMenu = Object.keys(this.attrValues).length < this.menuLimit
    const values = Object.keys(this.attrValues)
    const shown = values.filter(this.matchesFilter.bind(this)).sort(this.sorter)
+
    return h(
     'div',
     {
@@ -127,6 +131,9 @@ export default {
       click: (e) => {
        e.stopPropagation()
        this.moveFilterBoxToTop(this.name)
+      },
+      mouseleave: () => {
+       this.onClickOutside()
       }
      }
     },
@@ -226,7 +233,7 @@ export default {
             type: 'checkbox'
            },
            domProps: {
-            checked: checked
+            checked
            }
           }),
           x,

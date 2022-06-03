@@ -2,6 +2,7 @@ import VuePivottable from './Pivottable'
 import VuePivottableUi from './PivottableUi'
 import TableRenderer from './TableRenderer'
 import PlotlyRenderer from './PlotlyRenderer'
+
 import {
  aggregatorTemplates,
  aggregators,

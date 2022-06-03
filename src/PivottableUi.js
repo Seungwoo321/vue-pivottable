@@ -142,11 +142,13 @@ export default {
   cols: {
    handler(value) {
     this.propsData.cols = value
+    this.$emit('update:cols', value)
    }
   },
   rows: {
    handler(value) {
     this.propsData.rows = value
+    this.$emit('update:rows', value)
    }
   },
   rendererName: {
