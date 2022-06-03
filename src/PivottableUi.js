@@ -597,7 +597,7 @@ export default {
   const outputSlot = this.$slots.output
   const rendererName = this.propsData.rendererName
   const aggregationAttributes = this.propsData.selectedAggregators.flatMap(
-   ({ _, attr }) => attr
+   ({ _, vals }) => vals
   )
   const vals = this.propsData.vals
   const unusedAttrsCell = this.makeDnDCell(
@@ -718,7 +718,7 @@ export default {
 
   return h('div', { staticClass: ['pvtUIContainer'] }, [
    colGroupSlot,
-   h('div', { staticClass: ['pvtUIRowContainer'] }, [rendererCell]),
+   rendererCell,
    h('div', { staticClass: ['pvtUIRowContainer'] }, [
     unusedAttrsCell,
     aggregatorCell

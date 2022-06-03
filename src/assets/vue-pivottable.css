@@ -407,8 +407,7 @@ table.pvtTable tbody tr td {
 
 .pvtRenderContainer {
     display: flex;
-    padding: 5px;
-    margin: 5px;
+    margin: 2px;
     min-width: 20px;
     min-height: 20px;
 }
