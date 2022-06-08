@@ -9,19 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com
-          scope: "@SoftwareAngelsDev"
-      - name: Build and Publish
-        run: |
-          npm install --ignore-scripts
-          echo registry=https://npm.pkg.github.com/SoftwareAngelsDev > .npmrc
-          echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> .npmrc
-          npm run semantic-release
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo registry=https://npm.pkg.github.com/SoftwareAngelsDev > .npmrc
+          echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN}' >> .npmrc
+          npm run semantic-release
