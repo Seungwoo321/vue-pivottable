@@ -874,7 +874,7 @@ PivotData.forEachRecord = function (input, derivedAttributes, f) {
 }
 
 PivotData.defaultProps = {
- aggregators: aggregators,
+ aggregators,
  cols: [],
  rows: [],
  vals: [],
