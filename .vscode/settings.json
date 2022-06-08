@@ -6,12 +6,16 @@
   "eslint.options": {
     "extensions": [
       ".js",
-      ".vue"
+      ".vue",
+      ".mdx",
+      ".ts"
     ]
   },
   "eslint.validate": [
     "javascript",
-    "vue"
+    "vue",
+    "mdx",
+    "typescript"
   ],
   "files.eol": "\n",
   "files.trimTrailingWhitespace": true,
