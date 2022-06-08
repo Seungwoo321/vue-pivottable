@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git://github.com/SoftwareAngelsDev/vue-pivottable.git"
   },
-  "types": "src/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "release": {
     "branches": [
       {
@@ -28,9 +28,11 @@
   "author": "Seungwoo, Lee <seungwoo321@gmail.com> (https://github.com/seungwoo321)",
   "license": "MIT",
   "scripts": {
-    "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
+    "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js && npm run generate:types",
+    "generate:types": "tsc --emitDeclarationOnly",
     "prepare": "npm run build",
     "lint": "vue-cli-service lint",
+    "lint:fix": "npm run lint -- --fix",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:deploy": "sh deploy.sh",
@@ -63,6 +65,7 @@
     "@vuepress/plugin-google-analytics": "^1.9.7",
     "@vuepress/plugin-nprogress": "^1.9.7",
     "@vuepress/plugin-pwa": "^1.9.7",
+    "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^10.2.4",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
@@ -74,6 +77,7 @@
     "husky": "^8.0.1",
     "semantic-release": "^19.0.2",
     "typescript": "^4.7.2",
+    "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.6.10",
     "vuepress": "^1.8.2",
     "webpack": "^5.72.0"
