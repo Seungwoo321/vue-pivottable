@@ -749,8 +749,8 @@ export default {
         aggregatorCell,
       ]),
       h("div", { staticClass: ["pvtUIRowTopContainer"] }, [
-        colAttrsCell,
         rowAttrsCell,
+        colAttrsCell,
       ]),
       h("div", { staticClass: ["pvtUIRowBottomContainer"] }, [
         outputSlot ? h("div", outputSlot) : undefined,
