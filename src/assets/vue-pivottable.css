@@ -30,8 +30,13 @@
 table.pvtTable {
     font-size: 8pt;
     text-align: left;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-family: Verdana;
+}
+
+table.pvtTable thead {
+    top: 0;
 }
 
 table.pvtTable thead tr th,
@@ -436,7 +441,6 @@ table.pvtTable tbody tr td {
 .pvtTableContainer {
     order: 99;
     flex: 4 1 auto;
-    overflow: auto;
     margin: 5px;
 }
 

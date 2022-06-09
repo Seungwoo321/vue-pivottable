@@ -1,5 +1,5 @@
 {
-  "name": "@SoftwareAngelsDev/vue-pivottable",
+  "name": "@softwareangelsdev/vue-pivottable",
   "version": "0.4.2",
   "main": "dist/vue-pivottable.umd.min.js",
   "files": [
@@ -34,16 +34,10 @@
     "prepare": "npm run build",
     "lint": "eslint --ext \".js,.ts,.vue,.mdx\" --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "docs:deploy": "sh deploy.sh",
     "semantic-release": "semantic-release",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "husky": "husky install"
-  },
-  "peerDependencies": {
-    "vue": "^2.6.10"
   },
   "dependencies": {
     "core-js": "^3.22.7",
@@ -73,10 +67,6 @@
     "@vue/cli-plugin-typescript": "^5.0.4",
     "@vue/cli-service": "^5.0.4",
     "@vue/eslint-config-standard": "^7.0.0",
-    "@vuepress/plugin-back-to-top": "^1.9.7",
-    "@vuepress/plugin-google-analytics": "^1.9.7",
-    "@vuepress/plugin-nprogress": "^1.9.7",
-    "@vuepress/plugin-pwa": "^1.9.7",
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^10.2.4",
     "eslint": "^8.12.0",
@@ -89,11 +79,11 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^8.6.0",
     "husky": "^8.0.1",
+    "prettier": "^2.6.2",
     "semantic-release": "^19.0.2",
     "typescript": "^4.7.2",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.6.10",
-    "vuepress": "^1.8.2",
     "webpack": "^5.72.0"
   }
 }
