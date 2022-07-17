@@ -24,7 +24,7 @@
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "sh deploy.sh"
+    "docs:deploy": "sh deploy-docs.sh"
   },
   "dependencies": {
     "core-js": "^2.6.5",
