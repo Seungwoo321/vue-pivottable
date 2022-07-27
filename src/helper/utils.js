@@ -427,6 +427,23 @@ const locales = {
       vs: 'vs',
       by: 'by'
     }
+  },
+  fr: {
+    aggregators,
+    localeStrings: {
+      renderError: 'Une erreur est survenue en dessinant le tableau croisé.',
+      computeError: 'Une erreur est survenue en calculant le tableau croisé.',
+      uiRenderError: "Une erreur est survenue en dessinant l'interface du tableau croisé dynamique.",
+      selectAll: 'Sélectionner tout',
+      selectNone: 'Ne rien sélectionner',
+      tooMany: '(trop de valeurs à afficher)',
+      filterResults: 'Filtrer les valeurs',
+      totals: 'Totaux',
+      vs: 'sur',
+      by: 'par',
+      apply: 'Appliquer',
+      cancel: 'Annuler'
+    }
   }
 }
 
