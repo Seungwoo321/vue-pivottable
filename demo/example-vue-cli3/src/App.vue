@@ -13,6 +13,7 @@
         <select v-model="locale">
           <option value="en" :selected="locale === 'en' ? 'selected' : undefined">en</option>
           <option value="ko" :selected="locale === 'ko' ? 'selected' : undefined">ko</option>
+          <option value="fr" :selected="locale === 'fr' ? 'selected' : undefined">fr</option>
         </select>
       </div>
       <div class="main-wrapper">
@@ -178,22 +179,8 @@ export default {
     },
     locales () {
       return {
-        en: {
-          aggregators: this.aggregators,
-          localeStrings: {
-            renderError: 'An error occurred rendering the PivotTable results.',
-            computeError: 'An error occurred computing the PivotTable results.',
-            uiRenderError: 'An error occurred rendering the PivotTable UI.',
-            selectAll: 'Select All',
-            selectNone: 'Select None',
-            tooMany: '(too many to list)',
-            filterResults: 'Filter values',
-            totals: 'Totals',
-            only: 'Only',
-            vs: 'vs',
-            by: 'by'
-          }
-        },
+        fr: PivotUtilities.locales.fr,
+        en: PivotUtilities.locales.en,
         ko: {
           aggregators: this.aggregators,
           localeStrings: {
