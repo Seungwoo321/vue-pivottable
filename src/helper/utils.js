@@ -412,6 +412,31 @@ const aggregators = (tpl => ({
   'Count as Fraction of Columns': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
 }))(aggregatorTemplates)
 
+// fr aggregators
+
+const frAggregators = (tpl => ({
+  Compte: tpl.count(usFmtInt),
+  'Compter les valeurs uniques': tpl.countUnique(usFmtInt),
+  'Liste des valeurs uniques': tpl.listUnique(', '),
+  Somme: tpl.sum(usFmt),
+  'Somme de nombres entiers': tpl.sum(usFmtInt),
+  Moyenne: tpl.average(usFmt),
+  Médiane: tpl.median(usFmt),
+  "Variance de l'échantillon": tpl.var(1, usFmt),
+  "Écart-type de l'échantillon": tpl.stdev(1, usFmt),
+  Minimum: tpl.min(usFmt),
+  Maximum: tpl.max(usFmt),
+  Premier: tpl.first(usFmt),
+  Dernier: tpl.last(usFmt),
+  'Somme Total': tpl.sumOverSum(usFmt),
+  'Somme en fraction du total': tpl.fractionOf(tpl.sum(), 'total', usFmtPct),
+  'Somme en tant que fraction de lignes': tpl.fractionOf(tpl.sum(), 'row', usFmtPct),
+  'Somme en tant que fraction de colonnes': tpl.fractionOf(tpl.sum(), 'col', usFmtPct),
+  'Comptage en tant que fraction du total': tpl.fractionOf(tpl.count(), 'total', usFmtPct),
+  'Comptage en tant que fraction de lignes': tpl.fractionOf(tpl.count(), 'row', usFmtPct),
+  'Comptage en tant que fraction de colonnes': tpl.fractionOf(tpl.count(), 'col', usFmtPct)
+}))(aggregatorTemplates)
+
 const locales = {
   en: {
     aggregators,
@@ -426,6 +451,23 @@ const locales = {
       totals: 'Totals',
       vs: 'vs',
       by: 'by'
+    }
+  },
+  fr: {
+    frAggregators,
+    localeStrings: {
+      renderError: 'Une erreur est survenue en dessinant le tableau croisé.',
+      computeError: 'Une erreur est survenue en calculant le tableau croisé.',
+      uiRenderError: "Une erreur est survenue en dessinant l'interface du tableau croisé dynamique.",
+      selectAll: 'Sélectionner tout',
+      selectNone: 'Ne rien sélectionner',
+      tooMany: '(trop de valeurs à afficher)',
+      filterResults: 'Filtrer les valeurs',
+      totals: 'Totaux',
+      vs: 'sur',
+      by: 'par',
+      apply: 'Appliquer',
+      cancel: 'Annuler'
     }
   }
 }
