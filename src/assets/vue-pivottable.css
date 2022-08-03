@@ -16,6 +16,7 @@
     -moz-user-select: none;
     -khtml-user-select: none;
     -ms-user-select: none;
+    border-radius: 5px ;
 }
 .pvtUi td {
     overflow-x: auto;
@@ -98,6 +99,14 @@ table.pvtTable tbody tr td {
 .pvtRenderers {
     border: 1px solid #a2b1c6;
     user-select: none;
+}
+@media screen and (max-width:576px) {
+    .pvtRenderers{
+         width: 100%;
+    }
+    .pvtAxisContainer{
+      display: none;
+    }
 }
 
 .pvtDropdown {
