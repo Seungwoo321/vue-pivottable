@@ -99,6 +99,7 @@ table.pvtTable tbody tr td {
 .pvtRenderers {
     border: 1px solid #a2b1c6;
     user-select: none;
+    width: 25%;
 }
 @media screen and (max-width:576px) {
     .pvtRenderers{
@@ -108,7 +109,11 @@ table.pvtTable tbody tr td {
       display: none;
     }
 }
-
+@media screen and (width: 768px) {
+    .pvtRenderers{
+        width: 40%;
+   }
+}
 .pvtDropdown {
     border: 1px solid #a2b1c6;
     align-items: center;
