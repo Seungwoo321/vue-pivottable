@@ -5,7 +5,7 @@ export default {
     event: 'input'
   },
   created () {
-    this.$emit('input', this.values[0])
+    this.$emit('input', this.value || this.values[0])
   },
   methods: {
     handleChange (e) {
