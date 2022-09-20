@@ -1,5 +1,5 @@
 {
-  "name": "vue-pivottable",
+  "name": "vue-pivottable-du",
   "version": "0.4.3",
   "main": "src/index.js",
   "files": [
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Seungwoo321/vue-pivottable.git"
+    "url": "git@github.com:rabbitDu/vue-pivottable.git"
   },
   "keywords": [
     "vue",
@@ -17,7 +17,7 @@
     "vue-pivottable"
   ],
   "homepage": "https://seungwoo321.github.io/vue-pivottable/",
-  "author": "Seungwoo, Lee <seungwoo321@gmail.com> (https://github.com/seungwoo321)",
+  "author": "Rabbit, Lee <291210800@qq.com> (https://github.com/rabbitDu)",
   "license": "MIT",
   "scripts": {
     "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
