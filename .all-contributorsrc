@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "Seungwoo321",
+      "name": "Seungwoo321",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13829929?v=4",
+      "profile": "https://seungwoo321.github.io/",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "vue-pivottable",
+  "projectOwner": "Seungwoo321"
+}
