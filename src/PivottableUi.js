@@ -143,6 +143,16 @@ export default {
     this.materializeInput(nextProps.data)
   },
   watch: {
+    rowOrder: {
+      handler (value) {
+        this.propsData.rowOrder = value
+      }
+    },
+    colOrder: {
+      handler (value) {
+        this.propsData.colOrder = value
+      }
+    },
     cols: {
       handler (value) {
         this.propsData.cols = value
