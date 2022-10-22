@@ -22,15 +22,24 @@
       "profile": "https://kinshasadigital.com/",
       "contributions": [
         "maintenance"
-       ]
-     },
-     {
+      ]
+    },
+    {
       "login": "jbrathwa",
       "name": "Jayraj Rathwa",
       "avatar_url": "https://avatars.githubusercontent.com/u/24322038?v=4",
       "profile": "https://github.com/jbrathwa",
       "contributions": [
         "bug"
+      ]
+    },
+    {
+      "login": "cbbdev",
+      "name": "cbbdev",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55853311?v=4",
+      "profile": "https://github.com/cbbdev",
+      "contributions": [
+        "maintenance"
       ]
     }
   ],
