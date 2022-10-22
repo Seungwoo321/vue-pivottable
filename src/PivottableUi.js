@@ -313,9 +313,9 @@ export default {
       [
         items.map(x => {
           return h(DraggableAttribute, {
-            [scopedSlots ? 'scopedSlots' : undefined]: {
+            scopedSlots: scopedSlots ? {
               pvtAttr: props => h('slot', scopedSlots(props))
-            },
+            } : undefined,
             props: {
               sortable: this.sortonlyFromDragDrop.includes(x) || !this.disabledFromDragDrop.includes(x),
               draggable: !this.sortonlyFromDragDrop.includes(x) && !this.disabledFromDragDrop.includes(x),
