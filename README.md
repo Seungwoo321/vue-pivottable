@@ -1,6 +1,6 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 # Vue Pivottable
 
@@ -104,6 +104,7 @@ export default {
       <td align="center"><a href="https://seungwoo321.github.io/"><img src="https://avatars.githubusercontent.com/u/13829929?v=4?s=100" width="100px;" alt="Seungwoo321"/><br /><sub><b>Seungwoo321</b></sub></a><br /><a href="https://github.com/Seungwoo321/vue-pivottable/commits?author=Seungwoo321" title="Code">💻</a></td>
       <td align="center"><a href="https://kinshasadigital.com/"><img src="https://avatars.githubusercontent.com/u/48548004?v=4?s=100" width="100px;" alt="rkota"/><br /><sub><b>rkota</b></sub></a><br /><a href="#maintenance-rosairekota" title="Maintenance">🚧</a></td>
       <td align="center"><a href="https://github.com/jbrathwa"><img src="https://avatars.githubusercontent.com/u/24322038?v=4?s=100" width="100px;" alt="Jayraj Rathwa"/><br /><sub><b>Jayraj Rathwa</b></sub></a><br /><a href="https://github.com/Seungwoo321/vue-pivottable/issues?q=author%3Ajbrathwa" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://github.com/cbbdev"><img src="https://avatars.githubusercontent.com/u/55853311?v=4?s=100" width="100px;" alt="cbbdev"/><br /><sub><b>cbbdev</b></sub></a><br /><a href="#maintenance-cbbdev" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
