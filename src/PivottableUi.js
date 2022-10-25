@@ -388,16 +388,10 @@ export default {
           h('div',
             [
               h(Dropdown, {
-                style: {
-                  display: 'inline-block'
-                },
                 props: {
                   values: Object.keys(this.aggregatorItems),
                   value: aggregatorName
                 },
-                // domProps: {
-                //   value: aggregatorName
-                // },
                 on: {
                   input: (value) => {
                     this.propUpdater('aggregatorName')(value)

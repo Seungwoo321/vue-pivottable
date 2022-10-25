@@ -450,7 +450,9 @@ const locales = {
       filterResults: 'Filter values',
       totals: 'Totals',
       vs: 'vs',
-      by: 'by'
+      by: 'by',
+      cancel: 'Cancel',
+      only: 'only'
     }
   },
   fr: {
@@ -467,7 +469,8 @@ const locales = {
       vs: 'sur',
       by: 'par',
       apply: 'Appliquer',
-      cancel: 'Annuler'
+      cancel: 'Annuler',
+      only: 'seul'
     }
   }
 }
