@@ -1,6 +1,6 @@
 import { PivotData } from './helper/utils'
 import defaultProps from './helper/common'
-import Plotly from 'plotly.js-dist'
+import { Plotly } from '@seungwoo321/vue-plotly'
 function makeRenderer (opts = {}, traceOptions = {}, layoutOptions = {}, transpose = false) {
   const plotlyRenderer = {
     name: opts.name,
@@ -90,17 +90,16 @@ function makeRenderer (opts = {}, traceOptions = {}, layoutOptions = {}, transpo
           automargin: true
         }
       }
-      return h('div', 'plotly')
-      // return h(Plotly, {
-      //   props: {
-      //     data,
-      //     layout: Object.assign({},
-      //       layout,
-      //       layoutOptions,
-      //       this.$props.plotlyOptions
-      //     )
-      //   }
-      // })
+      return h(Plotly, {
+        props: {
+          data,
+          layout: Object.assign({},
+            layout,
+            layoutOptions,
+            this.$props.plotlyOptions
+          )
+        }
+      })
     }
   }
   return plotlyRenderer
