@@ -3,7 +3,8 @@
   "version": "0.4.5",
   "main": "dist/vue-pivottable.mjs",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "exports": {
     ".": {
