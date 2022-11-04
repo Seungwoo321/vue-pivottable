@@ -1,11 +1,16 @@
 {
   "name": "vue-pivottable",
   "version": "0.4.4",
-  "main": "src/index.js",
+  "main": "dist/vue-pivottable.mjs",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/vue-pivottable.mjs",
+      "require": "./dist/vue-pivottable.umd.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/Seungwoo321/vue-pivottable.git"
@@ -20,32 +25,29 @@
   "author": "Seungwoo, Lee <seungwoo321@gmail.com> (https://github.com/seungwoo321)",
   "license": "MIT",
   "scripts": {
-    "build": "vue-cli-service build --target lib --name vue-pivottable src/index.js",
-    "lint": "vue-cli-service lint",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:deploy": "sh deploy-docs.sh"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
+    "plotly.js-dist": "^2.16.1",
     "vue": "^2.6.10",
-    "vue-plotly": "^1.1.0",
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.10.0",
-    "@vue/cli-plugin-eslint": "^4.2.3",
-    "@vue/cli-service": "^4.2.3",
-    "@vue/eslint-config-standard": "^4.0.0",
+    "@vitejs/plugin-vue2": "^2.0.0",
     "@vuepress/plugin-back-to-top": "^1.9.7",
     "@vuepress/plugin-google-analytics": "^1.9.7",
     "@vuepress/plugin-nprogress": "^1.9.7",
     "@vuepress/plugin-pwa": "^1.9.7",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10",
-    "vuepress": "^1.8.2",
-    "webpack-bundle-analyzer": "^3.6.0"
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "vite": "^3.1.8",
+    "vuepress": "^1.8.2"
   }
 }
