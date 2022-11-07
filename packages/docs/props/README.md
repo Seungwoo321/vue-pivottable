@@ -140,14 +140,12 @@ value of max-width in table style
 
 generate custom color render for `Table Heatmap`
 
-### locales
+### locales <sup style="color:#c92222;">deprecated</sup>
 
 * Type: `Object`
 * Default: [see utilities](/guide/utilities.html#locales)
 
-:::danger
 localeStrings is deprecated, replace in locales.
-:::
 
 ## Pivottable UI Props
 

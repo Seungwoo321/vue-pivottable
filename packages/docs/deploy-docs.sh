@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-rm -rf docs/.vuepress/dist/ 
+rm -rf packages/docs/.vuepress/dist/ 
 npm run docs:build
-cd docs/.vuepress/dist/
+cd packages/docs/.vuepress/dist/
 
 git init 
 git config --local user.name "Seungwoo Lee"

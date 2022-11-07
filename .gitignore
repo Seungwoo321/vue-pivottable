@@ -69,4 +69,4 @@ typings/
 
 #vuepress
 .temp
-docs/.vuepress/dist
+packages/docs/.vuepress/dist

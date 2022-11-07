@@ -88,7 +88,8 @@ function getGuideSidebar(groupA, groupB) {
         'locale',
         'slot',
         'scoped-slot',
-        'utilities'
+        'utilities',
+        'renderer'
       ]
     }
   ]
