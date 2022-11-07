@@ -2,7 +2,11 @@
   "name": "@vue-pivottable/plotly-renderer",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/plotly-renderer.mjs",
+  "files": [
+    "dist",
+    "src"
+  ],
   "keywords": [
     "vue",
     "pivot",
