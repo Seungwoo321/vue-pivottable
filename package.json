@@ -1,6 +1,6 @@
 {
   "name": "vue-pivottable",
-  "version": "0.4.6",
+  "version": "0.4.61",
   "main": "dist/vue-pivottable.mjs",
   "files": [
     "dist",
