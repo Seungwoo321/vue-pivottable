@@ -327,7 +327,19 @@ const TSVExportRenderer = {
   name: 'tsv-export-renderers',
   mixins: [defaultProps],
   render (h) {
-    const pivotData = new PivotData(this.$props)
+    let pivotData = null
+    try {
+      const props = Object.assign({},
+        this.$props,
+        this.$attrs.props
+      )
+      pivotData = new PivotData(props)
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      if (console && console.error(error.stack)) {
+        return this.computeError(h)
+      }
+    }
     const rowKeys = pivotData.getRowKeys()
     const colKeys = pivotData.getColKeys()
     if (rowKeys.length === 0) {
