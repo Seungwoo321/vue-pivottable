@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plotly Renderer</title>
+  <link rel="stylesheet" href="https://unpkg.com/vue-pivottable@0.4.5/dist/vue-pivottable.css">
+  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-pivottable@0.4.5/dist/vue-pivottable.umd.js"></script>
+  <script src="dist/plotly-renderer.umd.js"></script>
+</head>
+<body>
+  <div id="app">
+    <vue-pivottable-ui
+      :data="[{color: 'blue', shape: 'circle'},{color: 'red', shape: 'triangle'}]"
+      renderer-name="Area Chart"
+      :renderers="renderers"
+      :rows="['color']"
+      :cols="['shape']"
+    >
+    </vue-pivottable-ui>
+  </div>
+  <script type="text/javascript">
+    Vue.use(VuePivottable.default)
+    new Vue({
+      el: '#app',
+      computed: {
+        renderers () {
+          return (() => ({
+            'Grouped Column Chart': PlotlyRenderer['Grouped Column Chart'],
+            'Stacked Column Chart': PlotlyRenderer['Stacked Column Chart'],
+            'Grouped Bar Chart': PlotlyRenderer['Grouped Bar Chart'],
+            'Stacked Bar Chart': PlotlyRenderer['Stacked Bar Chart'],
+            'Line Chart': PlotlyRenderer['Line Chart'],
+            'Dot Chart': PlotlyRenderer['Dot Chart'],
+            'Area Chart': PlotlyRenderer['Area Chart'],
+            'Scatter Chart': PlotlyRenderer['Scatter Chart'],
+            'Multiple Pie Chart': PlotlyRenderer['Multiple Pie Chart']
+          }))()
+        }
+      }
+    })
+  </script>
+</body>
+</html>

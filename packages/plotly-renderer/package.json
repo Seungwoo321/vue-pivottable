@@ -1,0 +1,23 @@
+{
+  "name": "@vue-pivottable/plotly-renderer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "keywords": [
+    "vue",
+    "pivot",
+    "pivottable",
+    "vue-pivottable",
+    "@vue-pivottable/plotly-renderer"
+  ],
+  "homepage": "https://seungwoo321.github.io/vue-pivottable/",
+  "author": "Seungwoo, Lee <seungwoo321@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@seungwoo321/vue-plotly": "^1.1.0",
+    "vue-pivottable": "^0.4.5"
+  }
+}
