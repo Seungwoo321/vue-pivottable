@@ -1,12 +1,22 @@
 {
   "name": "@vue-pivottable/plotly-renderer",
   "version": "1.0.0",
-  "description": "",
   "main": "dist/plotly-renderer.mjs",
   "files": [
     "dist",
     "src"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/vue-pivottable.mjs",
+      "require": "./dist/vue-pivottable.umd.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Seungwoo321/vue-pivottable.git",
+    "directory": "packages/plotly-renderer"
+  },
   "keywords": [
     "vue",
     "pivot",
