@@ -1,10 +1,13 @@
 {
   "name": "vue-pivottable",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "main": "dist/vue-pivottable.mjs",
   "files": [
     "dist",
     "src"
+  ],
+  "workspaces": [
+    "packages/*"
   ],
   "exports": {
     ".": {
@@ -30,28 +33,23 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "docs:deploy": "sh deploy-docs.sh"
+    "docs:dev": "vuepress dev packages/docs",
+    "docs:build": "vuepress build packages/docs",
+    "docs:deploy": "sh packages/docs/deploy-docs.sh"
   },
   "dependencies": {
-    "@seungwoo321/vue-plotly": "^1.1.0",
     "vue": "^2.6.10",
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue2": "^2.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
-    "@vuepress/plugin-back-to-top": "^1.9.7",
-    "@vuepress/plugin-google-analytics": "^1.9.7",
-    "@vuepress/plugin-nprogress": "^1.9.7",
-    "@vuepress/plugin-pwa": "^1.9.7",
+    "babel-eslint": "^10.1.0",
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-loader": "^3.0.2",
     "eslint-plugin-vue": "^5.2.3",
     "vite": "^3.1.8",
-    "vite-plugin-static-copy": "^0.11.1",
-    "vuepress": "^1.8.2"
+    "vite-plugin-static-copy": "^0.11.1"
   }
 }

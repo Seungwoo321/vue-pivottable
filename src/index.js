@@ -1,7 +1,7 @@
 import VuePivottable from './Pivottable'
 import VuePivottableUi from './PivottableUi'
 import TableRenderer from './TableRenderer'
-import PlotlyRenderer from './PlotlyRenderer'
+
 import {
   aggregatorTemplates,
   aggregators,
@@ -27,8 +27,7 @@ const PivotUtilities = {
 }
 
 const Renderer = {
-  TableRenderer,
-  PlotlyRenderer
+  TableRenderer
 }
 
 const components = {

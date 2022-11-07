@@ -25,7 +25,7 @@
           :data="pivotData"
           :locale="locale"
           :locales="locales"
-          :rendererName="rendererName"
+          :renderers="renderers"
           :aggregatorName="aggregatorName"
           :tableColorScaleGenerator="colorScaleGenerator"
           :attributes="attributes"
@@ -111,7 +111,8 @@
 
 <script>
 import tips from './tips'
-import { VuePivottableUi, PivotUtilities, Renderer } from '../../'
+import { VuePivottableUi, PivotUtilities, Renderer } from '../../src/'
+import PlotlyRenderer from '../../packages/plotly-renderer'
 import '../../src/assets/vue-pivottable.css'
 import { scaleLinear } from 'd3-scale'
 export default {
@@ -228,7 +229,6 @@ export default {
     },
     renderers () {
       const TableRenderer = Renderer.TableRenderer
-      const PlotlyRenderer = Renderer.PlotlyRenderer
       return (() => ({
         Table: TableRenderer.Table,
         'Table Heatmap': TableRenderer['Table Heatmap'],

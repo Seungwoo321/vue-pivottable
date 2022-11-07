@@ -13,7 +13,8 @@ It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 
 ## Documentation
 
-Documentation is still under development, but you can view it at <https://seungwoo321.github.io/vue-pivottable>.
+You can view the documentation at <https://seungwoo321.github.io/vue-pivottable>. 
+It's also lighter by removing `vue-plotly` from the dependencies.
 
 ## Live Demo
 
@@ -26,7 +27,7 @@ Documentation is still under development, but you can view it at <https://seungw
 git clone https://github.com/Seungwoo321/vue-pivottable.git
 
 # Go into the cloned directory
-cd vue-pivottable/demo/example-vue-cli3/
+cd vue-pivottable/example/
 
 # npm install
 npm install
@@ -88,6 +89,49 @@ import 'vue-pivottable/dist/vue-pivottable.css'
 export default {
   components: {
     VuePivottableUi
+  }
+}
+</script>
+```
+
+* Plotly rednerer
+
+  [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
+
+```html
+<template>
+  <vue-pivottable-ui
+    :data="[{color: 'blue', shape: 'circle'},{color: 'red', shape: 'triangle'}]"
+    renderer-name="Area Chart"
+    :rows="['color']"
+    :cols="['shape']"
+    :renderers="renderers"
+  >
+  </vue-pivottable-ui>
+</template>
+
+<script>
+import { VuePivottableUi } from 'vue-pivottable'
+import PlotlyRenderer from '@vue-pivottable/plotly-renderer'
+import 'vue-pivottable/dist/vue-pivottable.css'
+export default {
+  components: {
+    VuePivottableUi
+  },
+  computed: {
+    renderers () {
+      return (() => ({
+        'Grouped Column Chart': PlotlyRenderer['Grouped Column Chart'],
+        'Stacked Column Chart': PlotlyRenderer['Stacked Column Chart'],
+        'Grouped Bar Chart': PlotlyRenderer['Grouped Bar Chart'],
+        'Stacked Bar Chart': PlotlyRenderer['Stacked Bar Chart'],
+        'Line Chart': PlotlyRenderer['Line Chart'],
+        'Dot Chart': PlotlyRenderer['Dot Chart'],
+        'Area Chart': PlotlyRenderer['Area Chart'],
+        'Scatter Chart': PlotlyRenderer['Scatter Chart'],
+        'Multiple Pie Chart': PlotlyRenderer['Multiple Pie Chart']
+      }))()
+    }
   }
 }
 </script>
