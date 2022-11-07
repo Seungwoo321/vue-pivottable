@@ -94,7 +94,7 @@ export default {
 </script>
 ```
 
-* Plotly rednerer
+* Plotly renderer
 
   [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
 
