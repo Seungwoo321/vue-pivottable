@@ -932,7 +932,19 @@ const Fn = {
   name: "tsv-export-renderers",
   mixins: [we],
   render(t) {
-    const n = new Ot(this.$props), r = n.getRowKeys(), e = n.getColKeys();
+    let n = null;
+    try {
+      const a = Object.assign(
+        {},
+        this.$props,
+        this.$attrs.props
+      );
+      n = new Ot(a);
+    } catch (a) {
+      if (console && console.error(a.stack))
+        return this.computeError(t);
+    }
+    const r = n.getRowKeys(), e = n.getColKeys();
     r.length === 0 && r.push([]), e.length === 0 && e.push([]);
     const i = n.props.rows.map((a) => a);
     e.length === 1 && e[0].length === 0 ? i.push(this.aggregatorName) : e.map((a) => i.push(a.join("-")));
