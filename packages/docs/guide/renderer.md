@@ -2787,7 +2787,10 @@ const renderer = (() => ({
       :rows="['date']"
       :cols="['symbol']"
       :vals="['Volume BTC']"
-      
+      :row-limit="200"
+      :col-limit="200"
+      :row-total="true"
+      :col-total="true"
     >
     </vue-pivottable-ui>
   </div>
