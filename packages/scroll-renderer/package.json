@@ -12,6 +12,10 @@
       "require": "./dist/scroll-renderer.umd.js"
     }
   },
+  "publishConfig": {
+      "registry": "https://registry.npmjs.org/",
+      "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Seungwoo321/vue-pivottable.git",
