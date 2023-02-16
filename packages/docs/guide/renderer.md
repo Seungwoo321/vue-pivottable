@@ -83,3 +83,26 @@ const renderer = (() => ({
 </html>
 
 ```
+
+## scroll table renderer <sup style="color:#42b983">New in 0.4.64+</sup>
+
+### Install
+
+```bash
+npm install @vue-pivottable/scroll-renderer
+```
+
+#### es6
+
+```js
+import ScrollRenderer from '@vue-pivottable/scroll-renderer'
+
+const renderer = (() => ({
+  Table : ScrollRenderer.Table,
+  'Table Heatmap': ScrollRenderer['Table Heatmap'],
+  'Table Col Heatmap': ScrollRenderer['Table Col Heatmap'],
+  'Table Row Heatmap': ScrollRenderer['Table Row Heatmap']
+}))()
+```
+
+#### live

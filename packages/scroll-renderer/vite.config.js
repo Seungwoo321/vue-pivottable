@@ -12,8 +12,8 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       type: ['es', 'umd'],
       lib: {
         entry: resolve(__dirname, 'src/index.js'),
-        name: 'PlotlyRenderer',
-        fileName: 'plotly-renderer'
+        name: 'ScrollRenderer',
+        fileName: 'scroll-renderer'
       }
     }
   }

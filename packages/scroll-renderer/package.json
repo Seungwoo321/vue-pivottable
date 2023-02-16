@@ -28,7 +28,7 @@
   "author": "Seungwoo, Lee <seungwoo321@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "buil": "vite build"
+    "build": "vite build"
   },
   "dependencies": {
     "vue-pivottable": "^0.4.5"
