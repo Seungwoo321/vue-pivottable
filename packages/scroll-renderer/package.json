@@ -1,37 +1,36 @@
 {
-  "name": "@vue-pivottable/plotly-renderer",
+  "name": "scroll-renderer",
   "version": "1.0.0",
-  "main": "dist/plotly-renderer.mjs",
+  "main": "src/index.js",
   "files": [
     "dist",
     "src"
   ],
   "exports": {
     ".": {
-      "import": "./dist/plotly-renderer.mjs",
-      "require": "./dist/plotly-renderer.umd.js"
+      "import": "./dist/scroll-renderer.mjs",
+      "require": "./dist/scroll-renderer.umd.js"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Seungwoo321/vue-pivottable.git",
-    "directory": "packages/plotly-renderer"
+    "url": "git+https://github.com/Seungwoo321/vue-pivottable.git",
+    "directory": "packages/scroll-renderer"
   },
   "keywords": [
     "vue",
     "pivot",
     "pivottable",
     "vue-pivottable",
-    "@vue-pivottable/plotly-renderer"
+    "@vue-pivottable/scroll-renderer"
   ],
   "homepage": "https://seungwoo321.github.io/vue-pivottable/",
   "author": "Seungwoo, Lee <seungwoo321@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "vite build"
+    "buil": "vite build"
   },
   "dependencies": {
-    "@seungwoo321/vue-plotly": "^1.1.0",
     "vue-pivottable": "^0.4.5"
   }
 }

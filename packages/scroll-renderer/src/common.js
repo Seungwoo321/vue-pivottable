@@ -1,4 +1,4 @@
-import { aggregators, locales } from './utils'
+import { PivotUtilities } from 'vue-pivottable'
 
 export default {
   props: {
@@ -9,7 +9,7 @@ export default {
     aggregators: {
       type: Object,
       default: function () {
-        return aggregators
+        return PivotUtilities.aggregators
       }
     },
     aggregatorName: {
@@ -38,7 +38,7 @@ export default {
     locales: {
       type: Object,
       default: function () {
-        return locales
+        return PivotUtilities.locales
       }
     },
     rowTotal: {
@@ -103,13 +103,6 @@ export default {
       default: 'key_a_to_z',
       validator: function (value) {
         return ['key_a_to_z', 'value_a_to_z', 'value_z_to_a'].indexOf(value) !== -1
-      }
-    },
-    tableMaxWidth: {
-      type: Number,
-      default: 0,
-      validator: function (value) {
-        return value >= 0
       }
     },
     colLimit: {

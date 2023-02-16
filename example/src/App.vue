@@ -33,12 +33,16 @@
           :rows="rows"
           :cols="cols"
           :vals="vals"
+          :colLimit="100"
+          :rowLimit="100"
           :async="false"
           :disabledFromDragDrop="disabledFromDragDrop"
           :sortonlyFromDragDrop="sortonlyFromDragDrop"
           :hiddenFromDragDrop="hiddenFromDragDrop"
-          :sorters="sorters" rowOrder="value_a_to_z"
+          :sorters="sorters"
+          rowOrder="key_a_to_z"
           :tableOptions="tableOptions"
+          :menuLimit="10000"
           @no:filterbox="noFilterbox"
         >
           <!-- Slot ColGroup -->
@@ -110,11 +114,13 @@
 </template>
 
 <script>
-import tips from './tips'
+import btcDaily from './btc-daily.js'
 import { VuePivottableUi, PivotUtilities, Renderer } from '../../src/'
 import PlotlyRenderer from '../../packages/plotly-renderer'
+import ScrollRenderer from '../../packages/scroll-renderer'
 import '../../src/assets/vue-pivottable.css'
 import { scaleLinear } from 'd3-scale'
+
 export default {
   name: 'App',
   components: {
@@ -134,14 +140,14 @@ export default {
       },
       config: {},
       filteredData: [],
-      pivotData: tips,
+      pivotData: btcDaily,
       asyncFields: ['Unused 1'],
-      attributes: ['Unused 1', 'Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
-      rows: ['Payer Gender', 'Party Size'],
-      cols: ['Meal', 'Payer Smoker', 'Day of Week'],
-      vals: ['Total Bill'],
+      attributes: ['Unused 1', 'unix', 'date', 'symbol', 'open', 'high', 'low', 'close', 'Volume BTC', 'Volume USD'],
+      rows: ['date'],
+      cols: ['symbol'],
+      vals: ['Volume BTC'],
       disabledFromDragDrop: [], // ['Payer Gender'],
-      hiddenFromDragDrop: ['Total Bill'],
+      hiddenFromDragDrop: [],
       sortonlyFromDragDrop: [], // ['Party Size'],
       pivotColumns: ['Meal', 'Payer Smoker', 'Day of Week', 'Payer Gender', 'Party Size'],
       loading: false,
@@ -151,7 +157,7 @@ export default {
     }
   },
   created () {
-    this.data = tips
+    this.data = btcDaily
   },
   computed: {
     tableOptions () {
@@ -231,7 +237,8 @@ export default {
       const TableRenderer = Renderer.TableRenderer
       return (() => ({
         Table: TableRenderer.Table,
-        'Table Heatmap': TableRenderer['Table Heatmap'],
+        'Scroll Table': ScrollRenderer.Table,
+        'Table Heatmap': ScrollRenderer['Table Heatmap'],
         'Table Col Heatmap': TableRenderer['Table Col Heatmap'],
         'Table Row Heatmap': TableRenderer['Table Row Heatmap'],
         'Export Table TSV': TableRenderer['Export Table TSV'],
