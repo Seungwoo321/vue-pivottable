@@ -1,5 +1,5 @@
 import { aggregators, locales } from './utils'
-
+import { h, toRefs } from 'vue'
 export default {
   props: {
     data: {
@@ -121,15 +121,15 @@ export default {
       default: 100
     }
   },
-  methods: {
-    renderError (h) {
-      return h('span', (this.locales[this.locale].localeStrings.renderError) || 'An error occurred rendering the PivotTable results.')
-    },
-    computeError (h) {
-      return h('span', (this.locales[this.locale].localeStrings.computeError) || 'An error occurred computing the PivotTable results.')
-    },
-    uiRenderError (h) {
-      return h('span', (this.locales[this.locale].localeStrings.uiRenderError) || 'An error occurred rendering the PivotTable UI.')
+  setup ($props, $context) {
+    const { locales, locale } = toRefs($props)
+    const renderError = () => h('span', (locales.value[locale.value].localeStrings.renderError) || 'An error occurred rendering the PivotTable results.')
+    const computeError = () => h('span', (locales.value[locale.value].localeStrings.computeError) || 'An error occurred computing the PivotTable results.')
+    const uiRenderError = () => h('span', (locales.value[locale.value].localeStrings.uiRenderError) || 'An error occurred rendering the PivotTable UI.')
+    return {
+      renderError,
+      computeError,
+      uiRenderError
     }
   }
 }

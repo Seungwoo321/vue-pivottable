@@ -1,3 +1,4 @@
+import { h, toRaw } from 'vue'
 import { PivotData } from './helper/utils'
 import defaultProps from './helper/common'
 function redColorScaleGenerator (values) {
@@ -9,13 +10,12 @@ function redColorScaleGenerator (values) {
     return { backgroundColor: `rgb(255,${nonRed},${nonRed})` }
   }
 }
+const props = defaultProps.props
 function makeRenderer (opts = {}) {
   const TableRenderer = {
     name: opts.name,
-    mixins: [
-      defaultProps
-    ],
     props: {
+      ...props,
       heatmapMode: String,
       tableColorScaleGenerator: {
         type: Function,
@@ -38,8 +38,8 @@ function makeRenderer (opts = {}) {
         }
       }
     },
-    methods: {
-      spanSize (arr, i, j) {
+    setup ($props, $context) {
+      const spanSize = (arr, i, j) => {
         // helper function for setting row/col-span in pivotTableRenderer
         let x
         if (i !== 0) {
@@ -78,14 +78,13 @@ function makeRenderer (opts = {}) {
         }
         return len
       }
-    },
-    render (h) {
       let pivotData = null
       try {
         const props = Object.assign({},
-          this.$props,
-          this.$attrs.props
+          toRaw($props),
+          $context.attrs.props
         )
+        console.log(props.data)
         pivotData = new PivotData(props)
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -93,6 +92,13 @@ function makeRenderer (opts = {}) {
           return this.computeError(h)
         }
       }
+      return {
+        pivotData,
+        spanSize
+      }
+    },
+    render () {
+      const pivotData = this.pivotData
       const colAttrs = pivotData.props.cols
       const rowAttrs = pivotData.props.rows
       const rowKeys = pivotData.getRowKeys()
@@ -316,22 +322,22 @@ function makeRenderer (opts = {}) {
 
       ])
     },
-    renderError (h, error) {
-      return this.renderError(h)
-    }
+  //   renderError (h, error) {
+  //     return this.renderError(h)
+  //   }
   }
   return TableRenderer
 }
 
 const TSVExportRenderer = {
   name: 'tsv-export-renderers',
-  mixins: [defaultProps],
-  render (h) {
+  props,
+  setup ($props, $context) {
     let pivotData = null
     try {
       const props = Object.assign({},
-        this.$props,
-        this.$attrs.props
+        toRaw($props),
+        $context.attrs.props
       )
       pivotData = new PivotData(props)
     } catch (error) {
@@ -340,6 +346,11 @@ const TSVExportRenderer = {
         return this.computeError(h)
       }
     }
+    return {
+      pivotData
+    }
+  },
+  render (h) {
     const rowKeys = pivotData.getRowKeys()
     const colKeys = pivotData.getColKeys()
     if (rowKeys.length === 0) {
@@ -383,7 +394,7 @@ const TSVExportRenderer = {
 }
 
 export default {
-  Table: makeRenderer({ name: 'vue-table' }),
+  Table: makeRenderer({ name: 'vue-pivot-table' }),
   'Table Heatmap': makeRenderer({ heatmapMode: 'full', name: 'vue-table-heatmap' }),
   'Table Col Heatmap': makeRenderer({ heatmapMode: 'col', name: 'vue-table-col-heatmap' }),
   'Table Row Heatmap': makeRenderer({ heatmapMode: 'row', name: 'vue-table-col-heatmap' }),

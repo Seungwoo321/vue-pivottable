@@ -1,10 +1,10 @@
-module.exports = {
+export default {
   root: true,
   env: {
-      node: true
+    node: true
   },
   'extends': [
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     '@vue/standard'
   ],
   rules: {
@@ -12,6 +12,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    ecmaVersion: 'latest'
   }
 }
