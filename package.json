@@ -13,7 +13,8 @@
     ".": {
       "import": "./dist/vue-pivottable.mjs",
       "require": "./dist/vue-pivottable.umd.js"
-    }
+    },
+    "./dist/": "./dist/"
   },
   "repository": {
     "type": "git",
