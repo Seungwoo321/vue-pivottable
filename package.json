@@ -1,6 +1,6 @@
 {
   "name": "vue-pivottable",
-  "version": "0.4.64",
+  "version": "0.4.65",
   "main": "dist/vue-pivottable.mjs",
   "files": [
     "dist",
@@ -13,7 +13,8 @@
     ".": {
       "import": "./dist/vue-pivottable.mjs",
       "require": "./dist/vue-pivottable.umd.js"
-    }
+    },
+    "./dist/": "./dist/"
   },
   "repository": {
     "type": "git",
