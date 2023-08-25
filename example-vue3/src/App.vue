@@ -1,26 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <VuePivottable
+    :data="pivotData"
+    :rows="rows"
+    :cols="cols"
+    :tableOptions="tableOptions"
+  ></VuePivottable> -->
+  <VuePivottableUi
+    :data="pivotData"
+    :rows="rows"
+    :cols="cols"
+    :tableOptions="tableOptions"
+    :attributes="['color', 'shape', 'unused']"
+  >
+    <!-- <template v-slot:renderer>
+      renderer cell
+    </template> -->
+  </VuePivottableUi>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import '../../src/assets/vue-pivottable.css'
+import { VuePivottableUi } from '../../src/index'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+const pivotData = [{ color: 'blue', shape: 'circle', unused: 1 }, { color: 'red', shape: 'triangle', unused: 2 }]
+const rows = []
+const cols = []
+
+const tableOptions = {
+  clickCallback: function (e, value) {
+    console.log('clicked: ' + value)
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

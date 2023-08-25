@@ -1,53 +1,53 @@
-export { default as VuePivottable } from './Pivottable'
 
-// import VuePivottable from './Pivottable'
-// import VuePivottableUi from './PivottableUi'
-// import TableRenderer from './TableRenderer'
+import VuePivottable from './Pivottable'
+import VuePivottableUi from './PivottableUi'
+import TableRenderer from './TableRenderer'
 
-// import {
-//   aggregatorTemplates,
-//   aggregators,
-//   derivers,
-//   locales,
-//   naturalSort,
-//   numberFormat,
-//   getSort,
-//   sortAs,
-//   PivotData
-// } from './helper/utils'
+import {
+  aggregatorTemplates,
+  aggregators,
+  derivers,
+  locales,
+  naturalSort,
+  numberFormat,
+  getSort,
+  sortAs,
+  PivotData
+} from './helper/utils'
 
-// const PivotUtilities = {
-//   aggregatorTemplates,
-//   aggregators,
-//   derivers,
-//   locales,
-//   naturalSort,
-//   numberFormat,
-//   getSort,
-//   sortAs,
-//   PivotData
-// }
+const PivotUtilities = {
+  aggregatorTemplates,
+  aggregators,
+  derivers,
+  locales,
+  naturalSort,
+  numberFormat,
+  getSort,
+  sortAs,
+  PivotData
+}
 
-// const Renderer = {
-//   TableRenderer
-// }
+const Renderer = {
+  TableRenderer
+}
 
-// const components = {
-//   VuePivottable,
-//   VuePivottableUi
-// }
+const components = {
+  VuePivottable,
+  VuePivottableUi
+}
 
-// if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
+if (typeof window !== 'undefined' && window.Vue) window.Vue.use(VuePivottable)
 
-// export {
-  // VuePivottable
-  // VuePivottableUi,
-  // PivotUtilities,
-  // Renderer
-// }
+const install = (Vue) => {
+  for (const key in components) {
+    Vue.component(components[key].name, components[key])
+  }
+}
 
-// export default (Vue) => {
-//   for (const key in components) {
-//     Vue.component(components[key].name, components[key])
-//   }
-// }
+export {
+  install as default,
+  VuePivottable,
+  VuePivottableUi,
+  PivotUtilities,
+  Renderer
+}

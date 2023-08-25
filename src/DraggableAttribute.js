@@ -1,4 +1,5 @@
-
+import { computed, h, reactive, ref } from 'vue'
+import { useFilterbox } from './composable'
 export default {
   name: 'draggable-attribute',
   props: {
@@ -45,220 +46,189 @@ export default {
       }
     },
     menuLimit: Number,
-    zIndex: Number,
-    async: Boolean,
-    unused: Boolean
+    zIndex: Number
   },
-  data () {
-    return {
-      // open: false,
-      filterText: '',
-      attribute: '',
-      values: [],
-      filter: {}
-    }
-  },
-  computed: {
-    disabled () {
-      return !this.sortable && !this.draggable
-    },
-    sortonly () {
-      return this.sortable && !this.draggable
-    }
-  },
-  methods: {
-    setValuesInFilter (attribute, values) {
+  emits: [
+    'openFilterbox',
+    'moveToTopFilterbox',
+    'toggleFilterbox'
+  ],
+  setup (props, context) {
+    const {
+      filterState,
+      handleUpdateValueFilter
+    } = useFilterbox(props, context)
+    // state
+    const open = ref(false)
+    const filterText = ref('')
+    const attribute = ref('')
+    const values = reactive([])
+    const filter = reactive({})
+    
+    // getters
+    const disabled = computed(() => !props.sortable && !props.draggable)
+    const sortonly = computed(() => props.sortable && !props.draggable)
+
+    // actions
+    const setValuesInFilter = (attribute, values) => {
       const valueFilter = values.reduce((r, v) => {
         r[v] = true
         return r
       }, {})
-      this.$emit('update:filter', { attribute, valueFilter })
-    },
-    addValuesToFilter (attribute, values) {
+      handleUpdateValueFilter({ attribute, valueFilter })
+    }
+    const addValuesToFilter = (attribute, values) => {
       const valueFilter = values.reduce((r, v) => {
         r[v] = true
         return r
-      }, Object.assign({}, this.valueFilter))
-      this.$emit('update:filter', { attribute, valueFilter })
-    },
-    removeValuesFromFilter (attribute, values) {
+      }, Object.assign({}, filterState))
+      handleUpdateValueFilter({ attribute, valueFilter })
+    }
+    const removeValuesFromFilter = (attribute, values) => {
       const valueFilter = values.reduce((r, v) => {
         if (r[v]) {
           delete r[v]
         }
         return r
-      }, Object.assign({}, this.valueFilter))
-      this.$emit('update:filter', { attribute, valueFilter })
-    },
-    moveFilterBoxToTop (attribute) {
-      this.$emit('moveToTop:filterbox', { attribute })
-    },
-    toggleValue (value) {
-      if (value in this.valueFilter) {
-        this.removeValuesFromFilter(this.name, [value])
+      }, Object.assign({}, filterState))
+      handleUpdateValueFilter({ attribute, valueFilter })
+    }
+    const moveFilterBoxToTop = (attribute) => {
+      emit('moveToTop:filterbox', { attribute })
+    }
+    const toggleValue = (value) => {
+      if (value in filterState) {
+        removeValuesFromFilter(props.name, [value])
       } else {
-        this.addValuesToFilter(this.name, [value])
+        addValuesToFilter(props.name, [value])
       }
-    },
-    matchesFilter (x) {
+    }
+    const matchesFilter = (x) => {
       return x
         .toLowerCase()
         .trim()
-        .includes(this.filterText.toLowerCase().trim())
-    },
-    selectOnly (e, value) {
+        .includes(filterText.value.toLowerCase().trim())
+    }
+    const selectOnly = (e, value) => {
       e.stopPropagation()
-      this.value = value
-      this.setValuesInFilter(this.name, Object.keys(this.attrValues).filter(y => y !== value))
-    },
-    getFilterBox (h) {
-      const showMenu = Object.keys(this.attrValues).length < this.menuLimit
-      const values = Object.keys(this.attrValues)
-      const shown = values.filter(this.matchesFilter.bind(this)).sort(this.sorter)
+      // this.value = value
+      setValuesInFilter(props.name, Object.keys(props.attrValues).filter(y => y !== value))
+    }
+    const getFilterBox = () => {
+      const showMenu = Object.keys(props.attrValues).length < props.menuLimit
+      const values = Object.keys(props.attrValues)
+      const shown = values.filter(matchesFilter).sort(props.sorter)
       return h('div', {
-        staticClass: ['pvtFilterBox'],
+        class: 'pvtFilterBox',
         style: {
           display: 'block',
           cursor: 'initial',
-          zIndex: this.zIndex
+          zIndex: props.zIndex
         },
-        on: {
-          click: (e) => {
-            e.stopPropagation()
-            this.moveFilterBoxToTop(this.name)
-          }
+        onClick: (e) => {
+          e.stopPropagation()
+          moveFilterBoxToTop(props.name)
         }
       },
-      [
-        h('div', {
-          staticClass: 'pvtSearchContainer'
-        },
         [
-          showMenu || h('p', this.localeStrings.tooMany),
-          showMenu && h('input', {
-            staticClass: ['pvtSearch'],
-            attrs: {
-              type: 'text',
-              placeholder: this.localeStrings.filterResults
-            },
-            domProps: {
-              value: this.filterText
-            },
-            on: {
-              input: e => {
-                this.filterText = e.target.value
-                this.$emit('input', e.target.value)
-              }
-            }
-          }),
-          h('a', {
-            staticClass: ['pvtFilterTextClear'],
-            on: {
-              click: () => { this.filterText = '' }
-            }
-          }),
-          h('a', {
-            staticClass: ['pvtButton'],
-            attrs: {
-              role: 'button'
-            },
-            on: {
-              click: () => this.removeValuesFromFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
-            }
-          }, this.localeStrings.selectAll),
-          h('a', {
-            staticClass: ['pvtButton'],
-            attrs: {
-              role: 'button'
-            },
-            on: {
-              click: () => this.addValuesToFilter(this.name, Object.keys(this.attrValues).filter(this.matchesFilter.bind(this)))
-            }
-          }, this.localeStrings.selectNone)
-        ]),
-        showMenu && h('div', {
-          staticClass: ['pvtCheckContainer']
-        },
-        shown.map(x => {
-          const checked = !(x in this.valueFilter)
-          return h('p', {
-            class: {
-              selected: checked
-            },
-            attrs: {
-              key: x
-            },
-            on: {
-              'click': () => this.toggleValue(x)
-            }
+          h('div', {
+            class: 'pvtSearchContainer'
           },
-          [
-            h('input', {
-              attrs: {
-                type: 'checkbox'
+            [
+              showMenu || h('p', props.localeStrings.tooMany),
+              showMenu && h('input', {
+                class: 'pvtSearch',
+                type: 'text',
+                placeholder: props.localeStrings.filterResults,
+                value: filterText.value,
+                onInput: e => {
+                  filterText.value = e.target.value
+                  emit('input', e.target.value)
+                }
+              }),
+              h('a', {
+                class: 'pvtFilterTextClear',
+                onClick: () => { this.filterText = '' }
+              }),
+              h('a', {
+                class: 'pvtButton',
+                role: 'button',
+                onClick: () => removeValuesFromFilter(props.name, Object.keys(props.attrValues).filter(matchesFilter.bind(this)))
+              }, props.localeStrings.selectAll),
+              h('a', {
+                class: 'pvtButton',
+                role: 'button',
+                onClick: () => addValuesToFilter(props.name, Object.keys(props.attrValues).filter(matchesFilter.bind(this)))
+              }, props.localeStrings.selectNone)
+            ]),
+          showMenu && h('div', {
+            class: 'pvtCheckContainer'
+          },
+            shown.map(x => {
+              const checked = !(x in filterState)
+              return h('p', {
+                class: {
+                  selected: checked
+                },
+                key: x,
+                onClick: () => toggleValue(x)
               },
-              domProps: {
-                checked: checked
-              }
-            }),
-            x,
-            h('a', {
-              staticClass: ['pvtOnly'],
-              on: {
-                click: e => this.selectOnly(e, x)
-              }
-            }, this.localeStrings.only),
-            h('a', {
-              staticClass: ['pvtOnlySpacer']
+                [
+                  h('input', {
+                    type: 'checkbox',
+                    checked: checked
+                  }),
+                  x,
+                  h('a', {
+                    class: 'pvtOnly',
+                    onClick: e => selectOnly(e, x)
+                  }, props.localeStrings.only),
+                  h('a', {
+                    class: 'pvtOnlySpacer'
+                  })
+                ])
             })
-          ])
-        })
-        )
-      ])
-    },
-    toggleFilterBox (event) {
+          )
+        ])
+    }
+    const toggleFilterBox = (event) => {
+      console.log(event)
+      console.log(props.attrValues)
       event.stopPropagation()
-      if (!this.attrValues) {
-        if (this.$listeners['no:filterbox']) {
-          this.$emit('no:filterbox')
-        }
+      if (!props.attrValues) {
+        // if (this.$listeners['no:filterbox']) {
+        //   this.$emit('no:filterbox')
+        // }
         return
       }
-      this.openFilterBox(this.name, !this.open)
-      this.moveFilterBoxToTop(this.name)
-    },
-    openFilterBox (attribute, open) {
-      this.$emit('open:filterbox', { attribute, open })
+      openFilterBox(props.name, !open.value)
+      moveFilterBoxToTop(props.name)
     }
-  },
-  render (h) {
-    const filtered = Object.keys(this.valueFilter).length !== 0 ? 'pvtFilteredAttribute' : ''
-    const pvtAttrScopedSlot = this.$scopedSlots.pvtAttr
-    return h('li', {
-      attrs: {
-        'data-id': !this.disabled ? this.name : undefined
-      }
-    },
-    [
-      h('span', {
-        staticClass: ['pvtAttr ' + filtered],
-        class: {
-          sortonly: this.sortonly,
-          disabled: this.disabled
-        }
+    const openFilterBox = (attribute, open) => {
+      emit('open:filterbox', { attribute, open })
+    }
+    const slots = context.slots
+    return () => {
+      console.log(disabled.value)
+      const filtered = Object.keys(filterState).length !== 0 ? 'pvtFilteredAttribute' : ''
+      const pvtAttrSlot = slots.pvtAttr
+      return h('li', {
+        'data-id': !disabled.value ? props.name : undefined
       },
-      [
-        pvtAttrScopedSlot ? pvtAttrScopedSlot({ name: this.name }) : this.name,
-        !this.disabled &&
-        (!this.async || (!this.unused && this.async)) ? h('span', {
-            staticClass: ['pvtTriangle'],
-            on: {
-              'click': this.toggleFilterBox.bind(this)
-            }
-          }, '  ▾') : undefined,
-        this.open ? this.getFilterBox(h) : undefined
-      ]
-      )
-    ])
+        [
+          h('span', {
+            class: `pvtAttr${filtered} ${sortonly.value ? 'sortonly' : ''} ${disabled.value ? 'disabled' : ''}`
+          },
+            [
+              pvtAttrSlot ? pvtAttrSlot(props.name) : props.name,
+              !disabled.value && h('span', {
+                  class: 'pvtTriangle',
+                  onClick: toggleFilterBox
+                }, '  ▾'),
+              open.value ? getFilterBox(h) : undefined
+            ]
+          )
+        ])
+    }
   }
 }

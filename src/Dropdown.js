@@ -1,37 +1,36 @@
+import { h, defineEmits, toRefs, computed, ref } from 'vue'
+
 export default {
-  props: ['values', 'value'],
-  model: {
-    prop: 'value',
-    event: 'input'
-  },
-  created () {
-    this.$emit('input', this.value || this.values[0])
-  },
-  methods: {
-    handleChange (e) {
-      this.$emit('input', e.target.value)
-    }
-  },
-  render (h) {
-    return h('select', {
-      staticClass: ['pvtDropdown'],
-      domProps: {
-        value: this.value
-      },
-      on: {
-        change: this.handleChange
+  name: 'vue-pivottable-dropdown',
+  props: {
+    values: {
+      type: Array,
+      default: function () {
+        return []
       }
     },
-    [
-      this.values.map(r => {
-        const text = r
-        return h('option', {
-          attrs: {
-            value: r,
-            selected: r === this.value ? 'selected' : undefined
-          }
-        }, text)
-      })
-    ])
+    modelValue: {
+      type: String,
+      default: ''
+    }
+  },
+  emits: ['update:model-value'],
+  setup (props, { emit }) {
+    return () => (
+      h('div', [
+        h('select', {
+          class: 'pvtDropdown',
+          value: props.modelValue,
+          onChange: e => emit('update:model-value', e.target.value),
+        },
+          [
+            props.values.map(r => {
+              return h('option', {
+                value: r
+              }, r)
+            })
+          ])
+      ])
+    )
   }
 }

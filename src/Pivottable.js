@@ -1,28 +1,24 @@
 import TableRenderer from './TableRenderer'
-import defaultProps from './helper/common'
-import { h, computed, toRefs, toRaw } from 'vue'
+import commonProps from './commonProps'
+import { h, computed, toRefs, toRaw, defineComponent } from 'vue'
 
-const props = defaultProps.props
-
-export default {
+export default defineComponent({
   name: 'vue-pivottable',
-  props,
-  setup ($props, $context) {
-    const { renderers, rendererName, locales, locale, tableMaxWidth } = toRefs($props)
-    const rendererItems = computed(() => renderers.value || Object.assign({}, TableRenderer))
-    const props = Object.assign(
-      {},
-      toRaw($props),
+  props: {
+    ...commonProps
+  },
+  setup (props, { expose }) {
+    const { renderers, rendererName, locales, locale, tableMaxWidth } = toRefs(props)
+    const rendererItems = computed(() => renderers.value || TableRenderer)
+    const propsObj = Object.assign({}, toRaw(props),
       { localeStrings: locales.value[locale.value].localeStrings }
     )
-    console.log(props.data)
-    console.log(rendererName.value)
-    const createPivottable = (h) => {
+    const createPivottable = () => {
       return h(rendererItems.value[rendererName.value], {
-        props
+        ...propsObj
       })
     }
-    const createWrapperContainer = (h) => {
+    const createWrapperContainer = () => {
       return h('div', {
         style: {
           display: 'block',
@@ -34,16 +30,11 @@ export default {
         createPivottable(h)
       ])
     }
-    return {
+    expose({
       rendererItems,
       createPivottable,
       createWrapperContainer
-    }
-  },
-  render () {
-    return this.createWrapperContainer(h)
+    })
+    return () => createWrapperContainer()
   }
-  // renderError (h, error) {
-  //   return this.renderError(h)
-  // }
-}
+})
