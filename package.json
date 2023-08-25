@@ -1,6 +1,6 @@
 {
-  "name": "vue-pivottable",
-  "version": "0.4.65",
+  "name": "vue3-pivottable",
+  "version": "1.0.0",
   "main": "dist/vue-pivottable.mjs",
   "files": [
     "dist",
@@ -42,13 +42,13 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@vue/eslint-config-standard": "^8.0.1",
     "eslint": "^8.47.0",
     "eslint-plugin-vue": "^9.9.0",
     "jsdom": "^21.1.0",
     "vite": "^4.1.4"
   },
   "dependencies": {
+    "@vue/eslint-config-standard": "^8.0.1",
     "@vueuse/core": "^10.3.0",
     "@vueuse/shared": "^10.3.0",
     "vue-draggable-next": "^2.2.1"
