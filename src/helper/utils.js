@@ -568,14 +568,25 @@ class PivotData {
       }
     )
   }
-  filter (record) {
+
+  filter(record) {
+    const allSelector = '*'
     for (const k in this.props.valueFilter) {
-      if (record[k] in this.props.valueFilter[k]) {
-        return false
+      if (k !== allSelector) {
+        const valueFilterItem = this.props.valueFilter && this.props.valueFilter[k]
+        if (record[k] in valueFilterItem) {
+          const existingKey = valueFilterItem[record[k]]
+          if (existingKey === true) {
+            return false
+          }
+        } else if (valueFilterItem[allSelector] === true) {
+          return false
+        }
       }
     }
     return true
   }
+
 
   forEachMatchingRecord (criteria, callback) {
     return PivotData.forEachRecord(
