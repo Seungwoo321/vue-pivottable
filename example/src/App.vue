@@ -134,8 +134,9 @@ export default {
       viewTable: false,
       // fix issue #27
       valueFilter: {
-        Meal: {
-          Dinner: true
+        // Merge pull reqest #77
+        date: {
+          '*': true
         }
       },
       config: {},
