@@ -108,6 +108,24 @@ export default {
         cols: [],
         rows: [],
         attributes: [],
+        /**
+         * ValueFilter's keys with the special field '*' will match all values and filter them out (true) or show (false).
+         Sample:
+          ```
+          valueFilter: {
+            field1: {
+              '*': true, // filter out all values
+              'value1': true, // filter out value1
+              'value2': false // select to display value2
+            },
+            field2: {
+              '*': false, // select to display all values
+              'value1': true, // filter out value1
+              'value2': false // select to display value2
+            }
+          }
+          ```
+        */
         valueFilter: {},
         renderer: null
       },
@@ -237,15 +255,30 @@ export default {
       this.propsData.aggregatorName = this.aggregatorName
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
-      Object.keys(this.attrValues).forEach(key => {
-        let valueFilter = {}
-        const values = this.valueFilter && this.valueFilter[key]
-        if (values && Object.keys(values).length) {
-          valueFilter = this.valueFilter[key]
+      const allSelector = '*'
+      Object.entries(this.attrValues).forEach(([key, values]) => {
+        let attributes = {}
+        const valueFilterItem = this.valueFilter && this.valueFilter[key]
+        if (valueFilterItem && Object.keys(valueFilterItem).length) {
+          if (valueFilterItem[allSelector] === true) {
+            // add all keys to be filtered out
+            Object.keys(values).forEach(k => {
+              if (k !== allSelector) {
+                const keyPresent = valueFilterItem[k]
+                if (keyPresent === undefined || keyPresent === true) {
+                  attributes[k] = true
+                } else {
+                  // attributes[k] = false
+                }
+              }
+            })
+          } else {
+            attributes = valueFilterItem
+          }
         }
         this.updateValueFilter({
           attribute: key,
-          valueFilter
+          valueFilter: attributes
         })
       })
     },
