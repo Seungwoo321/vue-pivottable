@@ -55,8 +55,13 @@ const wn = function(e, n, o) {
     return i > r ? 1 : -1;
   for (i = i.match(Je), r = r.match(Je); i.length && r.length; ) {
     const a = i.shift(), s = r.shift();
-    if (a !== s)
-      return oe.test(a) && oe.test(s) ? a.replace(Qe, ".0") - s.replace(Qe, ".0") : a > s ? 1 : -1;
+    if (a !== s) {
+      if (oe.test(a) && oe.test(s)) {
+        const l = a.replace(Qe, ".0") - s.replace(Qe, ".0");
+        return l !== 0 ? l : a.length - s.length;
+      }
+      return a > s ? 1 : -1;
+    }
   }
   return i.length - r.length;
 }, un = function(e) {
