@@ -51,11 +51,7 @@ export default {
   },
   data () {
     return {
-      // open: false,
-      filterText: '',
-      attribute: '',
-      values: [],
-      filter: {}
+      filterText: ''
     }
   },
   computed: {
