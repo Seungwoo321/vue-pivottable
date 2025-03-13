@@ -8,7 +8,7 @@ It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 [![npm](https://flat.badgen.net/npm/license/vue-pivottable)](https://flat.badgen.net/npm/license/vue-pivottable)
 [![jsdelivr](https://data.jsdelivr.com/v1/package/npm/vue-pivottable/badge)](https://www.jsdelivr.com/package/npm/vue-pivottable)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Documentation
@@ -151,6 +151,7 @@ export default {
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/cbbdev"><img src="https://avatars.githubusercontent.com/u/55853311?v=4?s=100" width="100px;" alt="cbbdev"/><br /><sub><b>cbbdev</b></sub></a><br /><a href="#maintenance-cbbdev" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/hyemyn2"><img src="https://avatars.githubusercontent.com/u/67949202?v=4?s=100" width="100px;" alt="hyemyn2"/><br /><sub><b>hyemyn2</b></sub></a><br /><a href="https://github.com/Seungwoo321/vue-pivottable/commits?author=hyemyn2" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://raisercostin.org"><img src="https://avatars.githubusercontent.com/u/1624467?v=4?s=100" width="100px;" alt="Costin Grigore"/><br /><sub><b>Costin Grigore</b></sub></a><br /><a href="https://github.com/Seungwoo321/vue-pivottable/commits?author=raisercostin" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/apeschar"><img src="https://avatars.githubusercontent.com/u/122977?v=4?s=100" width="100px;" alt="Albert Peschar"/><br /><sub><b>Albert Peschar</b></sub></a><br /><a href="https://github.com/Seungwoo321/vue-pivottable/commits?author=apeschar" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

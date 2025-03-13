@@ -59,6 +59,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "apeschar",
+      "name": "Albert Peschar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/122977?v=4",
+      "profile": "https://github.com/apeschar",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
