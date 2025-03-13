@@ -50,6 +50,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "raisercostin",
+      "name": "Costin Grigore",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1624467?v=4",
+      "profile": "http://raisercostin.org",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
