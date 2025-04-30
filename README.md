@@ -3,8 +3,6 @@
 > ⚠️ **Vue 2 users:** please use [`vue-pivottable0.4.67`](https://www.npmjs.com/package/vue-pivottable/v/0.4.67).  
 > 👉 [vue3-pivottable GitHub repo](https://github.com/vue-pivottable/vue3-pivottable)
 
-# Vue Pivottable
-
 It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 
 [![npm](https://flat.badgen.net/npm/v/vue-pivottable)](https://npmjs.com/package/vue-pivottable)
@@ -17,7 +15,7 @@ It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 
 ## Documentation
 
-You can view the documentation at <https://seungwoo321.github.io/vue-pivottable>. 
+You can view the documentation at <https://seungwoo321.github.io/vue-pivottable>.
 It's also lighter by removing `vue-plotly` from the dependencies.
 
 ## Live Demo
