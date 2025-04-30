@@ -1,6 +1,6 @@
 {
   "name": "vue-pivottable",
-  "version": "1.0.0",
+  "version": "0.4.68",
   "main": "dist/vue-pivottable.mjs",
   "files": [
     "dist",
@@ -34,6 +34,8 @@
     "clean": "rimraf dist packages/*/dist",
     "dev": "vite",
     "build": "vite build",
+    "build:all": "npm run build && npm run build:packages",
+    "build:packages": "npm run --workspaces --if-present build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "docs:dev": "vuepress dev packages/docs",

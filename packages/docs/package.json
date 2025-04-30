@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vuepress dev docs",
-    "build": "vuepress build docs",
+    "build:docs": "vuepress build docs",
     "deploy": "sh deploy-docs.sh"
   },
   "keywords": [
