@@ -1,5 +1,5 @@
 {
-  "name": "@vue-pivottable/scroll-renderer",
+  "name": "@vue2-pivottable/scroll-renderer",
   "version": "1.0.0",
   "main": "dist/scroll-renderer.mjs",
   "files": [
@@ -35,6 +35,6 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vue-pivottable": "^0.4.64"
+    "vue-pivottable": "^1.0.0"
   }
 }

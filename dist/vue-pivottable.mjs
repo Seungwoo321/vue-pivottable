@@ -1089,10 +1089,7 @@ const Fn = {
   },
   data() {
     return {
-      filterText: "",
-      attribute: "",
-      values: [],
-      filter: {}
+      filterText: ""
     };
   },
   computed: {
