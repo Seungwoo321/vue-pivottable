@@ -11,17 +11,15 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v3
-        with:
-          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Setup pnpm
+      - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -29,25 +27,24 @@ jobs:
 
       - name: Get pnpm store directory
         id: pnpm-cache
-        shell: bash
         run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
 
       - name: Setup pnpm cache
         uses: actions/cache@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies 📦
+      - name: Install dependencies
         run: pnpm install
 
-      - name: Build docs 🔧
+      - name: Build docs
         run: pnpm docs:build
 
-      - name: Deploy to GitHub Pages 🚀
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs/.vuepress/dist
