@@ -1,6 +1,6 @@
 {
   "name": "@vue-pivottable/plotly-renderer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/plotly-renderer.mjs",
   "files": [
     "dist",

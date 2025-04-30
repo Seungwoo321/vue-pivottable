@@ -1,6 +1,6 @@
 {
   "name": "@vue-pivottable/scroll-renderer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/scroll-renderer.mjs",
   "files": [
     "dist",
