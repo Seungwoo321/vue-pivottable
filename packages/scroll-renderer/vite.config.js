@@ -14,6 +14,16 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         entry: resolve(__dirname, 'src/index.js'),
         name: 'ScrollRenderer',
         fileName: 'scroll-renderer'
+      },
+      rollupOptions: {
+        external: ['vue'],
+        output: {
+          exports: 'named',
+          globals: {
+            'vue': 'Vue',
+            'vue-pivottable': 'VuePivottable'
+          }
+        }
       }
     }
   }

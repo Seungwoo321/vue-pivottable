@@ -1,5 +1,8 @@
 # @vue-pivottable/scroll-renderer
 
+⚠️ **This package supports Vue 2 only.**  
+👉 Looking for Vue 3? Use: [vue3-pivottable GitHub repo](https://github.com/vue-pivottable/vue3-pivottable)
+
 ```html
 <!DOCTYPE html>
 <html lang="en">

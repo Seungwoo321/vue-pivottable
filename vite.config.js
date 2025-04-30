@@ -23,6 +23,15 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
         entry: resolve(__dirname, 'src/index.js'),
         name: 'VuePivottable',
         fileName: 'vue-pivottable'
+      },
+      rollupOptions: {
+        external: ['vue'],
+        output: {
+          exports: 'named',
+          globals: {
+            'vue': 'Vue'
+          }
+        }
       }
     }
   }

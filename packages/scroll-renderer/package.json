@@ -1,10 +1,11 @@
 {
-  "name": "@vue2-pivottable/scroll-renderer",
+  "name": "@vue-pivottable/scroll-renderer",
   "version": "1.0.0",
   "main": "dist/scroll-renderer.mjs",
   "files": [
     "dist",
-    "src"
+    "LICENSE",
+    "README.md"
   ],
   "exports": {
     ".": {

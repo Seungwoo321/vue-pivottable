@@ -1,7 +1,7 @@
 # Vue Pivottable
 
-> ⚠️ **Vue 2 users:** please use [`vue-pivottable0.4.67`](https://www.npmjs.com/package/vue-pivottable/v/0.4.67).  
-> 👉 [vue3-pivottable GitHub repo](https://github.com/vue-pivottable/vue3-pivottable)
+> ⚠️ **This package supports Vue 2 only.**  
+> 👉 Looking for Vue 3? Use: [vue3-pivottable GitHub repo](https://github.com/vue-pivottable/vue3-pivottable)
 
 It is a Vue port of the jQuery-based [PivotTable.js](https://pivottable.js.org/)
 
@@ -45,7 +45,7 @@ Open browser to <http://localhost:8080>
 ## Installation
 
 ```shall
-npm i vue-pivottable
+npm i vue-pivottable@0.4.68
 ```
 
 ## Usage
