@@ -1,8 +1,6 @@
 # Vue Pivottable
 
-> ⚠️ **Vue 2 users:** please use [`vue2-pivottable`](https://www.npmjs.com/package/vue2-pivottable).  
-> `vue-pivottable@0.4.67` is the last version supporting Vue 2.  
-> The current `vue-pivottable` now supports **Vue 3 only** and is maintained at:  
+> ⚠️ **Vue 2 users:** please use [`vue-pivottable0.4.67`](https://www.npmjs.com/package/vue-pivottable/v/0.4.67).  
 > 👉 [vue3-pivottable GitHub repo](https://github.com/vue-pivottable/vue3-pivottable)
 
 # Vue Pivottable
