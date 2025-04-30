@@ -1,0 +1,3 @@
+import comp from "/Users/mzc01-swlee/dev/repository/github/vue-pivottable/docs/docs/.vuepress/.temp/pages/guide/slot.html.vue"
+const data = JSON.parse("{\"path\":\"/guide/slot.html\",\"title\":\"Slot\",\"lang\":\"en-US\",\"frontmatter\":{},\"headers\":[{\"level\":2,\"title\":\"rendererCell\",\"slug\":\"renderercell\",\"link\":\"#renderercell\",\"children\":[]},{\"level\":2,\"title\":\"aggregatorCell\",\"slug\":\"aggregatorcell\",\"link\":\"#aggregatorcell\",\"children\":[]},{\"level\":2,\"title\":\"colGroup\",\"slug\":\"colgroup\",\"link\":\"#colgroup\",\"children\":[]},{\"level\":2,\"title\":\"output\",\"slug\":\"output\",\"link\":\"#output\",\"children\":[]}],\"git\":{},\"filePathRelative\":\"guide/slot.md\"}")
+export { comp, data }

@@ -1,0 +1,3 @@
+import comp from "/Users/mzc01-swlee/dev/repository/github/vue-pivottable/docs/docs/.vuepress/.temp/pages/ko/guide/utilities.html.vue"
+const data = JSON.parse("{\"path\":\"/ko/guide/utilities.html\",\"title\":\"유틸리티\",\"lang\":\"ko-Kr\",\"frontmatter\":{},\"headers\":[{\"level\":2,\"title\":\"numberFormat\",\"slug\":\"numberformat\",\"link\":\"#numberformat\",\"children\":[]},{\"level\":2,\"title\":\"sortAs\",\"slug\":\"sortas\",\"link\":\"#sortas\",\"children\":[]},{\"level\":2,\"title\":\"aggregatorTemplates\",\"slug\":\"aggregatortemplates\",\"link\":\"#aggregatortemplates\",\"children\":[]},{\"level\":2,\"title\":\"locales\",\"slug\":\"locales\",\"link\":\"#locales\",\"children\":[]}],\"git\":{},\"filePathRelative\":\"ko/guide/utilities.md\"}")
+export { comp, data }
