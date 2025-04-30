@@ -24,7 +24,6 @@ jobs:
         with:
           version: 9
           run_install: true
-
       - name: Build docs
         run: pnpm docs:build
 
@@ -34,3 +33,4 @@ jobs:
           folder: docs/.vuepress/dist
           branch: gh-pages
           clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}
