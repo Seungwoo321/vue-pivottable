@@ -38,8 +38,7 @@
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "docs:dev": "vuepress dev packages/docs",
-    "docs:build": "vuepress build packages/docs",
-    "docs:deploy": "sh packages/docs/deploy-docs.sh"
+    "docs:build": "vuepress build packages/docs"
   },
   "peerDependencies": {
     "vue": "^2.6.10"
