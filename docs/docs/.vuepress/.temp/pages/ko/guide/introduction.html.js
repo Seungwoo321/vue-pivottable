@@ -1,3 +1,0 @@
-import comp from "/Users/mzc01-swlee/dev/repository/github/vue-pivottable/docs/docs/.vuepress/.temp/pages/ko/guide/introduction.html.vue"
-const data = JSON.parse("{\"path\":\"/ko/guide/introduction.html\",\"title\":\"소개\",\"lang\":\"ko-Kr\",\"frontmatter\":{\"sidebarDepth\":1},\"headers\":[{\"level\":2,\"title\":\"VuePivottable이란?\",\"slug\":\"vuepivottable이란\",\"link\":\"#vuepivottable이란\",\"children\":[]},{\"level\":2,\"title\":\"영감 받은 프로젝트\",\"slug\":\"영감-받은-프로젝트\",\"link\":\"#영감-받은-프로젝트\",\"children\":[]},{\"level\":2,\"title\":\"라이선스\",\"slug\":\"라이선스\",\"link\":\"#라이선스\",\"children\":[]}],\"git\":{},\"filePathRelative\":\"ko/guide/introduction.md\"}")
-export { comp, data }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Locale</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.fcf8c8e4.css" as="style"><link rel="preload" href="/assets/js/app.095ef4f7.js" as="script"><link rel="preload" href="/assets/js/5.a833d239.js" as="script"><link rel="preload" href="/assets/js/8.f270b604.js" as="script"><link rel="prefetch" href="/assets/js/10.31409f92.js"><link rel="prefetch" href="/assets/js/11.d8988378.js"><link rel="prefetch" href="/assets/js/12.4012d43d.js"><link rel="prefetch" href="/assets/js/13.1e8140f4.js"><link rel="prefetch" href="/assets/js/14.4b3ab576.js"><link rel="prefetch" href="/assets/js/15.51536b23.js"><link rel="prefetch" href="/assets/js/16.623efcc0.js"><link rel="prefetch" href="/assets/js/17.b0618ad1.js"><link rel="prefetch" href="/assets/js/18.9fb420c7.js"><link rel="prefetch" href="/assets/js/19.356e40cc.js"><link rel="prefetch" href="/assets/js/2.6bc1ab2b.js"><link rel="prefetch" href="/assets/js/20.38949f84.js"><link rel="prefetch" href="/assets/js/21.3a854027.js"><link rel="prefetch" href="/assets/js/22.4a8b2214.js"><link rel="prefetch" href="/assets/js/3.035d1ac6.js"><link rel="prefetch" href="/assets/js/4.48ced957.js"><link rel="prefetch" href="/assets/js/6.82b4302d.js"><link rel="prefetch" href="/assets/js/7.7287a96f.js"><link rel="prefetch" href="/assets/js/9.0736b57d.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.fcf8c8e4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="content__default"><h1 id="locale"><a href="#locale" class="header-anchor">#</a> Locale</h1> <h2 id="how-to-use"><a href="#how-to-use" class="header-anchor">#</a> How to use?</h2> <p>The default <code>locales</code> is defined in /src/helper/utils.js .</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> locales <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">en</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    aggregators<span class="token punctuation">,</span>
+    <span class="token literal-property property">localeStrings</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">renderError</span><span class="token operator">:</span> <span class="token string">'An error occurred rendering the PivotTable results.'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">computeError</span><span class="token operator">:</span> <span class="token string">'An error occurred computing the PivotTable results.'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">uiRenderError</span><span class="token operator">:</span> <span class="token string">'An error occurred rendering the PivotTable UI.'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">selectAll</span><span class="token operator">:</span> <span class="token string">'Select All'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">selectNone</span><span class="token operator">:</span> <span class="token string">'Select None'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">tooMany</span><span class="token operator">:</span> <span class="token string">'(too many to list)'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">filterResults</span><span class="token operator">:</span> <span class="token string">'Filter values'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">totals</span><span class="token operator">:</span> <span class="token string">'Totals'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">vs</span><span class="token operator">:</span> <span class="token string">'vs'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">by</span><span class="token operator">:</span> <span class="token string">'by'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token punctuation">{</span>
+  locales
+<span class="token punctuation">}</span>
+</code></pre></div><p>If you want to add a new language add both <code>locale</code> and <code>locales</code> props.</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> PivotUtilities <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;vue-pivottable&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> locales <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">en</span><span class="token operator">:</span> PivotUtilities<span class="token punctuation">.</span>locales<span class="token punctuation">.</span>en<span class="token punctuation">,</span>
+  <span class="token literal-property property">ko</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">aggregators</span><span class="token operator">:</span> PivotUtilities<span class="token punctuation">.</span>aggregators<span class="token punctuation">,</span>
+    <span class="token literal-property property">localeStrings</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">renderError</span><span class="token operator">:</span>
+        <span class="token string">&quot;피벗 테이블 결과를 렌더링하는 동안 오류가 발생 했습니다.&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">computeError</span><span class="token operator">:</span>
+        <span class="token string">&quot;피벗 테이블 결과를 계산하는 동안 오류가 발생 했습니다.&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">uiRenderError</span><span class="token operator">:</span>
+        <span class="token string">&quot;피벗 테이블 UI를 렌더링하는 동안 오류가 발생 했습니다.&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">selectAll</span><span class="token operator">:</span> <span class="token string">&quot;모두 선택&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">selectNone</span><span class="token operator">:</span> <span class="token string">&quot;선택 안함&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">tooMany</span><span class="token operator">:</span> <span class="token string">&quot;표시 할 값이 너무 많습니다.&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">filterResults</span><span class="token operator">:</span> <span class="token string">&quot;값 필터링&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">totals</span><span class="token operator">:</span> <span class="token string">&quot;합계&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">only</span><span class="token operator">:</span> <span class="token string">&quot;단독&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">vs</span><span class="token operator">:</span> <span class="token string">&quot;vs&quot;</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">by</span><span class="token operator">:</span> <span class="token string">&quot;by&quot;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> locale <span class="token operator">=</span> <span class="token string">'en'</span> <span class="token comment">// or 'ko'</span>
+
+</code></pre></div><h2 id="example"><a href="#example" class="header-anchor">#</a> Example</h2> <iframe src="https://codesandbox.io/embed/vue-pivottable-locales-m13c7?fontsize=14&amp;hidenavigation=1&amp;theme=light&amp;view=preview" title="vue-pivottable-locales" allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts" style="width:100%;height:500px;border:0;border-radius:4px;overflow:hidden;"></iframe></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.095ef4f7.js" defer></script><script src="/assets/js/5.a833d239.js" defer></script><script src="/assets/js/8.f270b604.js" defer></script>
+  </body>
+</html>

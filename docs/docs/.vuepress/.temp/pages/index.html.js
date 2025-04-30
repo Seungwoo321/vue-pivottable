@@ -1,3 +1,0 @@
-import comp from "/Users/mzc01-swlee/dev/repository/github/vue-pivottable/docs/docs/.vuepress/.temp/pages/index.html.vue"
-const data = JSON.parse("{\"path\":\"/\",\"title\":\"Home\",\"lang\":\"en-US\",\"frontmatter\":{\"home\":true,\"title\":\"Home\",\"heroImage\":\"/images/logo.png\",\"actions\":[{\"text\":\"Get Started\",\"link\":\"/guide/introduction.md\",\"type\":\"primary\"},{\"text\":\"New version (Vue3)\",\"link\":\"https://vue-pivottable.vercel.app/\",\"type\":\"secondary\"}],\"footer\":\"MIT Licensed | Copyright © 2018-present Seungwoo Lee\"},\"headers\":[],\"git\":{},\"filePathRelative\":\"README.md\"}")
-export { comp, data }
