@@ -1,31 +1,25 @@
 {
-  "name": "@vue-pivottable/docs",
-  "version": "1.0.0",
+  "name": "vue-pivottable",
   "description": "--- home: true title: Home actionText: Get Started actionLink: /guide/getting-started.html footer: MIT Licensed | Copyright © 2018-present Seungwoo Lee ---",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Seungwoo321/vue-pivottable.git"
-  },
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
   "scripts": {
-    "dev": "vuepress dev docs",
-    "build:docs": "vuepress build docs",
+    "docs:build": "vuepress build docs",
+    "docs:clean-dev": "vuepress dev docs --clean-cache",
+    "docs:dev": "vuepress dev docs",
+    "docs:update-package": "pnpm dlx vp-update",
     "deploy": "sh deploy-docs.sh"
   },
-  "keywords": [
-    "vue",
-    "pivot",
-    "pivottable",
-    "vue-pivottable"
-  ],
-  "homepage": "https://seungwoo321.github.io/vue-pivottable/",
-  "author": "Seungwoo, Lee <seungwoo321@gmail.com> (https://github.com/seungwoo321)",
-  "license": "MIT",
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.9.7",
-    "@vuepress/plugin-google-analytics": "^1.9.7",
-    "@vuepress/plugin-nprogress": "^1.9.7",
-    "@vuepress/plugin-pwa": "^1.9.7",
-    "vuepress": "^1.8.2"
+    "@vuepress/bundler-vite": "2.0.0-rc.20",
+    "@vuepress/plugin-google-analytics": "^1.9.10",
+    "@vuepress/theme-default": "2.0.0-rc.88",
+    "sass-embedded": "^1.86.0",
+    "vue": "^3.5.13",
+    "vuepress": "2.0.0-rc.20"
+  },
+  "dependencies": {
+    "vue-pivottable": "0.4.68"
   }
 }
