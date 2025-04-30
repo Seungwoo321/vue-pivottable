@@ -6,9 +6,6 @@
     "dist",
     "src"
   ],
-  "workspaces": [
-    "packages/*"
-  ],
   "exports": {
     ".": {
       "import": "./dist/vue-pivottable.mjs",
@@ -33,12 +30,12 @@
     "clean": "rimraf dist packages/*/dist",
     "dev": "vite",
     "build": "vite build",
-    "build:all": "npm run build && npm run build:packages",
-    "build:packages": "npm run --workspaces --if-present build",
+    "build:all": "pnpm run build && pnpm run build:packages",
+    "build:packages": "pnpm --recursive --filter \"./packages/*\" run build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "docs:dev": "vuepress dev packages/docs",
-    "docs:build": "vuepress build packages/docs"
+    "docs:dev": "pnpm --filter docs run dev",
+    "docs:build": "pnpm --filter docs run build"
   },
   "peerDependencies": {
     "vue": "^2.6.10"
