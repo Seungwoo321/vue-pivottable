@@ -1,7 +1,6 @@
 ---
 home: true
 title: Home
-heroImage: /images/logo.png
 actions:
   - text: Get Started
     link: /guide/introduction.md
