@@ -1,7 +1,6 @@
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
-import googleAnalytics from "@vuepress/plugin-google-analytics";
 import {
   head,
   navbarEn,
@@ -72,9 +71,9 @@ export default defineUserConfig({
   bundler: viteBundler(),
 
   plugins: [
-    googleAnalytics({
-      id: 'G-G8TZ5WYL3Z'
-    })
+    // googleAnalytics({
+    //   id: 'G-G8TZ5WYL3Z'
+    // })
   ]
 })
 

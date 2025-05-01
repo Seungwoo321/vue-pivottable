@@ -70,3 +70,7 @@ typings/
 #vuepress
 .temp
 packages/docs/.vuepress/dist
+
+.cache
+.temp
+dist

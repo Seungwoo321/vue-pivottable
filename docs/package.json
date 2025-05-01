@@ -1,5 +1,5 @@
 {
-  "name": "vue-pivottable",
+  "name": "docs",
   "description": "--- home: true title: Home actionText: Get Started actionLink: /guide/getting-started.html footer: MIT Licensed | Copyright © 2018-present Seungwoo Lee ---",
   "version": "0.0.1",
   "license": "MIT",
@@ -10,13 +10,14 @@
     "docs:dev": "vuepress dev docs",
     "docs:update-package": "pnpm dlx vp-update"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "devDependencies": {
     "@vuepress/bundler-vite": "2.0.0-rc.20",
-    "@vuepress/plugin-google-analytics": "^1.9.10",
     "@vuepress/theme-default": "2.0.0-rc.88",
     "sass-embedded": "^1.86.0",
     "vue": "^3.5.13",
-    "vue-router": "4.0.16",
     "vuepress": "2.0.0-rc.20"
   }
 }
