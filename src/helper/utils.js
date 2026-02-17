@@ -100,8 +100,8 @@ const naturalSort = (as, bs) => {
     const b1 = b.shift()
     if (a1 !== b1) {
       if (rd.test(a1) && rd.test(b1)) {
-        const numDiff = a1.replace(rz, '.0') - b1.replace(rz, '.0');
-        return (numDiff !== 0) ? numDiff : a1.length - b1.length;
+        const numDiff = a1.replace(rz, '.0') - b1.replace(rz, '.0')
+        return (numDiff !== 0) ? numDiff : a1.length - b1.length
       }
       return a1 > b1 ? 1 : -1
     }
@@ -570,7 +570,7 @@ class PivotData {
     )
   }
 
-  filter(record) {
+  filter (record) {
     const allSelector = '*'
     for (const k in this.props.valueFilter) {
       if (k !== allSelector) {
@@ -587,7 +587,6 @@ class PivotData {
     }
     return true
   }
-
 
   forEachMatchingRecord (criteria, callback) {
     return PivotData.forEachRecord(

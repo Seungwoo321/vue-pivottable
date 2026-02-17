@@ -89,9 +89,8 @@ function makeRenderer (opts = {}) {
         pivotData = new PivotData(props)
       } catch (error) {
         // eslint-disable-next-line no-console
-        if (console && console.error(error.stack)) {
-          return this.computeError(h)
-        }
+        if (console) console.error(error.stack)
+        return this.computeError(h)
       }
       const colAttrs = pivotData.props.cols
       const rowAttrs = pivotData.props.rows
@@ -315,9 +314,6 @@ function makeRenderer (opts = {}) {
           ])
 
       ])
-    },
-    renderError (h, error) {
-      return this.renderError(h)
     }
   }
   return TableRenderer
@@ -336,9 +332,8 @@ const TSVExportRenderer = {
       pivotData = new PivotData(props)
     } catch (error) {
       // eslint-disable-next-line no-console
-      if (console && console.error(error.stack)) {
-        return this.computeError(h)
-      }
+      if (console) console.error(error.stack)
+      return this.computeError(h)
     }
     const rowKeys = pivotData.getRowKeys()
     const colKeys = pivotData.getColKeys()
@@ -376,9 +371,6 @@ const TSVExportRenderer = {
         value: result.map(r => r.join('\t')).join('\n')
       }
     })
-  },
-  renderError (h, error) {
-    return this.renderError(h)
   }
 }
 

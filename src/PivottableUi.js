@@ -569,9 +569,8 @@ export default {
       pivotData = new PivotData(props)
     } catch (error) {
       // eslint-disable-next-line no-console
-      if (console && console.error(error.stack)) {
-        return this.computeError(h)
-      }
+      if (console) console.error(error.stack)
+      return this.computeError(h)
     }
     const rendererCell = this.rendererCell(rendererName, h)
     const aggregatorCell = this.aggregatorCell(aggregatorName, vals, h)

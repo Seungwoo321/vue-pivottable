@@ -35,8 +35,5 @@ export default {
   },
   render (h) {
     return this.createWrapperContainer(h)
-  },
-  renderError (h, error) {
-    return this.renderError(h)
   }
 }
