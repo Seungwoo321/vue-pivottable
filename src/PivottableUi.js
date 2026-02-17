@@ -183,7 +183,14 @@ export default {
     rendererName: {
       handler (value) {
         this.propsData.rendererName = value
-      }
+      },
+      immediate: true
+    },
+    aggregatorName: {
+      handler (value) {
+        this.propsData.aggregatorName = value
+      },
+      immediate: true
     },
     appliedFilter: {
       handler (value, oldValue) {

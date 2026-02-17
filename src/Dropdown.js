@@ -5,7 +5,9 @@ export default {
     event: 'input'
   },
   created () {
-    this.$emit('input', this.value || this.values[0])
+    // Only emit default value if value is undefined or null, not empty string
+    const emitValue = this.value !== undefined && this.value !== null ? this.value : this.values[0]
+    this.$emit('input', emitValue)
   },
   methods: {
     handleChange (e) {
