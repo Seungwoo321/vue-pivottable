@@ -5,6 +5,8 @@ import Dropdown from '../src/Dropdown'
 import DraggableAttribute from '../src/DraggableAttribute'
 import TableRenderer from '../src/TableRenderer'
 import VuePivottable from '../src/Pivottable'
+import VuePivottableUi from '../src/PivottableUi'
+import { aggregators } from '../src/helper/utils'
 
 describe('Dropdown', () => {
   it('should render select element', () => {
@@ -178,7 +180,7 @@ describe('TableRenderer', () => {
         cols: [],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     expect(wrapper.find('table').exists()).toBe(true)
@@ -192,7 +194,7 @@ describe('TableRenderer', () => {
         cols: [],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     expect(wrapper.find('table').classes()).toContain('pvtTable')
@@ -206,7 +208,7 @@ describe('TableRenderer', () => {
         cols: [],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     expect(wrapper.find('.pvtAxisLabel').exists()).toBe(true)
@@ -220,7 +222,7 @@ describe('TableRenderer', () => {
         cols: ['product'],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     expect(wrapper.find('.pvtColLabel').exists()).toBe(true)
@@ -234,7 +236,7 @@ describe('TableRenderer', () => {
         cols: ['product'],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators,
+        aggregators: aggregators,
         rowTotal: true
       }
     })
@@ -249,7 +251,7 @@ describe('TableRenderer', () => {
         cols: ['product'],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     expect(wrapper.find('.pvVal').exists()).toBe(true)
@@ -264,12 +266,67 @@ describe('TableRenderer', () => {
         cols: ['product'],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators,
+        aggregators: aggregators,
         tableOptions: { clickCallback }
       }
     })
     await wrapper.find('.pvVal').trigger('click')
     expect(clickCallback).toHaveBeenCalled()
+  })
+
+  it('should apply labels to row values', () => {
+    const wrapper = shallowMount(TableComponent, {
+      propsData: {
+        data: sampleData,
+        rows: ['region'],
+        cols: ['product'],
+        vals: [],
+        aggregatorName: 'Count',
+        aggregators: aggregators,
+        labels: {
+          region: (val) => val === 'East' ? 'Eastern' : val
+        }
+      }
+    })
+    const rowLabels = wrapper.findAll('.pvtRowLabel')
+    const texts = rowLabels.wrappers.map(w => w.text())
+    expect(texts).toContain('Eastern')
+  })
+
+  it('should apply labels to column values', () => {
+    const wrapper = shallowMount(TableComponent, {
+      propsData: {
+        data: sampleData,
+        rows: ['region'],
+        cols: ['product'],
+        vals: [],
+        aggregatorName: 'Count',
+        aggregators: aggregators,
+        labels: {
+          product: (val) => `Product: ${val}`
+        }
+      }
+    })
+    const colLabels = wrapper.findAll('.pvtColLabel')
+    const texts = colLabels.wrappers.map(w => w.text())
+    expect(texts.some(t => t.startsWith('Product:'))).toBe(true)
+  })
+
+  it('should not modify values when labels not provided', () => {
+    const wrapper = shallowMount(TableComponent, {
+      propsData: {
+        data: sampleData,
+        rows: ['region'],
+        cols: ['product'],
+        vals: [],
+        aggregatorName: 'Count',
+        aggregators: aggregators
+      }
+    })
+    const rowLabels = wrapper.findAll('.pvtRowLabel')
+    const texts = rowLabels.wrappers.map(w => w.text())
+    expect(texts).toContain('East')
+    expect(texts).toContain('West')
   })
 })
 
@@ -377,7 +434,7 @@ describe('TSVExportRenderer', () => {
         cols: [],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     expect(wrapper.find('textarea').exists()).toBe(true)
@@ -391,7 +448,7 @@ describe('TSVExportRenderer', () => {
         cols: [],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     expect(wrapper.find('textarea').attributes('readonly')).toBeDefined()
@@ -405,10 +462,200 @@ describe('TSVExportRenderer', () => {
         cols: ['product'],
         vals: [],
         aggregatorName: 'Count',
-        aggregators: require('../src/helper/utils').aggregators
+        aggregators: aggregators
       }
     })
     const content = wrapper.find('textarea').element.value
     expect(content).toContain('\t')
+  })
+})
+
+describe('VuePivottableUi', () => {
+  const sampleData = [
+    { region: 'East', product: 'A', sales: 100 },
+    { region: 'East', product: 'B', sales: 200 },
+    { region: 'West', product: 'A', sales: 150 },
+    { region: 'West', product: 'B', sales: 250 }
+  ]
+
+  it('should have correct component name', () => {
+    expect(VuePivottableUi.name).toBe('vue-pivottable-ui')
+  })
+
+  it('should have v-model configuration', () => {
+    expect(VuePivottableUi.model).toEqual({
+      prop: 'config',
+      event: 'onRefresh'
+    })
+  })
+
+  it('should have config prop defined', () => {
+    expect(VuePivottableUi.props.config).toBeDefined()
+    expect(VuePivottableUi.props.config.type).toBe(Object)
+  })
+
+  it('should render pivot table UI', () => {
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData
+      }
+    })
+    expect(wrapper.find('.pvtUi').exists()).toBe(true)
+  })
+
+  it('should initialize with individual props', () => {
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        rows: ['region'],
+        cols: ['product'],
+        aggregatorName: 'Sum',
+        vals: ['sales']
+      }
+    })
+    expect(wrapper.vm.propsData.rows).toEqual(['region'])
+    expect(wrapper.vm.propsData.cols).toEqual(['product'])
+    expect(wrapper.vm.propsData.aggregatorName).toBe('Sum')
+    expect(wrapper.vm.propsData.vals).toEqual(['sales'])
+  })
+
+  it('should initialize with config prop (v-model support)', () => {
+    const config = {
+      rows: ['region'],
+      cols: ['product'],
+      aggregatorName: 'Sum',
+      vals: ['sales'],
+      rowOrder: 'value_a_to_z',
+      colOrder: 'value_z_to_a'
+    }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        config
+      }
+    })
+    expect(wrapper.vm.propsData.rows).toEqual(['region'])
+    expect(wrapper.vm.propsData.cols).toEqual(['product'])
+    expect(wrapper.vm.propsData.aggregatorName).toBe('Sum')
+    expect(wrapper.vm.propsData.vals).toEqual(['sales'])
+    expect(wrapper.vm.propsData.rowOrder).toBe('value_a_to_z')
+    expect(wrapper.vm.propsData.colOrder).toBe('value_z_to_a')
+  })
+
+  it('should prioritize config prop over individual props', () => {
+    const config = {
+      rows: ['product'],
+      aggregatorName: 'Count'
+    }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        rows: ['region'],
+        aggregatorName: 'Sum',
+        config
+      }
+    })
+    // config values should take precedence
+    expect(wrapper.vm.propsData.rows).toEqual(['product'])
+    expect(wrapper.vm.propsData.aggregatorName).toBe('Count')
+  })
+
+  it('should use individual props when config does not have the property', () => {
+    const config = {
+      rows: ['product']
+    }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        rows: ['region'],
+        cols: ['product'],
+        aggregatorName: 'Sum',
+        config
+      }
+    })
+    // config.rows takes precedence
+    expect(wrapper.vm.propsData.rows).toEqual(['product'])
+    // individual props used when not in config
+    expect(wrapper.vm.propsData.cols).toEqual(['product'])
+    expect(wrapper.vm.propsData.aggregatorName).toBe('Sum')
+  })
+
+  it('should emit onRefresh event when propsData changes', async () => {
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        rows: ['region']
+      }
+    })
+    // Manually trigger propsData change
+    wrapper.vm.propsData.cols = ['product']
+    await wrapper.vm.$nextTick()
+
+    const emitted = wrapper.emitted('onRefresh')
+    expect(emitted).toBeTruthy()
+  })
+
+  it('should update propsData when config prop changes', async () => {
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        config: {
+          rows: ['region']
+        }
+      }
+    })
+    expect(wrapper.vm.propsData.rows).toEqual(['region'])
+
+    // Update config prop
+    await wrapper.setProps({
+      config: {
+        rows: ['product'],
+        cols: ['region']
+      }
+    })
+
+    expect(wrapper.vm.propsData.rows).toEqual(['product'])
+    expect(wrapper.vm.propsData.cols).toEqual(['region'])
+  })
+
+  it('should support empty arrays in config', () => {
+    const config = {
+      rows: [],
+      cols: [],
+      vals: []
+    }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        rows: ['region'],
+        cols: ['product'],
+        config
+      }
+    })
+    // Empty arrays from config should be used (not fall back to individual props)
+    expect(wrapper.vm.propsData.rows).toEqual([])
+    expect(wrapper.vm.propsData.cols).toEqual([])
+    expect(wrapper.vm.propsData.vals).toEqual([])
+  })
+
+  it('should support valueFilter in config', () => {
+    const config = {
+      rows: ['region'],
+      valueFilter: {
+        region: { East: true }
+      }
+    }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        config
+      }
+    })
+    expect(wrapper.vm.propsData.valueFilter.region).toBeDefined()
+  })
+
+  it('should have config watcher', () => {
+    expect(VuePivottableUi.watch.config).toBeDefined()
+    expect(VuePivottableUi.watch.config.deep).toBe(true)
   })
 })

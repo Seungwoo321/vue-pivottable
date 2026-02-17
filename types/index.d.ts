@@ -221,6 +221,8 @@ export interface CommonProps {
   tableMaxWidth?: number
   colLimit?: number
   rowLimit?: number
+  plotlyOptions?: Record<string, any>
+  labels?: Record<string, (value: any) => any>
 }
 
 export interface VuePivottableProps extends CommonProps {
@@ -231,15 +233,37 @@ export interface VuePivottableProps extends CommonProps {
   tableOptions?: TableOptions
 }
 
+/**
+ * Configuration object for v-model support.
+ * When provided via config prop, these values take precedence over individual props.
+ */
+export interface VuePivottableUiConfig {
+  rows?: string[]
+  cols?: string[]
+  vals?: string[]
+  aggregatorName?: string
+  rendererName?: string
+  rowOrder?: SortOrder
+  colOrder?: SortOrder
+  valueFilter?: ValueFilter
+}
+
 export interface VuePivottableUiProps extends CommonProps {
   renderers?: Record<string, ComponentOptions<Vue>>
   rendererName?: string
   hiddenAttributes?: string[]
   hiddenFromAggregators?: string[]
   hiddenFromDragDrop?: string[]
+  sortonlyFromDragDrop?: string[]
   disabledFromDragDrop?: string[]
   menuLimit?: number
   async?: boolean
+  /**
+   * Configuration object for v-model support.
+   * Use with v-model to save and restore pivot table state.
+   * Config values take precedence over individual props when both are provided.
+   */
+  config?: VuePivottableUiConfig
 }
 
 export interface DropdownProps {
