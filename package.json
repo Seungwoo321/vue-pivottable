@@ -2,16 +2,19 @@
   "name": "vue-pivottable",
   "version": "0.4.68",
   "main": "dist/vue-pivottable.mjs",
+  "types": "types/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "types"
   ],
   "exports": {
     ".": {
       "import": "./dist/vue-pivottable.mjs",
       "require": "./dist/vue-pivottable.umd.js"
     },
-    "./dist/": "./dist/"
+    "./dist/": "./dist/",
+    "./dist/vue-pivottable.css": "./dist/vue-pivottable.css"
   },
   "repository": {
     "type": "git",
@@ -34,8 +37,14 @@
     "build:packages": "pnpm --recursive --filter \"./packages/*\" run build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "docs:dev": "pnpm --filter docs run docs:dev",
-    "docs:build": "pnpm --filter docs run docs:build"
+    "docs:build": "pnpm --filter docs run docs:build",
+    "release": "release-it"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -47,15 +56,30 @@
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/eslint-parser": "^7.24.0",
+    "@release-it/conventional-changelog": "^10.0.5",
+    "@storybook/addon-essentials": "^7.6.0",
+    "@storybook/addon-interactions": "^7.6.0",
+    "@storybook/addon-links": "^7.6.0",
+    "@storybook/blocks": "^7.6.0",
+    "@storybook/testing-library": "^0.2.0",
+    "@storybook/vue": "^7.6.0",
+    "@storybook/vue-vite": "^7.6.0",
     "@vitejs/plugin-vue2": "^2.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
-    "babel-eslint": "^10.1.0",
-    "babel-preset-env": "^1.7.0",
+    "@vue/test-utils": "^1.3.6",
     "eslint": "^5.16.0",
-    "eslint-loader": "^3.0.2",
     "eslint-plugin-vue": "^5.2.3",
+    "jsdom": "^24.0.0",
+    "release-it": "^19.2.4",
     "rimraf": "^6.0.1",
+    "storybook": "^7.6.0",
+    "typescript": "^5.9.3",
     "vite": "^3.1.8",
-    "vite-plugin-static-copy": "^0.11.1"
+    "vite-plugin-static-copy": "^0.11.1",
+    "vitest": "^1.6.0",
+    "vue": "^2.7.16",
+    "vue-template-compiler": "^2.7.16"
   }
 }
