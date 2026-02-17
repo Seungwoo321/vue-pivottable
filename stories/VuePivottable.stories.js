@@ -162,3 +162,48 @@ export const ClickCallback = {
     }
   }
 }
+
+export const CustomLabels = {
+  args: {
+    data: sampleData,
+    rows: ['region'],
+    cols: ['product'],
+    vals: ['sales'],
+    aggregatorName: 'Sum',
+    rendererName: 'Table',
+    labels: {
+      region: (val) => {
+        const regionLabels = {
+          East: '동부',
+          West: '서부',
+          North: '북부',
+          South: '남부'
+        }
+        return regionLabels[val] || val
+      },
+      product: (val) => {
+        const productLabels = {
+          Apple: '사과',
+          Banana: '바나나'
+        }
+        return productLabels[val] || val
+      }
+    }
+  }
+}
+
+export const LabelsWithMultipleRowsCols = {
+  args: {
+    data: sampleData,
+    rows: ['region', 'product'],
+    cols: ['year'],
+    vals: ['sales'],
+    aggregatorName: 'Sum',
+    rendererName: 'Table',
+    labels: {
+      region: (val) => `Region: ${val}`,
+      product: (val) => `Product: ${val}`,
+      year: (val) => `FY${val}`
+    }
+  }
+}

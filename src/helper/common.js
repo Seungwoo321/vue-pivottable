@@ -119,6 +119,18 @@ export default {
     rowLimit: {
       type: Number,
       default: 100
+    },
+    plotlyOptions: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    },
+    labels: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   methods: {

@@ -77,6 +77,12 @@ function makeRenderer (opts = {}) {
           len++
         }
         return len
+      },
+      applyLabel (attr, value) {
+        if (this.labels && typeof this.labels[attr] === 'function') {
+          return this.labels[attr](value)
+        }
+        return value
       }
     },
     render (h) {
@@ -200,7 +206,7 @@ function makeRenderer (opts = {}) {
                       colSpan: x,
                       rowSpan: j === colAttrs.length - 1 && rowAttrs.length !== 0 ? 2 : 1
                     }
-                  }, colKey[j])
+                  }, this.applyLabel(colAttrs[j], colKey[j]))
                 }),
                 j === 0 && this.rowTotal ? h('th', {
                   staticClass: ['pvtTotalLabel'],
@@ -253,7 +259,7 @@ function makeRenderer (opts = {}) {
                       rowSpan: x,
                       colSpan: j === rowAttrs.length - 1 && colAttrs.length !== 0 ? 2 : 1
                     }
-                  }, text)
+                  }, this.applyLabel(rowAttrs[j], text))
                 }),
 
                 colKeys.map((colKey, j) => {
@@ -359,10 +365,11 @@ const TSVExportRenderer = {
       return row
     })
     result.unshift(headerRow)
+    const textareaHeight = typeof window !== 'undefined' ? window.innerHeight / 2 : 300
     return h('textarea', {
       style: {
         width: `100%`,
-        height: `${window.innerHeight / 2}px`
+        height: `${textareaHeight}px`
       },
       attrs: {
         readOnly: true
