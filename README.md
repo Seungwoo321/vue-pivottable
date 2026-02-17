@@ -96,6 +96,29 @@ export default {
 </script>
 ```
 
+* Nuxt.js (SSR)
+
+```js
+// plugins/vue-pivottable.js
+import Vue from 'vue'
+import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
+import 'vue-pivottable/dist/vue-pivottable.css'
+
+Vue.component('VuePivottable', VuePivottable)
+Vue.component('VuePivottableUi', VuePivottableUi)
+```
+
+```js
+// nuxt.config.js
+export default {
+  plugins: [
+    { src: '~/plugins/vue-pivottable.js', mode: 'client' }
+  ]
+}
+```
+
+> **Note**: The `mode: 'client'` option ensures the component only loads on the client side, avoiding SSR issues.
+
 * Plotly renderer
 
   [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
