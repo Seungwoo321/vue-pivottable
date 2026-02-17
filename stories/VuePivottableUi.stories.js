@@ -124,3 +124,63 @@ export const WithValueFilter = {
     }
   }
 }
+
+/**
+ * Using config prop for v-model support.
+ * The config prop allows you to save and restore the entire pivot table state.
+ * This is useful for persisting user configurations.
+ */
+export const WithConfigProp = {
+  args: {
+    data: sampleData,
+    config: {
+      rows: ['region'],
+      cols: ['product'],
+      vals: ['sales'],
+      aggregatorName: 'Sum',
+      rendererName: 'Table',
+      rowOrder: 'key_a_to_z',
+      colOrder: 'key_a_to_z'
+    }
+  }
+}
+
+/**
+ * Config prop with valueFilter.
+ * Demonstrates filtering out specific values using the config prop.
+ */
+export const ConfigWithValueFilter = {
+  args: {
+    data: sampleData,
+    config: {
+      rows: ['region'],
+      cols: ['product'],
+      vals: ['sales'],
+      aggregatorName: 'Sum',
+      valueFilter: {
+        region: { North: true }
+      }
+    }
+  }
+}
+
+/**
+ * Config prop takes precedence over individual props.
+ * When both config and individual props are provided, config values win.
+ */
+export const ConfigPrecedence = {
+  args: {
+    data: sampleData,
+    // These individual props will be overridden by config
+    rows: ['category'],
+    cols: ['year'],
+    aggregatorName: 'Count',
+    // Config values take precedence
+    config: {
+      rows: ['region'],
+      cols: ['product'],
+      aggregatorName: 'Sum',
+      vals: ['sales']
+    }
+  }
+}

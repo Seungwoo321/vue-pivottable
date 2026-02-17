@@ -180,6 +180,11 @@ export default {
         this.propsData.rows = value
       }
     },
+    vals: {
+      handler (value) {
+        this.propsData.vals = value.slice()
+      }
+    },
     rendererName: {
       handler (value) {
         this.propsData.rendererName = value
@@ -204,6 +209,21 @@ export default {
         this.propsData.valueFilter = value
       },
       immediate: true,
+      deep: true
+    },
+    config: {
+      handler (value) {
+        if (!value || Object.keys(value).length === 0) return
+        // Update propsData when config prop changes (v-model support)
+        if (value.vals !== undefined) this.propsData.vals = value.vals.slice()
+        if (value.rows !== undefined) this.propsData.rows = value.rows.slice()
+        if (value.cols !== undefined) this.propsData.cols = value.cols.slice()
+        if (value.rowOrder !== undefined) this.propsData.rowOrder = value.rowOrder
+        if (value.colOrder !== undefined) this.propsData.colOrder = value.colOrder
+        if (value.rendererName !== undefined) this.propsData.rendererName = value.rendererName
+        if (value.aggregatorName !== undefined) this.propsData.aggregatorName = value.aggregatorName
+        if (value.valueFilter !== undefined) this.propsData.valueFilter = value.valueFilter
+      },
       deep: true
     },
     data: {
@@ -253,19 +273,25 @@ export default {
   methods: {
     init () {
       this.materializeInput(this.data)
-      this.propsData.vals = this.vals.slice()
-      this.propsData.rows = this.rows
-      this.propsData.cols = this.cols
-      this.propsData.rowOrder = this.rowOrder
-      this.propsData.colOrder = this.colOrder
-      this.propsData.rendererName = this.rendererName
-      this.propsData.aggregatorName = this.aggregatorName
+
+      // Support v-model with config prop - config values take precedence over individual props
+      const config = this.config || {}
+
+      this.propsData.vals = (config.vals !== undefined ? config.vals : this.vals).slice()
+      this.propsData.rows = config.rows !== undefined ? config.rows.slice() : this.rows
+      this.propsData.cols = config.cols !== undefined ? config.cols.slice() : this.cols
+      this.propsData.rowOrder = config.rowOrder !== undefined ? config.rowOrder : this.rowOrder
+      this.propsData.colOrder = config.colOrder !== undefined ? config.colOrder : this.colOrder
+      this.propsData.rendererName = config.rendererName !== undefined ? config.rendererName : this.rendererName
+      this.propsData.aggregatorName = config.aggregatorName !== undefined ? config.aggregatorName : this.aggregatorName
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
       const allSelector = '*'
+      // Support valueFilter from config prop
+      const effectiveValueFilter = config.valueFilter !== undefined ? config.valueFilter : this.valueFilter
       Object.entries(this.attrValues).forEach(([key, values]) => {
         let attributes = {}
-        const valueFilterItem = this.valueFilter && this.valueFilter[key]
+        const valueFilterItem = effectiveValueFilter && effectiveValueFilter[key]
         if (valueFilterItem && Object.keys(valueFilterItem).length) {
           if (valueFilterItem[allSelector] === true) {
             // add all keys to be filtered out
