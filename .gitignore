@@ -74,3 +74,6 @@ packages/docs/.vuepress/dist
 .cache
 .temp
 dist
+
+# Storybook
+storybook-static
