@@ -36,7 +36,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "vue-pivottable": "^1.0.0"
   },
   "devDependencies": {
