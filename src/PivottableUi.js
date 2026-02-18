@@ -515,7 +515,8 @@ export default {
                     }
                   })
                 ])
-              : undefined
+              : undefined,
+            this.$slots.aggregatorExtra
           ])
     },
     outputCell (props, isPlotlyRenderer, h) {
