@@ -67,6 +67,8 @@
     "@storybook/vue": "^7.6.0",
     "@storybook/vue-vite": "^7.6.0",
     "@vitejs/plugin-vue2": "^2.0.0",
+    "@vue-pivottable/multi-value-renderer": "0.1.0",
+    "@vue-pivottable/subtotal-renderer": "0.1.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "^1.3.6",
     "eslint": "^5.16.0",
