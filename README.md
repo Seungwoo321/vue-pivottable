@@ -31,11 +31,11 @@ git clone https://github.com/Seungwoo321/vue-pivottable.git
 # Go into the cloned directory
 cd vue-pivottable/example/
 
-# npm install
-npm install
+# Install dependencies
+pnpm install
 
-# npm run serve
-npm run serve
+# Run dev server
+pnpm serve
 ```
 
 Open browser to <http://localhost:8080>
@@ -45,7 +45,7 @@ Open browser to <http://localhost:8080>
 ## Installation
 
 ```bash
-npm i vue-pivottable@vue2
+pnpm add vue-pivottable@vue2
 ```
 
 ## Usage
@@ -96,29 +96,6 @@ export default {
 </script>
 ```
 
-* Nuxt.js (SSR)
-
-```js
-// plugins/vue-pivottable.js
-import Vue from 'vue'
-import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
-import 'vue-pivottable/dist/vue-pivottable.css'
-
-Vue.component('VuePivottable', VuePivottable)
-Vue.component('VuePivottableUi', VuePivottableUi)
-```
-
-```js
-// nuxt.config.js
-export default {
-  plugins: [
-    { src: '~/plugins/vue-pivottable.js', mode: 'client' }
-  ]
-}
-```
-
-> **Note**: The `mode: 'client'` option ensures the component only loads on the client side, avoiding SSR issues.
-
 ## Additional Packages
 
 ### Plotly Renderer
@@ -126,7 +103,7 @@ export default {
 Chart renderers using Plotly.js. [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
 
 ```bash
-npm install @vue-pivottable/plotly-renderer
+pnpm add @vue-pivottable/plotly-renderer
 ```
 
 ```js
@@ -138,11 +115,14 @@ import PlotlyRenderer from '@vue-pivottable/plotly-renderer'
 Renders pivot tables with subtotal rows/columns and expand/collapse functionality.
 
 ```bash
-npm install @vue-pivottable/subtotal-renderer
+pnpm add @vue-pivottable/subtotal-renderer
 ```
 
 ```js
-import { SubtotalRenderers } from '@vue-pivottable/subtotal-renderer/vue2'
+import { createSubtotalRenderers } from '@vue-pivottable/subtotal-renderer/vue2'
+import { PivotData } from 'vue-pivottable'
+
+const SubtotalRenderers = createSubtotalRenderers(PivotData)
 ```
 
 Features:
@@ -155,7 +135,7 @@ Features:
 Renders multiple values with different aggregators per column.
 
 ```bash
-npm install @vue-pivottable/multi-value-renderer
+pnpm add @vue-pivottable/multi-value-renderer
 ```
 
 ```js
@@ -172,7 +152,7 @@ const aggregatorMap = {
 Nuxt.js module for easy SSR integration.
 
 ```bash
-npm install @vue-pivottable/nuxt
+pnpm add @vue-pivottable/nuxt
 ```
 
 ```js
@@ -181,6 +161,16 @@ export default {
   modules: ['@vue-pivottable/nuxt/nuxt2']
 }
 ```
+
+## Storybook
+
+Explore components interactively with Storybook:
+
+```bash
+pnpm storybook
+```
+
+View the live Storybook at: https://seungwoo321.github.io/vue-pivottable/storybook
 
 ## Contributors
 
