@@ -108,3 +108,92 @@ const renderer = (() => ({
 ### 라이브 데모
 
 [링크](https://jsfiddle.net/seungwoo321/nopkdha6/)
+
+## 소계 렌더러 <sup style="color:#42b983">0.4.69+에서 새로 추가</sup>
+
+소계 행/열과 확장/축소 기능이 있는 피벗 테이블을 렌더링합니다. [subtotal.js](https://github.com/nagarajanchinnasamy/subtotal)에서 영감을 받았습니다.
+
+### 설치
+
+```bash
+npm install @vue-pivottable/subtotal-renderer
+```
+
+### SFC (Vue 2)
+
+```js
+import { SubtotalRenderers } from '@vue-pivottable/subtotal-renderer/vue2'
+```
+
+```html
+<vue-pivottable
+  :data="data"
+  :rows="['category', 'subcategory', 'product']"
+  :cols="['region', 'city']"
+  :renderers="SubtotalRenderers"
+  rendererName="Subtotal Table"
+/>
+```
+
+### 기능
+
+- 계층적 데이터에 대한 자동 소계 행/열
+- 화살표 아이콘을 클릭하여 그룹 확장/축소
+- clickCallback 및 labels 지원
+- `subtotalOptions` prop을 통해 커스터마이징 가능
+
+### 옵션
+
+```html
+<vue-pivottable
+  :renderers="SubtotalRenderers"
+  rendererName="Subtotal Table"
+  :subtotalOptions="{
+    rowSubtotalDisplay: { displayOnTop: false, enabled: true, hideOnExpand: false },
+    colSubtotalDisplay: { displayOnTop: false, enabled: true, hideOnExpand: false },
+    arrowCollapsed: '▶',
+    arrowExpanded: '▼'
+  }"
+/>
+```
+
+## 멀티 값 렌더러 <sup style="color:#42b983">0.4.69+에서 새로 추가</sup>
+
+열마다 다른 집계기를 사용하여 여러 값을 렌더링합니다.
+
+### 설치
+
+```bash
+npm install @vue-pivottable/multi-value-renderer
+```
+
+### SFC (Vue 2)
+
+```js
+import { MultiValueRenderers } from '@vue-pivottable/multi-value-renderer/vue2'
+
+// 각 값에 다른 집계기 정의
+const aggregatorMap = {
+  sales: 'Sum',
+  quantity: 'Average',
+  profit: 'Sum'
+}
+```
+
+```html
+<vue-pivottable
+  :data="data"
+  :rows="['region']"
+  :cols="['product']"
+  :vals="['sales', 'quantity', 'profit']"
+  :renderers="MultiValueRenderers"
+  rendererName="Multi Value Table"
+  :aggregatorMap="aggregatorMap"
+/>
+```
+
+### 기능
+
+- 단일 피벗 테이블에 여러 값 표시
+- 각 값 열에 다른 집계기 적용
+- 모든 표준 테이블 기능 지원 (히트맵, 합계 등)

@@ -44,8 +44,8 @@ Open browser to <http://localhost:8080>
 
 ## Installation
 
-```shall
-npm i vue-pivottable@0.4.68
+```bash
+npm i vue-pivottable@vue2
 ```
 
 ## Usage
@@ -119,47 +119,67 @@ export default {
 
 > **Note**: The `mode: 'client'` option ensures the component only loads on the client side, avoiding SSR issues.
 
-* Plotly renderer
+## Additional Packages
 
-  [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
+### Plotly Renderer
 
-```html
-<template>
-  <vue-pivottable-ui
-    :data="[{color: 'blue', shape: 'circle'},{color: 'red', shape: 'triangle'}]"
-    renderer-name="Area Chart"
-    :rows="['color']"
-    :cols="['shape']"
-    :renderers="renderers"
-  >
-  </vue-pivottable-ui>
-</template>
+Chart renderers using Plotly.js. [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
 
-<script>
-import { VuePivottableUi } from 'vue-pivottable'
+```bash
+npm install @vue-pivottable/plotly-renderer
+```
+
+```js
 import PlotlyRenderer from '@vue-pivottable/plotly-renderer'
-import 'vue-pivottable/dist/vue-pivottable.css'
-export default {
-  components: {
-    VuePivottableUi
-  },
-  computed: {
-    renderers () {
-      return (() => ({
-        'Grouped Column Chart': PlotlyRenderer['Grouped Column Chart'],
-        'Stacked Column Chart': PlotlyRenderer['Stacked Column Chart'],
-        'Grouped Bar Chart': PlotlyRenderer['Grouped Bar Chart'],
-        'Stacked Bar Chart': PlotlyRenderer['Stacked Bar Chart'],
-        'Line Chart': PlotlyRenderer['Line Chart'],
-        'Dot Chart': PlotlyRenderer['Dot Chart'],
-        'Area Chart': PlotlyRenderer['Area Chart'],
-        'Scatter Chart': PlotlyRenderer['Scatter Chart'],
-        'Multiple Pie Chart': PlotlyRenderer['Multiple Pie Chart']
-      }))()
-    }
-  }
+```
+
+### Subtotal Renderer
+
+Renders pivot tables with subtotal rows/columns and expand/collapse functionality.
+
+```bash
+npm install @vue-pivottable/subtotal-renderer
+```
+
+```js
+import { SubtotalRenderers } from '@vue-pivottable/subtotal-renderer/vue2'
+```
+
+Features:
+- Automatic subtotal rows/columns for hierarchical data
+- Expand/collapse groups by clicking the arrow icon
+- Supports clickCallback and labels
+
+### Multi-Value Renderer
+
+Renders multiple values with different aggregators per column.
+
+```bash
+npm install @vue-pivottable/multi-value-renderer
+```
+
+```js
+import { MultiValueRenderers } from '@vue-pivottable/multi-value-renderer/vue2'
+
+const aggregatorMap = {
+  sales: 'Sum',
+  quantity: 'Average'
 }
-</script>
+```
+
+### Nuxt Module
+
+Nuxt.js module for easy SSR integration.
+
+```bash
+npm install @vue-pivottable/nuxt
+```
+
+```js
+// nuxt.config.js (Nuxt 2)
+export default {
+  modules: ['@vue-pivottable/nuxt/nuxt2']
+}
 ```
 
 ## Contributors

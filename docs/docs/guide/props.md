@@ -191,6 +191,38 @@ contains attribute names to disable from the drag'n'drop portion of the UI
 
 maximum number of values to list in the double-click menu
 
+### config <sup style="color:#42b983">New in 0.4.69+</sup>
+
+* Type: `Object`
+* Default: `{}`
+
+Configuration object for v-model support. Use this prop to save and restore the entire pivot table state. When provided, config values take precedence over individual props.
+
+```html
+<vue-pivottable-ui
+  v-model="pivotConfig"
+  :data="data"
+/>
+```
+
+```js
+// Save configuration
+const savedConfig = this.pivotConfig
+
+// Restore configuration
+this.pivotConfig = savedConfig
+```
+
+The config object can contain:
+- `rows`: Array of row attribute names
+- `cols`: Array of column attribute names
+- `vals`: Array of value attribute names
+- `aggregatorName`: String
+- `rendererName`: String
+- `rowOrder`: 'key_a_to_z' | 'value_a_to_z' | 'value_z_to_a'
+- `colOrder`: 'key_a_to_z' | 'value_a_to_z' | 'value_z_to_a'
+- `valueFilter`: Object
+
 ### rowLimit
 
 * Type: `Number`

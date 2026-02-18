@@ -184,3 +184,49 @@ export const ConfigPrecedence = {
     }
   }
 }
+
+/**
+ * Using aggregatorMap for multi-value rendering.
+ * The aggregatorMap prop maps value columns to specific aggregators.
+ * This is designed for use with @vue-pivottable/multi-value-renderer.
+ *
+ * In this example:
+ * - 'sales' will use Sum aggregation
+ * - 'quantity' will use Average aggregation
+ *
+ * Note: Standard renderers use only aggregatorName.
+ * aggregatorMap is passed through for external multi-value renderers.
+ */
+export const WithAggregatorMap = {
+  args: {
+    data: sampleData,
+    rows: ['region'],
+    cols: ['product'],
+    vals: ['sales', 'quantity'],
+    aggregatorName: 'Sum',
+    aggregatorMap: {
+      sales: 'Sum',
+      quantity: 'Average'
+    }
+  }
+}
+
+/**
+ * Config with aggregatorMap.
+ * aggregatorMap can also be saved/restored via the config prop.
+ */
+export const ConfigWithAggregatorMap = {
+  args: {
+    data: sampleData,
+    config: {
+      rows: ['region'],
+      cols: ['product'],
+      vals: ['sales', 'quantity'],
+      aggregatorName: 'Sum',
+      aggregatorMap: {
+        sales: 'Sum',
+        quantity: 'Count'
+      }
+    }
+  }
+}

@@ -108,3 +108,92 @@ const renderer = (() => ({
 ### Live Demo
 
 [link](https://jsfiddle.net/seungwoo321/nopkdha6/)
+
+## subtotal renderer <sup style="color:#42b983">New in 0.4.69+</sup>
+
+Renders pivot tables with subtotal rows/columns and expand/collapse functionality. Inspired by [subtotal.js](https://github.com/nagarajanchinnasamy/subtotal).
+
+### Install
+
+```bash
+npm install @vue-pivottable/subtotal-renderer
+```
+
+### SFC (Vue 2)
+
+```js
+import { SubtotalRenderers } from '@vue-pivottable/subtotal-renderer/vue2'
+```
+
+```html
+<vue-pivottable
+  :data="data"
+  :rows="['category', 'subcategory', 'product']"
+  :cols="['region', 'city']"
+  :renderers="SubtotalRenderers"
+  rendererName="Subtotal Table"
+/>
+```
+
+### Features
+
+- Automatic subtotal rows/columns for hierarchical data
+- Expand/collapse groups by clicking the arrow icon
+- Supports clickCallback and labels
+- Customizable via `subtotalOptions` prop
+
+### Options
+
+```html
+<vue-pivottable
+  :renderers="SubtotalRenderers"
+  rendererName="Subtotal Table"
+  :subtotalOptions="{
+    rowSubtotalDisplay: { displayOnTop: false, enabled: true, hideOnExpand: false },
+    colSubtotalDisplay: { displayOnTop: false, enabled: true, hideOnExpand: false },
+    arrowCollapsed: '▶',
+    arrowExpanded: '▼'
+  }"
+/>
+```
+
+## multi-value renderer <sup style="color:#42b983">New in 0.4.69+</sup>
+
+Renders multiple values with different aggregators per column.
+
+### Install
+
+```bash
+npm install @vue-pivottable/multi-value-renderer
+```
+
+### SFC (Vue 2)
+
+```js
+import { MultiValueRenderers } from '@vue-pivottable/multi-value-renderer/vue2'
+
+// Define different aggregators for each value
+const aggregatorMap = {
+  sales: 'Sum',
+  quantity: 'Average',
+  profit: 'Sum'
+}
+```
+
+```html
+<vue-pivottable
+  :data="data"
+  :rows="['region']"
+  :cols="['product']"
+  :vals="['sales', 'quantity', 'profit']"
+  :renderers="MultiValueRenderers"
+  rendererName="Multi Value Table"
+  :aggregatorMap="aggregatorMap"
+/>
+```
+
+### Features
+
+- Display multiple values in a single pivot table
+- Apply different aggregators to each value column
+- Supports all standard table features (heatmap, totals, etc.)
