@@ -45,6 +45,12 @@ importers:
       '@vitejs/plugin-vue2':
         specifier: ^2.0.0
         version: 2.3.3(vite@3.2.11(@types/node@22.15.3)(terser@5.39.0))(vue@2.7.16)
+      '@vue-pivottable/multi-value-renderer':
+        specifier: 0.1.0
+        version: 0.1.0(vue@2.7.16)
+      '@vue-pivottable/subtotal-renderer':
+        specifier: 0.1.0
+        version: 0.1.0(vue-pivottable@1.0.2(sortablejs@1.10.2)(vue@2.7.16))(vue@2.7.16)
       '@vue/eslint-config-standard':
         specifier: ^4.0.0
         version: 4.0.0(eslint@5.16.0)
@@ -2565,6 +2571,17 @@ packages:
 
   '@vitest/utils@1.6.1':
     resolution: {integrity: sha512-jOrrUvXM4Av9ZWiG1EajNto0u96kWAhJ1LmPmJhXXQx/32MecEKd10pOLYgS2BQx1TgkGhloPU1ArDW2vvaY6g==}
+
+  '@vue-pivottable/multi-value-renderer@0.1.0':
+    resolution: {integrity: sha512-3V1xFcPUSo2nckxficjd66lQEDTHvia7Omf9ISED/yFvcImYsm+FmdLrqnjsYd4h5+SfNpNh8mcx/kowQM1pQA==}
+    peerDependencies:
+      vue: ^2.7.0 || ^3.0.0
+
+  '@vue-pivottable/subtotal-renderer@0.1.0':
+    resolution: {integrity: sha512-FuhADcSJNphgJa7UgEh9nankfQiQ4GV2ROfeSRJ+GDh+57NJ7RwiWWin+vNmfOuDmxu7YTdAav0y+qDhGqo+Zg==}
+    peerDependencies:
+      vue: ^2.6.0 || ^3.0.0
+      vue-pivottable: '>=0.4.0'
 
   '@vue/compiler-core@3.5.13':
     resolution: {integrity: sha512-oOdAkwqUfW1WqpwSYJce06wvt6HljgY3fGeM9NcVA1HaYOij3mZG9Rkysn0OHuyUAGMbEbARIpsG+LPVlBJ5/Q==}
@@ -10046,6 +10063,15 @@ snapshots:
       estree-walker: 3.0.3
       loupe: 2.3.7
       pretty-format: 29.7.0
+
+  '@vue-pivottable/multi-value-renderer@0.1.0(vue@2.7.16)':
+    dependencies:
+      vue: 2.7.16
+
+  '@vue-pivottable/subtotal-renderer@0.1.0(vue-pivottable@1.0.2(sortablejs@1.10.2)(vue@2.7.16))(vue@2.7.16)':
+    dependencies:
+      vue: 2.7.16
+      vue-pivottable: 1.0.2(sortablejs@1.10.2)(vue@2.7.16)
 
   '@vue/compiler-core@3.5.13':
     dependencies:
