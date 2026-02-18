@@ -131,6 +131,12 @@ export default {
       default: function () {
         return {}
       }
+    },
+    aggregatorMap: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   methods: {

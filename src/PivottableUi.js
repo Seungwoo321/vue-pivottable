@@ -127,7 +127,13 @@ export default {
           ```
         */
         valueFilter: {},
-        renderer: null
+        renderer: null,
+        /**
+         * Maps value columns to specific aggregators for multi-value rendering.
+         * Used with @vue-pivottable/multi-value-renderer.
+         * Example: { sales: 'Sum', quantity: 'Average' }
+         */
+        aggregatorMap: {}
       },
       pivotData: [],
       openStatus: {},
@@ -211,6 +217,11 @@ export default {
       immediate: true,
       deep: true
     },
+    aggregatorMap: {
+      handler (value) {
+        this.propsData.aggregatorMap = Object.assign({}, value)
+      }
+    },
     config: {
       handler (value) {
         if (!value || Object.keys(value).length === 0) return
@@ -223,6 +234,7 @@ export default {
         if (value.rendererName !== undefined) this.propsData.rendererName = value.rendererName
         if (value.aggregatorName !== undefined) this.propsData.aggregatorName = value.aggregatorName
         if (value.valueFilter !== undefined) this.propsData.valueFilter = value.valueFilter
+        if (value.aggregatorMap !== undefined) this.propsData.aggregatorMap = Object.assign({}, value.aggregatorMap)
       },
       deep: true
     },
@@ -262,7 +274,8 @@ export default {
           rendererName: value.rendererName,
           aggregatorName: value.aggregatorName,
           aggregators: this.aggregatorItems,
-          vals: value.vals
+          vals: value.vals,
+          aggregatorMap: value.aggregatorMap
         }
         this.$emit('onRefresh', props)
       },
@@ -284,6 +297,7 @@ export default {
       this.propsData.colOrder = config.colOrder !== undefined ? config.colOrder : this.colOrder
       this.propsData.rendererName = config.rendererName !== undefined ? config.rendererName : this.rendererName
       this.propsData.aggregatorName = config.aggregatorName !== undefined ? config.aggregatorName : this.aggregatorName
+      this.propsData.aggregatorMap = config.aggregatorMap !== undefined ? Object.assign({}, config.aggregatorMap) : Object.assign({}, this.aggregatorMap)
       this.propsData.attributes = this.attributes.length > 0 ? this.attributes : Object.keys(this.attrValues)
       this.unusedOrder = this.unusedAttrs
       const allSelector = '*'
@@ -594,7 +608,8 @@ export default {
       aggregators: this.aggregatorItems,
       rendererName,
       aggregatorName,
-      vals
+      vals,
+      aggregatorMap: this.propsData.aggregatorMap
     })
 
     let pivotData = null
