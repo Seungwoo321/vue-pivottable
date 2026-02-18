@@ -178,6 +178,38 @@ UI의 드래그 앤 드롭 부분에서 비활성화할 속성 이름을 포함
 
 더블 클릭 메뉴에 나열할 최대 값 수
 
+### config <sup style="color:#42b983">0.4.69+에서 새로 추가</sup>
+
+* 타입: `Object`
+* 기본값: `{}`
+
+v-model 지원을 위한 설정 객체입니다. 이 prop을 사용하여 피벗 테이블의 전체 상태를 저장하고 복원할 수 있습니다. 제공된 경우 config 값이 개별 props보다 우선합니다.
+
+```html
+<vue-pivottable-ui
+  v-model="pivotConfig"
+  :data="data"
+/>
+```
+
+```js
+// 설정 저장
+const savedConfig = this.pivotConfig
+
+// 설정 복원
+this.pivotConfig = savedConfig
+```
+
+config 객체에 포함될 수 있는 값:
+- `rows`: 행 속성 이름 배열
+- `cols`: 열 속성 이름 배열
+- `vals`: 값 속성 이름 배열
+- `aggregatorName`: 문자열
+- `rendererName`: 문자열
+- `rowOrder`: 'key_a_to_z' | 'value_a_to_z' | 'value_z_to_a'
+- `colOrder`: 'key_a_to_z' | 'value_a_to_z' | 'value_z_to_a'
+- `valueFilter`: 객체
+
 ### rowLimit
 
 * 타입: `Number`

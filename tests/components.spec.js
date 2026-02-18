@@ -417,6 +417,37 @@ describe('VuePivottable', () => {
     })
     expect(wrapper.find('div').attributes('style')).toContain('overflow-x: auto')
   })
+
+  it('should have aggregatorMap prop defined via mixin', () => {
+    const wrapper = shallowMount(VuePivottable, {
+      propsData: {
+        data: sampleData
+      }
+    })
+    // Props from mixin are accessible on $options.props
+    expect(wrapper.vm.$options.props.aggregatorMap).toBeDefined()
+    expect(wrapper.vm.$options.props.aggregatorMap.type).toBe(Object)
+  })
+
+  it('should accept aggregatorMap prop', () => {
+    const aggregatorMap = { sales: 'Sum', quantity: 'Average' }
+    const wrapper = shallowMount(VuePivottable, {
+      propsData: {
+        data: sampleData,
+        aggregatorMap
+      }
+    })
+    expect(wrapper.vm.aggregatorMap).toEqual(aggregatorMap)
+  })
+
+  it('should default aggregatorMap to empty object', () => {
+    const wrapper = shallowMount(VuePivottable, {
+      propsData: {
+        data: sampleData
+      }
+    })
+    expect(wrapper.vm.aggregatorMap).toEqual({})
+  })
 })
 
 describe('TSVExportRenderer', () => {
@@ -657,5 +688,66 @@ describe('VuePivottableUi', () => {
   it('should have config watcher', () => {
     expect(VuePivottableUi.watch.config).toBeDefined()
     expect(VuePivottableUi.watch.config.deep).toBe(true)
+  })
+
+  it('should have aggregatorMap prop defined via mixin', () => {
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData
+      }
+    })
+    // Props from mixin are accessible on $options.props
+    expect(wrapper.vm.$options.props.aggregatorMap).toBeDefined()
+    expect(wrapper.vm.$options.props.aggregatorMap.type).toBe(Object)
+  })
+
+  it('should accept aggregatorMap prop', () => {
+    const aggregatorMap = { sales: 'Sum', quantity: 'Average' }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        aggregatorMap
+      }
+    })
+    expect(wrapper.vm.aggregatorMap).toEqual(aggregatorMap)
+  })
+
+  it('should pass aggregatorMap to propsData', () => {
+    const aggregatorMap = { sales: 'Sum', quantity: 'Count' }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        aggregatorMap
+      }
+    })
+    expect(wrapper.vm.propsData.aggregatorMap).toEqual(aggregatorMap)
+  })
+
+  it('should support aggregatorMap in config', () => {
+    const config = {
+      rows: ['region'],
+      aggregatorMap: { sales: 'Average', quantity: 'Sum' }
+    }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        config
+      }
+    })
+    expect(wrapper.vm.propsData.aggregatorMap).toEqual({ sales: 'Average', quantity: 'Sum' })
+  })
+
+  it('should prioritize config aggregatorMap over prop', () => {
+    const config = {
+      aggregatorMap: { sales: 'Count' }
+    }
+    const wrapper = shallowMount(VuePivottableUi, {
+      propsData: {
+        data: sampleData,
+        aggregatorMap: { sales: 'Sum' },
+        config
+      }
+    })
+    expect(wrapper.vm.propsData.aggregatorMap).toEqual({ sales: 'Count' })
   })
 })

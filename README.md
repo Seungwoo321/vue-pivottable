@@ -31,11 +31,11 @@ git clone https://github.com/Seungwoo321/vue-pivottable.git
 # Go into the cloned directory
 cd vue-pivottable/example/
 
-# npm install
-npm install
+# Install dependencies
+pnpm install
 
-# npm run serve
-npm run serve
+# Run dev server
+pnpm serve
 ```
 
 Open browser to <http://localhost:8080>
@@ -44,8 +44,8 @@ Open browser to <http://localhost:8080>
 
 ## Installation
 
-```shall
-npm i vue-pivottable@0.4.68
+```bash
+pnpm add vue-pivottable@vue2
 ```
 
 ## Usage
@@ -96,71 +96,81 @@ export default {
 </script>
 ```
 
-* Nuxt.js (SSR)
+## Additional Packages
 
-```js
-// plugins/vue-pivottable.js
-import Vue from 'vue'
-import { VuePivottable, VuePivottableUi } from 'vue-pivottable'
-import 'vue-pivottable/dist/vue-pivottable.css'
+### Plotly Renderer
 
-Vue.component('VuePivottable', VuePivottable)
-Vue.component('VuePivottableUi', VuePivottableUi)
+Chart renderers using Plotly.js. [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
+
+```bash
+pnpm add @vue-pivottable/plotly-renderer
 ```
 
 ```js
-// nuxt.config.js
-export default {
-  plugins: [
-    { src: '~/plugins/vue-pivottable.js', mode: 'client' }
-  ]
-}
-```
-
-> **Note**: The `mode: 'client'` option ensures the component only loads on the client side, avoiding SSR issues.
-
-* Plotly renderer
-
-  [See docs](https://seungwoo321.github.io/vue-pivottable/guide/renderer.html#plotly-renderer-v0-4-6)
-
-```html
-<template>
-  <vue-pivottable-ui
-    :data="[{color: 'blue', shape: 'circle'},{color: 'red', shape: 'triangle'}]"
-    renderer-name="Area Chart"
-    :rows="['color']"
-    :cols="['shape']"
-    :renderers="renderers"
-  >
-  </vue-pivottable-ui>
-</template>
-
-<script>
-import { VuePivottableUi } from 'vue-pivottable'
 import PlotlyRenderer from '@vue-pivottable/plotly-renderer'
-import 'vue-pivottable/dist/vue-pivottable.css'
-export default {
-  components: {
-    VuePivottableUi
-  },
-  computed: {
-    renderers () {
-      return (() => ({
-        'Grouped Column Chart': PlotlyRenderer['Grouped Column Chart'],
-        'Stacked Column Chart': PlotlyRenderer['Stacked Column Chart'],
-        'Grouped Bar Chart': PlotlyRenderer['Grouped Bar Chart'],
-        'Stacked Bar Chart': PlotlyRenderer['Stacked Bar Chart'],
-        'Line Chart': PlotlyRenderer['Line Chart'],
-        'Dot Chart': PlotlyRenderer['Dot Chart'],
-        'Area Chart': PlotlyRenderer['Area Chart'],
-        'Scatter Chart': PlotlyRenderer['Scatter Chart'],
-        'Multiple Pie Chart': PlotlyRenderer['Multiple Pie Chart']
-      }))()
-    }
-  }
-}
-</script>
 ```
+
+### Subtotal Renderer
+
+Renders pivot tables with subtotal rows/columns and expand/collapse functionality.
+
+```bash
+pnpm add @vue-pivottable/subtotal-renderer
+```
+
+```js
+import { createSubtotalRenderers } from '@vue-pivottable/subtotal-renderer/vue2'
+import { PivotData } from 'vue-pivottable'
+
+const SubtotalRenderers = createSubtotalRenderers(PivotData)
+```
+
+Features:
+- Automatic subtotal rows/columns for hierarchical data
+- Expand/collapse groups by clicking the arrow icon
+- Supports clickCallback and labels
+
+### Multi-Value Renderer
+
+Renders multiple values with different aggregators per column.
+
+```bash
+pnpm add @vue-pivottable/multi-value-renderer
+```
+
+```js
+import { MultiValueRenderers } from '@vue-pivottable/multi-value-renderer/vue2'
+
+const aggregatorMap = {
+  sales: 'Sum',
+  quantity: 'Average'
+}
+```
+
+### Nuxt Module
+
+Nuxt.js module for easy SSR integration.
+
+```bash
+pnpm add @vue-pivottable/nuxt
+```
+
+```js
+// nuxt.config.js (Nuxt 2)
+export default {
+  modules: ['@vue-pivottable/nuxt/nuxt2']
+}
+```
+
+## Storybook
+
+Explore components interactively with Storybook:
+
+```bash
+pnpm storybook
+```
+
+View the live Storybook at: https://seungwoo321.github.io/vue-pivottable/storybook
 
 ## Contributors
 

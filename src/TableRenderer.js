@@ -4,7 +4,6 @@ function redColorScaleGenerator (values) {
   const min = Math.min.apply(Math, values)
   const max = Math.max.apply(Math, values)
   return x => {
-    // eslint-disable-next-line no-magic-numbers
     const nonRed = 255 - Math.round(255 * (x - min) / (max - min))
     return { backgroundColor: `rgb(255,${nonRed},${nonRed})` }
   }
@@ -94,7 +93,6 @@ function makeRenderer (opts = {}) {
         )
         pivotData = new PivotData(props)
       } catch (error) {
-        // eslint-disable-next-line no-console
         if (console) console.error(error.stack)
         return this.computeError(h)
       }
@@ -103,11 +101,11 @@ function makeRenderer (opts = {}) {
       const rowKeys = pivotData.getRowKeys()
       const colKeys = pivotData.getColKeys()
       const grandTotalAggregator = pivotData.getAggregator([], [])
-      // eslint-disable-next-line no-unused-vars
+
       let valueCellColors = () => { }
-      // eslint-disable-next-line no-unused-vars
+
       let rowTotalColors = () => { }
-      // eslint-disable-next-line no-unused-vars
+
       let colTotalColors = () => { }
       if (opts.heatmapMode) {
         const colorScaleGenerator = this.tableColorScaleGenerator
@@ -131,7 +129,7 @@ function makeRenderer (opts = {}) {
           valueCellColors = (r, c, v) => colorScale(v)
         } else if (opts.heatmapMode === 'row') {
           const rowColorScales = {}
-          rowKeys.map(r => {
+          rowKeys.forEach(r => {
             const rowValues = colKeys.map(x =>
               pivotData.getAggregator(r, x).value()
             )
@@ -140,7 +138,7 @@ function makeRenderer (opts = {}) {
           valueCellColors = (r, c, v) => rowColorScales[r](v)
         } else if (opts.heatmapMode === 'col') {
           const colColorScales = {}
-          colKeys.map(c => {
+          colKeys.forEach(c => {
             const colValues = rowKeys.map(x =>
               pivotData.getAggregator(x, c).value()
             )
@@ -154,15 +152,15 @@ function makeRenderer (opts = {}) {
         if (tableOptions && tableOptions.clickCallback) {
           const filters = {}
           let attr = {}
-          for (let i in colAttrs) {
-            if (!colValues.hasOwnProperty(i)) continue
+          for (const i in colAttrs) {
+            if (!Object.hasOwn(colValues, i)) continue
             attr = colAttrs[i]
             if (colValues[i] !== null) {
               filters[attr] = colValues[i]
             }
           }
-          for (let i in rowAttrs) {
-            if (!rowValues.hasOwnProperty(i)) continue
+          for (const i in rowAttrs) {
+            if (!Object.hasOwn(rowValues, i)) continue
             attr = rowAttrs[i]
             if (rowValues[i] !== null) {
               filters[attr] = rowValues[i]
@@ -183,12 +181,14 @@ function makeRenderer (opts = {}) {
                 }
               },
               [
-                j === 0 && rowAttrs.length !== 0 ? h('th', {
-                  attrs: {
-                    colSpan: rowAttrs.length,
-                    rowSpan: colAttrs.length
-                  }
-                }) : undefined,
+                j === 0 && rowAttrs.length !== 0
+                  ? h('th', {
+                      attrs: {
+                        colSpan: rowAttrs.length,
+                        rowSpan: colAttrs.length
+                      }
+                    })
+                  : undefined,
 
                 h('th', {
                   staticClass: ['pvtAxisLabel']
@@ -208,31 +208,35 @@ function makeRenderer (opts = {}) {
                     }
                   }, this.applyLabel(colAttrs[j], colKey[j]))
                 }),
-                j === 0 && this.rowTotal ? h('th', {
-                  staticClass: ['pvtTotalLabel'],
-                  attrs: {
-                    rowSpan: colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
-                  }
-                }, this.localeStrings.totals) : undefined
+                j === 0 && this.rowTotal
+                  ? h('th', {
+                      staticClass: ['pvtTotalLabel'],
+                      attrs: {
+                        rowSpan: colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
+                      }
+                    }, this.localeStrings.totals)
+                  : undefined
               ])
             }),
 
-            rowAttrs.length !== 0 ? h('tr',
-              [
-                rowAttrs.map((r, i) => {
-                  return h('th', {
-                    staticClass: ['pvtAxisLabel'],
-                    attrs: {
-                      key: `rowAttr${i}`
-                    }
-                  }, r)
-                }),
+            rowAttrs.length !== 0
+              ? h('tr',
+                  [
+                    rowAttrs.map((r, i) => {
+                      return h('th', {
+                        staticClass: ['pvtAxisLabel'],
+                        attrs: {
+                          key: `rowAttr${i}`
+                        }
+                      }, r)
+                    }),
 
-                this.rowTotal
-                  ? h('th', { staticClass: ['pvtTotalLabel'] }, colAttrs.length === 0 ? this.localeStrings.totals : null)
-                  : (colAttrs.length === 0 ? undefined : h('th', { staticClass: ['pvtTotalLabel'] }, null))
-              ]
-            ) : undefined
+                    this.rowTotal
+                      ? h('th', { staticClass: ['pvtTotalLabel'] }, colAttrs.length === 0 ? this.localeStrings.totals : null)
+                      : (colAttrs.length === 0 ? undefined : h('th', { staticClass: ['pvtTotalLabel'] }, null))
+                  ]
+                )
+              : undefined
 
           ]
         ),
@@ -270,51 +274,67 @@ function makeRenderer (opts = {}) {
                     attrs: {
                       key: `pvtVal${i}-${j}`
                     },
-                    on: this.tableOptions.clickCallback ? {
-                      click: getClickHandler(aggregator.value(), rowKey, colKey)
-                    } : {}
+                    on: this.tableOptions.clickCallback
+                      ? {
+                          click: getClickHandler(aggregator.value(), rowKey, colKey)
+                        }
+                      : {}
                   }, aggregator.format(aggregator.value()))
                 }),
 
-                this.rowTotal ? h('td', {
-                  staticClass: ['pvtTotal'],
-                  style: colTotalColors(totalAggregator.value()),
-                  on: this.tableOptions.clickCallback ? {
-                    click: getClickHandler(totalAggregator.value(), rowKey, [])
-                  } : {}
-                }, totalAggregator.format(totalAggregator.value())) : undefined
+                this.rowTotal
+                  ? h('td', {
+                      staticClass: ['pvtTotal'],
+                      style: colTotalColors(totalAggregator.value()),
+                      on: this.tableOptions.clickCallback
+                        ? {
+                            click: getClickHandler(totalAggregator.value(), rowKey, [])
+                          }
+                        : {}
+                    }, totalAggregator.format(totalAggregator.value()))
+                  : undefined
               ])
             }),
 
             h('tr',
               [
-                this.colTotal ? h('th', {
-                  staticClass: ['pvtTotalLabel'],
-                  attrs: {
-                    colSpan: rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)
-                  }
-                }, this.localeStrings.totals) : undefined,
+                this.colTotal
+                  ? h('th', {
+                      staticClass: ['pvtTotalLabel'],
+                      attrs: {
+                        colSpan: rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)
+                      }
+                    }, this.localeStrings.totals)
+                  : undefined,
 
-                this.colTotal ? colKeys.map((colKey, i) => {
-                  const totalAggregator = pivotData.getAggregator([], colKey)
-                  return h('td', {
-                    staticClass: ['pvtTotal'],
-                    style: rowTotalColors(totalAggregator.value()),
-                    attrs: {
-                      key: `total${i}`
-                    },
-                    on: this.tableOptions.clickCallback ? {
-                      click: getClickHandler(totalAggregator.value(), [], colKey)
-                    } : {}
-                  }, totalAggregator.format(totalAggregator.value()))
-                }) : undefined,
+                this.colTotal
+                  ? colKeys.map((colKey, i) => {
+                      const totalAggregator = pivotData.getAggregator([], colKey)
+                      return h('td', {
+                        staticClass: ['pvtTotal'],
+                        style: rowTotalColors(totalAggregator.value()),
+                        attrs: {
+                          key: `total${i}`
+                        },
+                        on: this.tableOptions.clickCallback
+                          ? {
+                              click: getClickHandler(totalAggregator.value(), [], colKey)
+                            }
+                          : {}
+                      }, totalAggregator.format(totalAggregator.value()))
+                    })
+                  : undefined,
 
-                this.colTotal && this.rowTotal ? h('td', {
-                  staticClass: ['pvtGrandTotal'],
-                  on: this.tableOptions.clickCallback ? {
-                    click: getClickHandler(grandTotalAggregator.value(), [], [])
-                  } : {}
-                }, grandTotalAggregator.format(grandTotalAggregator.value())) : undefined
+                this.colTotal && this.rowTotal
+                  ? h('td', {
+                      staticClass: ['pvtGrandTotal'],
+                      on: this.tableOptions.clickCallback
+                        ? {
+                            click: getClickHandler(grandTotalAggregator.value(), [], [])
+                          }
+                        : {}
+                    }, grandTotalAggregator.format(grandTotalAggregator.value()))
+                  : undefined
               ]
             )
           ])
@@ -337,7 +357,6 @@ const TSVExportRenderer = {
       )
       pivotData = new PivotData(props)
     } catch (error) {
-      // eslint-disable-next-line no-console
       if (console) console.error(error.stack)
       return this.computeError(h)
     }
@@ -353,12 +372,12 @@ const TSVExportRenderer = {
     if (colKeys.length === 1 && colKeys[0].length === 0) {
       headerRow.push(this.aggregatorName)
     } else {
-      colKeys.map(c => headerRow.push(c.join('-')))
+      colKeys.forEach(c => headerRow.push(c.join('-')))
     }
 
     const result = rowKeys.map(r => {
       const row = r.map(x => x)
-      colKeys.map(c => {
+      colKeys.forEach(c => {
         const v = pivotData.getAggregator(r, c).value()
         row.push(v || '')
       })
@@ -368,7 +387,7 @@ const TSVExportRenderer = {
     const textareaHeight = typeof window !== 'undefined' ? window.innerHeight / 2 : 300
     return h('textarea', {
       style: {
-        width: `100%`,
+        width: '100%',
         height: `${textareaHeight}px`
       },
       attrs: {
