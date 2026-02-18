@@ -1,4 +1,3 @@
-
 export default {
   name: 'draggable-attribute',
   props: {
@@ -185,7 +184,7 @@ export default {
               key: x
             },
             on: {
-              'click': () => this.toggleValue(x)
+              click: () => this.toggleValue(x)
             }
           },
           [
@@ -194,7 +193,7 @@ export default {
                 type: 'checkbox'
               },
               domProps: {
-                checked: checked
+                checked
               }
             }),
             x,
@@ -246,12 +245,14 @@ export default {
       [
         pvtAttrScopedSlot ? pvtAttrScopedSlot({ name: this.name }) : this.name,
         !this.disabled &&
-        (!this.async || (!this.unused && this.async)) ? h('span', {
-            staticClass: ['pvtTriangle'],
-            on: {
-              'click': this.toggleFilterBox.bind(this)
-            }
-          }, '  ▾') : undefined,
+        (!this.async || (!this.unused && this.async))
+          ? h('span', {
+              staticClass: ['pvtTriangle'],
+              on: {
+                click: this.toggleFilterBox.bind(this)
+              }
+            }, '  ▾')
+          : undefined,
         this.open ? this.getFilterBox(h) : undefined
       ]
       )

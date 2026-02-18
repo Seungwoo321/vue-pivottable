@@ -1,4 +1,3 @@
-
 const addSeparators = function (nStr, thousandsSep, decimalSep) {
   const x = String(nStr).split('.')
   let x1 = x[0]
@@ -492,7 +491,7 @@ const mthNamesEn = [
   'Dec'
 ]
 const dayNamesEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-const zeroPad = number => `0${number}`.substr(-2, 2) // eslint-disable-line no-magic-numbers
+const zeroPad = number => `0${number}`.substr(-2, 2)
 
 const derivers = {
   bin (col, binWidth) {
@@ -794,7 +793,7 @@ PivotData.forEachRecord = function (input, derivedAttributes, f) {
 }
 
 PivotData.defaultProps = {
-  aggregators: aggregators,
+  aggregators,
   cols: [],
   rows: [],
   vals: [],
