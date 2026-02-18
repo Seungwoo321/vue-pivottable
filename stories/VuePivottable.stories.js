@@ -207,3 +207,43 @@ export const LabelsWithMultipleRowsCols = {
     }
   }
 }
+
+/**
+ * The aggregatorMap prop allows mapping value columns to different aggregators.
+ * This is primarily used with external renderers like @vue-pivottable/multi-value-renderer
+ * that display multiple aggregated values per cell.
+ *
+ * In the standard table renderer, aggregatorMap is passed through but not directly used,
+ * as the standard renderer only supports a single aggregator for all values.
+ *
+ * Example usage with multi-value-renderer:
+ * - vals: ['sales', 'quantity']
+ * - aggregatorMap: { sales: 'Sum', quantity: 'Average' }
+ * This would sum sales and average quantity in each cell.
+ */
+export const WithAggregatorMap = {
+  args: {
+    data: sampleData,
+    rows: ['region'],
+    cols: ['product'],
+    vals: ['sales', 'quantity'],
+    aggregatorName: 'Sum',
+    rendererName: 'Table',
+    aggregatorMap: {
+      sales: 'Sum',
+      quantity: 'Average'
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `The \`aggregatorMap\` prop maps value columns to specific aggregators.
+        This feature is designed for use with multi-value renderers (e.g., @vue-pivottable/multi-value-renderer)
+        that can display multiple aggregated values per cell with different aggregation methods.
+
+        In this example, \`sales\` uses Sum and \`quantity\` uses Average.
+        Note: The standard table renderer shows only one aggregated value based on \`aggregatorName\`.`
+      }
+    }
+  }
+}
