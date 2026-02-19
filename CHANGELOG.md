@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.4.73](https://github.com/Seungwoo321/vue-pivottable/compare/v0.4.72...v0.4.73) (2026-02-19)
+
 ## [0.4.72](https://github.com/Seungwoo321/vue-pivottable/compare/v0.4.71...v0.4.72) (2026-02-18)
 
 ## [0.4.71](https://github.com/Seungwoo321/vue-pivottable/compare/v0.4.70...v0.4.71) (2026-02-18)
