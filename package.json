@@ -80,7 +80,7 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.2",
     "vite-plugin-static-copy": "^0.11.1",
-    "vitest": "^1.6.0",
+    "vitest": "^4.1.0",
     "vue": "^2.7.16",
     "vue-template-compiler": "^2.7.16"
   }
